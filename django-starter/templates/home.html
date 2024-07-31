@@ -1,0 +1,22 @@
+{% extends 'layouts/blank.html' %}
+
+{% block content %} 
+
+    <div class="max-w-4xl mx-auto px-8 py-24">
+        <h1>Resultado de Búsqueda "{{ query }}"</h1>
+    <form method="get" action="{% url 'search' %}">
+        <input type="text" name="q" value="{{ query }}" placeholder="Busca artículos...">
+        <p></p>
+        <button type="submit">Buscar</button>
+    </form>
+    <ul>
+        {% for article in results %}
+            <li>{{ article.title }}</li>
+        {% empty %}
+            <li>No results found.</li>
+        {% endfor %}
+    </ul>
+    </div>
+
+
+{% endblock %}

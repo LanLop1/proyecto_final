@@ -1,0 +1,38 @@
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resultado Búsqueda</title>
+    
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container mt-5">
+        <h1 class="mb-4">Resultado de Búsqueda "{{ query }}"</h1>
+        <form class="form-inline mb-4" method="get" action=".">
+            <div class="form-group mx-sm-3 mb-2">
+                <input type="text" class="form-control" name="q" value="{{ query }}" placeholder="Busca artículos...">
+            </div>
+            <button type="submit" class="btn btn-primary mb-2">Buscar</button>
+        </form>
+        <ul class="list-group form-group mx-sm-3 mb-2">
+            {% for article in results %}
+                <li class="list-group-item"><a href="{% url 'article_detail' article.id %}">{{ article.title }}</a></li>
+            {% empty %}
+                <li class="list-group-item">No se encontraron resultados.</li>
+            {% endfor %}
+        </ul>
+        <a href="/" class="btn btn-primary  mx-sm-3 mb-2">Home</a>
+    </div>
+
+    
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
+    
