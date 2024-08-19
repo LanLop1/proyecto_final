@@ -20,14 +20,19 @@ class Template(models.Model):
     createdat = models.DateTimeField(default=timezone.now)
     updatedat = models.DateTimeField(default=timezone.now)
 
+    def __str__(self) -> str:
+        return f"Nombre: {self.name}"
+
 class User(models.Model):
     name = models.TextField(null=False)
-    email = models.TextField(null=False)
+    email = models.TextField(null=False, unique=True)
     password = models.TextField(null=False)
     phone = models.TextField(null=False)
     address = models.TextField(null=False)
     createdat = models.DateTimeField(default=timezone.now)
     updatedat = models.DateTimeField(default=timezone.now)
+    def __str__(self) -> str:
+        return f"User email: {self.email}"
 
 class Store(models.Model):
     owner = models.ForeignKey(User, on_delete=models.CASCADE, null=False)
@@ -38,6 +43,8 @@ class Store(models.Model):
     bannerurl = models.TextField(null=True)  # Changed to allow null
     createdat = models.DateTimeField(default=timezone.now)
     updatedat = models.DateTimeField(default=timezone.now)
+    def __str__(self) -> str:
+        return f"Store name and owner: {self.name, self.owner}"
 
 class Product(models.Model):
     store = models.ForeignKey(Store, on_delete=models.CASCADE, null=False)
@@ -45,21 +52,25 @@ class Product(models.Model):
     description = models.TextField(null=False)
     price = models.DecimalField(max_digits=10, decimal_places=2, null=False)
     stockquantity = models.IntegerField(null=False)
-    imageurl = models.TextField(null=False)
+    image = models.ImageField(upload_to='images/', blank=True, null=True)
     createdat = models.DateTimeField(default=timezone.now)
     updatedat = models.DateTimeField(default=timezone.now)
+    def __str__(self) -> str:
+        return f"Product name, price, store and stock: {self.name, self.price, self.store, self.stockquantity}"
 
 class Coupon(models.Model):
     store = models.ForeignKey(Store, on_delete=models.CASCADE, null=False)
-    code = models.TextField(null=False)
+    code = models.TextField(null=False,unique=True )
     discounttype = models.TextField(null=False)
     discountvalue = models.DecimalField(max_digits=10, decimal_places=2, null=False)
     expirydate = models.DateField(null=False)
     createdat = models.DateTimeField(default=timezone.now)
     updatedat = models.DateTimeField(default=timezone.now)
+    def __str__(self) -> str:
+        return f"Code of discount, store and discount value: {self.code, self.store, self.discountvalue}"
 
 class SubscriptionPlan(models.Model):
-    planname = models.TextField(null=False)
+    planname = models.TextField(null=False, unique=True)
     storagelimit = models.IntegerField(null=False)
     features = models.TextField(null=False)
     price = models.DecimalField(max_digits=10, decimal_places=2, null=False)
@@ -105,7 +116,7 @@ class ChatMessage(models.Model):
 
 class QRCode(models.Model):
     store = models.ForeignKey(Store, on_delete=models.CASCADE, null=False)
-    qrcodeurl = models.TextField(null=False)
+    image = models.ImageField(upload_to='images/', blank=True, null=True)
     createdat = models.DateTimeField(default=timezone.now)
 
 class Invoice(models.Model):
