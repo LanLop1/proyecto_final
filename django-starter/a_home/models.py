@@ -1,5 +1,6 @@
 from django.db import models
 from django.utils import timezone
+from django.contrib.auth.hashers import make_password, check_password
 class Image(models.Model):
     file = models.ImageField(upload_to='images/')
     description = models.TextField(max_length=1255, null=True, blank=True)
@@ -32,15 +33,25 @@ class Template(models.Model):
 
 class User(models.Model):
     name = models.CharField(max_length=200, null=False)
+    apellido = models.CharField(max_length=400, null=False)
     email = models.EmailField(null=False, unique=True)
-    password = models.CharField(max_length=200, null=False)
+    password = models.CharField(max_length=128, null=False) 
     phone = models.CharField(max_length=200, null=False)
     address = models.CharField(max_length=200, null=False)
     createdat = models.DateTimeField(default=timezone.now)
     updatedat = models.DateTimeField(default=timezone.now)
+
     def __str__(self) -> str:
         return f"User email: {self.email}"
 
+    def set_password(self, raw_password):
+        """Hash the password and store it."""
+        self.password = make_password(raw_password)
+    
+    def check_password(self, raw_password):
+        """Check the password against the stored hash."""
+        return check_password(raw_password, self.password)
+    
 class Store(models.Model):
     owner = models.ForeignKey(User, on_delete=models.CASCADE, null=False)
     template = models.ForeignKey(Template, on_delete=models.CASCADE, null=False)
