@@ -8,10 +8,21 @@ class Image(models.Model):
     def __str__(self):
         return f"Image: {self.file.name}"
     
+from django.utils import timezone
+from django.contrib.auth.hashers import make_password, check_password
+class Image(models.Model):
+    file = models.ImageField(upload_to='images/')
+    description = models.TextField(max_length=1255, null=True, blank=True)
+
+    def __str__(self):
+        return f"Image: {self.file.name}"
+    
 class Article(models.Model):
     title = models.CharField(max_length=200)
     content = models.TextField(max_length=8000)
+    content = models.TextField(max_length=8000)
     resumen = models.TextField(max_length=1255)
+    image = models.ForeignKey(Image, on_delete=models.SET_NULL, null=True, blank=True)
     image = models.ForeignKey(Image, on_delete=models.SET_NULL, null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
