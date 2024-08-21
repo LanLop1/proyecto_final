@@ -8,7 +8,8 @@ class Profile(models.Model):
     displayname = models.CharField(max_length=20, null=True, blank=True)
     info = models.TextField(null=True, blank=True) 
     email = models.EmailField(max_length= 50)
-    contraseña = models.CharField(max_length=128)
+    phone = models.CharField(max_length=200, null=False)
+    address = models.CharField(max_length=200, null=False)
     
     def __str__(self):
         return str(self.user)

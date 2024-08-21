@@ -1,6 +1,6 @@
 from django.db import models
 from django.utils import timezone
-from django.contrib.auth.hashers import make_password, check_password
+from a_users.models import Profile
 class Image(models.Model):
     file = models.ImageField(upload_to='images/')
     description = models.TextField(max_length=1255, null=True, blank=True)
@@ -30,30 +30,11 @@ class Template(models.Model):
 
     def __str__(self) -> str:
         return f"Nombre: {self.name}"
-
-class User(models.Model):
-    name = models.CharField(max_length=200, null=False)
-    apellido = models.CharField(max_length=400, null=False)
-    email = models.EmailField(null=False, unique=True)
-    password = models.CharField(max_length=128, null=False) 
-    phone = models.CharField(max_length=200, null=False)
-    address = models.CharField(max_length=200, null=False)
-    createdat = models.DateTimeField(default=timezone.now)
-    updatedat = models.DateTimeField(default=timezone.now)
-
-    def __str__(self) -> str:
-        return f"User email: {self.email}"
-
-    def set_password(self, raw_password):
-        """Hash the password and store it."""
-        self.password = make_password(raw_password)
     
-    def check_password(self, raw_password):
-        """Check the password against the stored hash."""
-        return check_password(raw_password, self.password)
+
     
 class Store(models.Model):
-    owner = models.ForeignKey(User, on_delete=models.CASCADE, null=False)
+    owner = models.ForeignKey(Profile, on_delete=models.CASCADE, null=False)
     template = models.ForeignKey(Template, on_delete=models.CASCADE, null=False)
     name = models.CharField(max_length=200, null=False)
     description = models.TextField(max_length=1255, null=False)
@@ -96,7 +77,7 @@ class SubscriptionPlan(models.Model):
     updatedat = models.DateTimeField(default=timezone.now)
 
 class UserSubscription(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, null=False)
+    usuario = models.ForeignKey(Profile, on_delete=models.CASCADE, null=False)
     plan = models.ForeignKey(SubscriptionPlan, on_delete=models.CASCADE, null=False)
     startdate = models.DateField(null=False)
     enddate = models.DateField(null=False)
@@ -104,7 +85,7 @@ class UserSubscription(models.Model):
     updatedat = models.DateTimeField(default=timezone.now)
 
 class Order(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, null=False)
+    usuario = models.ForeignKey(Profile, on_delete=models.CASCADE, null=False)
     store = models.ForeignKey(Store, on_delete=models.CASCADE, null=False)
     totalamount = models.DecimalField(max_digits=10, decimal_places=2, null=False)
     orderstatus = models.TextField(max_length=1255,null=False)
@@ -120,15 +101,15 @@ class OrderItem(models.Model):
     updatedat = models.DateTimeField(default=timezone.now)
 
 class Notification(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, null=False)
+    usuario = models.ForeignKey(Profile, on_delete=models.CASCADE, null=False)
     message = models.TextField(max_length=8000, null=False)
     readstatus = models.BinaryField(null=False)
     createdat = models.DateTimeField(default=timezone.now)
     updatedat = models.DateTimeField(default=timezone.now)
 
 class ChatMessage(models.Model):
-    sender = models.ForeignKey(User, on_delete=models.CASCADE, related_name='sent_messages', null=False)
-    receiver = models.ForeignKey(User, on_delete=models.CASCADE, related_name='received_messages', null=False)
+    sender = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='sent_messages', null=False)
+    receiver = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='received_messages', null=False)
     messagecontent = models.TextField(max_length=8000, null=False)
     sentat = models.DateTimeField(default=timezone.now)
 
