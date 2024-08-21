@@ -5,3 +5,4 @@ django-allauth
 django-htmx
 psycopg2
 python-decouple
+# "channels" para el chat
