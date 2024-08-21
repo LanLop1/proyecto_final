@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.templatetags.static import static
+from django.utils import timezone
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
@@ -25,6 +26,23 @@ class Profile(models.Model):
         if self.image:
             return self.image.url
         return static("images/avatar.svg")
+
+class SubscriptionPlan(models.Model):
+    planname = models.CharField(max_length=200, null=False, unique=True)
+    storagelimit = models.IntegerField(null=False)
+    features = models.TextField(max_length=1255, null=False)
+    price = models.DecimalField(max_digits=10, decimal_places=2, null=False)
+    createdat = models.DateTimeField(default=timezone.now)
+    updatedat = models.DateTimeField(default=timezone.now)
+
+
+class UserSubscription(models.Model):
+    usuario = models.ForeignKey(Profile, on_delete=models.CASCADE, null=False)
+    plan = models.ForeignKey(SubscriptionPlan, on_delete=models.CASCADE, null=False)
+    startdate = models.DateField(null=False)
+    enddate = models.DateField(null=False)
+    createdat = models.DateTimeField(default=timezone.now)
+    updatedat = models.DateTimeField(default=timezone.now)
 
 
 '''
