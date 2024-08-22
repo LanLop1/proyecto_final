@@ -1,36 +1,40 @@
 {% extends "account/base_entrance.html" %}
 {% load i18n %}
 {% load allauth account %}
+
 {% block head_title %}
     {% trans "Sign In" %}
 {% endblock head_title %}
+
 {% block content %}
-    {% element h1 %}
-        {% trans "Sign In" %}
-    {% endelement %}
+    <h1>{% trans "Sign In" %}</h1>
     <p>
-        If you have not created an account yet, then please
-    <a href="{% url 'account_signup' %}?next={% url 'profile-onboarding' %}">sign up</a> first.
+        {% trans "If you have not created an account yet, then please" %}
+        <a href="{% url 'account_signup' %}?next={% url 'profile-onboarding' %}">
+            {% trans "sign up" %}
+        </a>
+        {% trans "first." %}
     </p>
-    {% url 'account_login' as login_url %}
-    {% element form form=form method="post" action=login_url tags="entrance,login" %}
-        {% slot body %}
-            {% csrf_token %}
-            {% element fields form=form unlabeled=True %}
-            {% endelement %}
-            {% if redirect_field_value %}
-                <input type="hidden"
-                       name="{{ redirect_field_name }}"
-                       value="{{ redirect_field_value }}" />
-            {% endif %}
-        {% endslot %}
-        {% slot actions %}
-            {% element button type="submit" tags="prominent,login" %}
-                {% trans "Sign In" %}
-            {% endelement %}
-        {% endslot %}
-    {% endelement %}
+
+    <form method="post" action="{% url 'account_login' %}">
+        {% csrf_token %}
+        {{ form.as_p }}  <!-- Renderizamos todos los campos del formulario como párrafos -->
+
+        <!-- Verificar si hay un valor para el campo de redirección y agregarlo -->
+        {% if redirect_field_value %}
+            <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}">
+        {% endif %}
+
+        <!-- Botón de enviar -->
+        <button type="submit" class="btn btn-primary">
+            {% trans "Sign In" %}
+        </button>
+    </form>
+
+    <!-- Opciones de login social si SOCIALACCOUNT está habilitado -->
     {% if SOCIALACCOUNT_ENABLED %}
-        {% include "socialaccount/snippets/login.html" with page_layout="entrance" %}
+        <div class="social-login">
+            {% include "socialaccount/snippets/login.html" with page_layout="entrance" %}
+        </div>
     {% endif %}
 {% endblock content %}

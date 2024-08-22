@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'django.contrib.sites',
     'allauth',
     'allauth.account',
+    'allauth.socialaccount.providers.google',
     'django_htmx',
     'a_home',
     'a_users',
@@ -131,7 +132,9 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
-
+ACCOUNT_FORMS = {
+    'signup': 'a_users.forms.CustomSignupForm',  
+}
 
 # Internationalization
 # https://docs.djangoproject.com/en/5.0/topics/i18n/
