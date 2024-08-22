@@ -1,0 +1,121 @@
+<!-- chat_support/templates/chat_support/chat.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .user-list {
+            float: left;
+            width: 30%;
+            border-right: 1px solid #ccc;
+            padding: 10px;
+            box-sizing: border-box;
+        }
+        .chat-area {
+            float: left;
+            width: 65%;
+            padding: 10px;
+            box-sizing: border-box;
+        }
+        .chat-log {
+            border: 1px solid black;
+            height: 300px;
+            overflow-y: scroll;
+            margin-bottom: 10px;
+        }
+        .user-list a {
+            display: block;
+            padding: 5px;
+            text-decoration: none;
+            color: black;
+            border-bottom: 1px solid #ddd;
+        }
+        .user-list a:hover {
+            background-color: #f0f0f0;
+        }
+        .chat-input {
+            width: 100%;
+        }
+        .user-button {
+            margin-left: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="user-list">
+        <h2>Usuarios</h2>
+        <ul id="user-list">
+            <!-- Lista de usuarios se llenará aquí mediante JavaScript -->
+        </ul>
+    </div>
+    <div class="chat-area">
+        <h1>Chat con <span id="receiver-name">{{ receiver_username }}</span></h1>
+        <div id="chat-log" class="chat-log"></div>
+        <input id="chat-message-input" class="chat-input" type="text" size="100">
+        <button id="chat-message-submit">Enviar</button>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const userList = document.querySelector('#user-list');
+            const chatLog = document.querySelector('#chat-log');
+            const chatMessageInput = document.querySelector('#chat-message-input');
+            const chatMessageSubmit = document.querySelector('#chat-message-submit');
+            const receiverNameElement = document.querySelector('#receiver-name');
+
+            // Nombre de la sala de chat actual
+            const roomName = "{{ room_name }}";
+            
+            // WebSocket para chat
+            const chatSocket = new WebSocket(
+                'ws://' + window.location.host + '/ws/chat/' + roomName + '/'
+            );
+
+            chatSocket.onmessage = function(e) {
+                const data = JSON.parse(e.data);
+                chatLog.innerHTML += '<div>' + data.message + '</div>';
+                chatLog.scrollTop = chatLog.scrollHeight;  // Mantener el scroll al final
+            };
+
+            chatSocket.onclose = function(e) {
+                console.error('Chat socket closed unexpectedly');
+            };
+
+            chatMessageInput.focus();
+            chatMessageInput.onkeyup = function(e) {
+                if (e.keyCode === 13) {  // Presiona Enter para enviar mensaje
+                    chatMessageSubmit.click();
+                }
+            };
+
+            chatMessageSubmit.onclick = function(e) {
+                const message = chatMessageInput.value;
+                chatSocket.send(JSON.stringify({
+                    'message': message,
+                    'receiver': receiverNameElement.textContent
+                }));
+                chatMessageInput.value = '';
+            };
+
+            // Cargar la lista de usuarios
+            fetch('/chat_support/users/')  // URL de la vista para obtener la lista de usuarios
+                .then(response => response.json())
+                .then(data => {
+                    data.users.forEach(user => {
+                        if (user.username !== '{{ user.username }}') { // Excluir el usuario actual
+                            const userElement = document.createElement('li');
+                            userElement.innerHTML = `${user.username} <a href="/chat_support/chat/${user.username}/" class="user-button">Iniciar Chat</a>`;
+                            userList.appendChild(userElement);
+                        }
+                    });
+                });
+        });
+    </script>
+</body>
+</html>
