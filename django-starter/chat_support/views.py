@@ -1,20 +1,45 @@
 # chat_support/views.py
 
-from django.shortcuts import render
-from django.contrib.auth.decorators import login_required
-from a_users.models import Profile
+from django.shortcuts import render, redirect
 from django.http import JsonResponse
-
-@login_required
-def user_list(request):
-    users = Profile.objects.exclude(user=request.user).values('user__username')
-    return JsonResponse({'users': list(users)})
+from django.contrib.auth.decorators import login_required
+from .models import ChatMessage
+from a_users.models import Profile
 
 @login_required
 def chat_room(request, username):
-    receiver = Profile.objects.get(user__username=username)
-    room_name = f'{request.user.username}_{receiver.user.username}'
+    other_user = Profile.objects.get(user__username=username)
+    messages = ChatMessage.objects.filter(
+        sender__in=[request.user.profile, other_user],
+        receiver__in=[request.user.profile, other_user]
+    ).order_by('sentat')
+
+    if request.method == 'POST':
+        message_content = request.POST.get('message')
+        ChatMessage.objects.create(
+            sender=request.user.profile,
+            receiver=other_user,
+            messagecontent=message_content
+        )
+        return redirect('chat_room', username=username)
+
     return render(request, 'chat_support/chat.html', {
-        'room_name': room_name,
-        'receiver_username': username
+        'other_user': other_user,
+        'messages': messages
     })
+
+@login_required
+def get_messages(request, username):
+    other_user = Profile.objects.get(user__username=username)
+    messages = ChatMessage.objects.filter(
+        sender__in=[request.user.profile, other_user],
+        receiver__in=[request.user.profile, other_user]
+    ).order_by('sentat')
+
+    message_list = [{
+        'sender': message.sender.user.username,
+        'messagecontent': message.messagecontent,
+        'sentat': message.sentat.strftime('%Y-%m-%d %H:%M:%S')
+    } for message in messages]
+
+    return JsonResponse(message_list, safe=False)
