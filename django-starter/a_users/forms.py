@@ -27,7 +27,7 @@ class CustomSignupForm(SignupForm):
         'placeholder': 'Nombre'
     }))
       apellido = forms.CharField(max_length=200, label='apellido', required=False, widget=forms.TextInput(attrs={
-        'placeholder': 'Apellido'
+        'placeholder': 'Apellidos'
     }))
       phone = forms.CharField(max_length=200, label='Phone', required=True, widget=forms.TextInput(attrs={
         'placeholder': 'Teléfono'
@@ -35,9 +35,7 @@ class CustomSignupForm(SignupForm):
       address = forms.CharField(max_length=200, label='Address', required=True, widget=forms.TextInput(attrs={
         'placeholder': 'Dirección'
     }))
-      displayname = forms.CharField(max_length=20, label='Display Name', required=False, widget=forms.TextInput(attrs={
-        'placeholder': 'Usuario'
-    }))
+      
       
       def save(self, request):
             user = super(CustomSignupForm, self).save(request)

@@ -1,40 +1,56 @@
 {% extends "account/base_entrance.html" %}
-{% load i18n %}
-{% load allauth account %}
+<script src="https://accounts.google.com/gsi/client" async></script>
+{% load i18n %} {% load allauth %} {% block head_title %} {% trans "Sign In" %}
+{% endblock head_title %} {% block content %}
+<h1>{% trans "Sign In" %}</h1>
+<p>
+  {% trans "If you have not created an account yet, then please" %}
+  <a href="{% url 'account_signup' %}?next={% url 'profile-onboarding' %}">
+    {% trans "sign up" %}
+  </a>
+  {% trans "first." %}
+</p>
 
-{% block head_title %}
-    {% trans "Sign In" %}
-{% endblock head_title %}
+<form method="post" action="{% url 'account_login' %}">
+  {% csrf_token %} {{ form.as_p }}
+  <!-- Renderizamos todos los campos del formulario como párrafos -->
 
-{% block content %}
-    <h1>{% trans "Sign In" %}</h1>
-    <p>
-        {% trans "If you have not created an account yet, then please" %}
-        <a href="{% url 'account_signup' %}?next={% url 'profile-onboarding' %}">
-            {% trans "sign up" %}
-        </a>
-        {% trans "first." %}
-    </p>
+  <!-- Verificar si hay un valor para el campo de redirección y agregarlo -->
+  {% if redirect_field_value %}
+  <input
+    type="hidden"
+    name="{{ redirect_field_name }}"
+    value="{{ redirect_field_value }}"
+  />
+  {% endif %}
 
-    <form method="post" action="{% url 'account_login' %}">
-        {% csrf_token %}
-        {{ form.as_p }}  <!-- Renderizamos todos los campos del formulario como párrafos -->
+  <!-- Botón de enviar -->
+  <button type="submit" class="btn btn-primary">{% trans "Sign In" %}</button>
+</form>
+<p></p>
+<div
+  id="g_id_onload"
+  data-client_id="555891189768-156j18o8ev3o1ahj1g0n9m9ppje9ejfe.apps.googleusercontent.com"
+  data-context="signup"
+  data-ux_mode="redirect"
+  data-login_uri="http://localhost:8000/auth-receiver "
+  data-auto_prompt="false"
+></div>
 
-        <!-- Verificar si hay un valor para el campo de redirección y agregarlo -->
-        {% if redirect_field_value %}
-            <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}">
-        {% endif %}
+<div
+  class="g_id_signin"
+  data-type="standard"
+  data-shape="rectangular"
+  data-theme="outline"
+  data-text="signin_with"
+  data-size="large"
+  data-logo_alignment="left"
+></div>
 
-        <!-- Botón de enviar -->
-        <button type="submit" class="btn btn-primary">
-            {% trans "Sign In" %}
-        </button>
-    </form>
+<!-- Opciones de login social si SOCIALACCOUNT está habilitado -->
+{% if SOCIALACCOUNT_ENABLED %}
+<div class="social-login">
+  {% include "socialaccount/snippets/login.html" with page_layout="entrance" %}
+</div>
 
-    <!-- Opciones de login social si SOCIALACCOUNT está habilitado -->
-    {% if SOCIALACCOUNT_ENABLED %}
-        <div class="social-login">
-            {% include "socialaccount/snippets/login.html" with page_layout="entrance" %}
-        </div>
-    {% endif %}
-{% endblock content %}
+{% endif %} {% endblock content %}

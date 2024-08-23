@@ -44,7 +44,7 @@ INSTALLED_APPS = [
     'django_cleanup.apps.CleanupConfig',
     'django.contrib.sites',
     'allauth',
-    'allauth.account',
+    'allauth.socialaccount',
     'allauth.socialaccount.providers.google',
     'django_htmx',
     'a_home',
@@ -114,7 +114,7 @@ DATABASES = {
 }
 
 
-
+SOCIALACCOUNT_ENABLED = True
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
 
@@ -168,3 +168,10 @@ ACCOUNT_SIGNUP_REDIRECT_URL = "{% url 'account_signup' %}?next={% url 'profile-o
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 ACCOUNT_AUTHENTICATION_METHOD = 'email'
 ACCOUNT_EMAIL_REQUIRED = True
+
+GOOGLE_OAUTH_CLIENT_ID = config('CLIENT_ID'),
+if not GOOGLE_OAUTH_CLIENT_ID:
+    raise ValueError(
+        'GOOGLE_OAUTH_CLIENT_ID is missing.' 
+        'Have you put it in a file at core/.env ?'
+    )
