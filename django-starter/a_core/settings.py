@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'django_cleanup.apps.CleanupConfig',
     'django.contrib.sites',
     'allauth',
+    'allauth.account',
     'allauth.socialaccount',
     'allauth.socialaccount.providers.google',
     'django_htmx',
