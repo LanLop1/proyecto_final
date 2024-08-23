@@ -4,7 +4,7 @@ from django.shortcuts import render, redirect
 from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required
 from .models import ChatMessage
-from a_users.models import Profile
+from a_users.models import Profile, User
 
 @login_required
 def chat_room(request, username):
@@ -43,3 +43,9 @@ def get_messages(request, username):
     } for message in messages]
 
     return JsonResponse(message_list, safe=False)
+
+def user_list(request):
+    users = User.objects.exclude(username=request.user.username)  # Excluye al usuario actual
+    return render(request, 'chat_support/user_list.html', {
+        'users': users
+    })
