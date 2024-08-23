@@ -6,6 +6,7 @@
     <title>Chat con {{ other_user.user.username }}</title>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap">
     <style>
+        /* Estilos existentes */
         body {
             font-family: 'Roboto', sans-serif;
             margin: 0;
@@ -17,12 +18,12 @@
             height: 100vh;
             overflow: hidden;
         }
-        
+
         #chat-container {
             display: flex;
             flex-direction: column;
             height: 90vh;
-            max-width: 800px; /* Mejorado para pantallas grandes */
+            max-width: 800px;
             width: 100%;
             background-color: #ffffff;
             border-radius: 16px;
@@ -30,12 +31,12 @@
             overflow: hidden;
             animation: fadeIn 0.6s ease-in-out;
         }
-        
+
         #chat-header {
             background-color: #007bff;
             color: #ffffff;
             padding: 20px;
-            font-size: 26px; /* Tamaño de fuente mejorado */
+            font-size: 26px;
             font-weight: 500;
             display: flex;
             align-items: center;
@@ -44,7 +45,7 @@
             border-top-left-radius: 16px;
             border-top-right-radius: 16px;
         }
-        
+
         #chat-log {
             flex: 1;
             padding: 20px;
@@ -55,7 +56,7 @@
             flex-direction: column;
             scroll-behavior: smooth;
         }
-        
+
         .message {
             margin-bottom: 14px;
             padding: 14px 18px;
@@ -67,25 +68,25 @@
             font-size: 16px;
             transition: background-color 0.3s, transform 0.3s;
         }
-        
+
         .message.sent {
             background-color: #007bff;
             color: #ffffff;
             align-self: flex-end;
             border: 1px solid #0056b3;
         }
-        
+
         .message.received {
             background-color: #ffffff;
             border: 1px solid #e0e0e0;
             color: #333;
             align-self: flex-start;
         }
-        
+
         .message:hover {
             transform: translateY(-3px);
         }
-        
+
         .message::before {
             content: "";
             position: absolute;
@@ -93,7 +94,7 @@
             height: 0;
             border: 12px solid transparent;
         }
-        
+
         .message.sent::before {
             right: -12px;
             top: 50%;
@@ -102,7 +103,7 @@
             border-radius: 0 18px 18px 0;
             transform: translateY(-50%);
         }
-        
+
         .message.received::before {
             left: -12px;
             top: 50%;
@@ -111,7 +112,7 @@
             border-radius: 18px 0 0 18px;
             transform: translateY(-50%);
         }
-        
+
         #chat-footer {
             padding: 16px;
             border-top: 2px solid #e0e0e0;
@@ -122,13 +123,13 @@
             border-bottom-right-radius: 16px;
             box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.15);
         }
-        
+
         #chat-message-form {
             display: flex;
             width: 100%;
             align-items: center;
         }
-        
+
         #chat-message-input {
             flex: 1;
             padding: 14px;
@@ -141,12 +142,12 @@
             resize: none;
             transition: border-color 0.3s, box-shadow 0.3s;
         }
-        
+
         #chat-message-input:focus {
             border-color: #007bff;
             box-shadow: 0 0 5px rgba(0, 123, 255, 0.3);
         }
-        
+
         #chat-message-submit {
             background-color: #007bff;
             border: none;
@@ -163,16 +164,16 @@
             width: 100px;
             text-align: center;
         }
-        
+
         #chat-message-submit.enabled {
             cursor: pointer;
             opacity: 1;
         }
-        
+
         #chat-message-submit:hover.enabled {
             background-color: #0056b3;
         }
-        
+
         @media (max-width: 768px) {
             #chat-container {
                 height: 95vh;
@@ -194,7 +195,7 @@
                 width: 100%;
             }
         }
-        
+
         @keyframes fadeIn {
             from {
                 opacity: 0;
@@ -205,7 +206,6 @@
                 transform: translateY(0);
             }
         }
-        
     </style>
 </head>
 <body>
@@ -213,7 +213,14 @@
         <div id="chat-header">
             <div>{{ other_user.user.username }}</div>
         </div>
-        <div id="chat-log"></div>
+        <div id="chat-log">
+            {% for message in messages %}
+                <div class="message {% if message.sender.user.username == request.user.username %}sent{% else %}received{% endif %}">
+                    <strong>{% if message.sender.user.username == request.user.username %}You{% else %}{{ message.sender.user.username }}{% endif %}:</strong>
+                    {{ message.messagecontent }}
+                </div>
+            {% endfor %}
+        </div>
         <div id="chat-footer">
             <form id="chat-message-form">
                 {% csrf_token %}
@@ -224,78 +231,60 @@
     </div>
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script>
-    let lastMessageCount = 0;
+    <script>
+        $(document).ready(function() {
+            function scrollToBottom() {
+                const chatLog = $('#chat-log');
+                chatLog.scrollTop(chatLog[0].scrollHeight);
+            }
 
-    function scrollToBottom() {
-        const chatLog = $('#chat-log');
-        chatLog.scrollTop(chatLog[0].scrollHeight);
-    }
+            function fetchMessages() {
+                $.get("{% url 'get_messages' other_user.user.username %}", function(data) {
+                    const chatLog = $('#chat-log');
+                    chatLog.empty();
+                    data.forEach(function(message) {
+                        const messageClass = message.sender === '{{ request.user.username }}' ? 'sent' : 'received';
+                        chatLog.append('<div class="message ' + messageClass + '"><strong>' + (message.sender === '{{ request.user.username }}' ? 'You' : message.sender) + ':</strong> ' + message.messagecontent + '</div>');
+                    });
 
-    function fetchMessages() {
-        $.get("{% url 'get_messages' other_user.user.username %}", function(data) {
-            const chatLog = $('#chat-log');
-            const currentMessageCount = data.length;
-
-            // Solo actualiza el chat si hay un cambio en el número de mensajes
-            if (currentMessageCount !== lastMessageCount) {
-                chatLog.empty();
-                data.forEach(function(message) {
-                    const messageClass = message.sender === '{{ request.user.username }}' ? 'sent' : 'received';
-                    chatLog.append('<div class="message ' + messageClass + '"><strong>' + (message.sender === '{{ request.user.username }}' ? 'You' : message.sender) + ':</strong> ' + message.messagecontent + '</div>');
+                    scrollToBottom(); // Desplazar hacia abajo después de cargar los mensajes
                 });
+            }
 
-                // Desplazar hacia abajo solo si hay nuevos mensajes
-                if (currentMessageCount > lastMessageCount) {
-                    scrollToBottom();
+            function sendMessage() {
+                const messageInput = $('#chat-message-input');
+                const message = messageInput.val().trim();
+
+                if (message) {
+                    $.post("{% url 'chat_room' other_user.user.username %}", $('#chat-message-form').serialize(), function() {
+                        messageInput.val('');
+                        $('#chat-message-submit').attr('disabled', 'disabled').removeClass('enabled');
+                        fetchMessages(); // Actualizar mensajes después de enviar uno
+                    }).fail(function() {
+                        // Manejar error si es necesario
+                    });
                 }
-
-                // Actualiza el contador de mensajes
-                lastMessageCount = currentMessageCount;
             }
-        });
-    }
 
-    function sendMessage() {
-        const messageInput = $('#chat-message-input');
-        const message = messageInput.val().trim();
-        const chatLog = $('#chat-log');
+            fetchMessages(); // Cargar mensajes al iniciar
 
-        if (message) {
-            // Añadir el mensaje al chat localmente
-            chatLog.append('<div class="message sent"><strong>You:</strong> ' + message + '</div>');
-            scrollToBottom(); // Desplazar hacia abajo después de añadir el mensaje
+            setInterval(fetchMessages, 2000); // Actualizar mensajes cada 2 segundos
 
-            // Enviar el mensaje al servidor
-            $.post("{% url 'chat_room' other_user.user.username %}", $('#chat-message-form').serialize(), function() {
-                messageInput.val('');
-                $('#chat-message-submit').attr('disabled', 'disabled').removeClass('enabled');
-            }).fail(function() {
-                // En caso de error, puedes considerar mostrar un mensaje de error al usuario
+            $('#chat-message-input').on('input', function() {
+                const submitButton = $('#chat-message-submit');
+                const input = $(this).val().trim();
+                if (input) {
+                    submitButton.removeAttr('disabled').addClass('enabled');
+                } else {
+                    submitButton.attr('disabled', 'disabled').removeClass('enabled');
+                }
             });
-        }
-    }
 
-    $(document).ready(function() {
-        fetchMessages(); // Desplazar hacia abajo cuando se carga la página
-
-        setInterval(fetchMessages, 2000);
-
-        $('#chat-message-input').on('input', function() {
-            const submitButton = $('#chat-message-submit');
-            const input = $(this).val().trim();
-            if (input) {
-                submitButton.removeAttr('disabled').addClass('enabled');
-            } else {
-                submitButton.attr('disabled', 'disabled').removeClass('enabled');
-            }
+            $('#chat-message-form').on('submit', function(event) {
+                event.preventDefault();
+                sendMessage();
+            });
         });
-
-        $('#chat-message-form').on('submit', function(event) {
-            event.preventDefault();
-            sendMessage();
-        });
-    });
-</script>
+    </script>
 </body>
 </html>

@@ -21,7 +21,7 @@ def chat_room(request, username):
             receiver=other_user,
             messagecontent=message_content
         )
-        return redirect('chat_room', username=username)
+        return JsonResponse({'status': 'success'})  # Cambiar la respuesta a JSON
 
     return render(request, 'chat_support/chat.html', {
         'other_user': other_user,
