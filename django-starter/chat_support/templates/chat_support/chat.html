@@ -221,64 +221,78 @@
     </div>
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script>
-        function scrollToBottom() {
-            const chatLog = $('#chat-log');
-            chatLog.scrollTop(chatLog[0].scrollHeight);
-        }
+<script>
+    let lastMessageCount = 0;
 
-        function fetchMessages() {
-            $.get("{% url 'get_messages' other_user.user.username %}", function(data) {
-                const chatLog = $('#chat-log');
+    function scrollToBottom() {
+        const chatLog = $('#chat-log');
+        chatLog.scrollTop(chatLog[0].scrollHeight);
+    }
+
+    function fetchMessages() {
+        $.get("{% url 'get_messages' other_user.user.username %}", function(data) {
+            const chatLog = $('#chat-log');
+            const currentMessageCount = data.length;
+
+            // Solo actualiza el chat si hay un cambio en el número de mensajes
+            if (currentMessageCount !== lastMessageCount) {
                 chatLog.empty();
                 data.forEach(function(message) {
                     const messageClass = message.sender === '{{ request.user.username }}' ? 'sent' : 'received';
                     chatLog.append('<div class="message ' + messageClass + '"><strong>' + (message.sender === '{{ request.user.username }}' ? 'You' : message.sender) + ':</strong> ' + message.messagecontent + '</div>');
                 });
-                scrollToBottom(); // Desplazar hacia abajo después de cargar mensajes
-            });
-        }
 
-        function sendMessage() {
-            const messageInput = $('#chat-message-input');
-            const message = messageInput.val().trim();
-            const chatLog = $('#chat-log');
-
-            if (message) {
-                // Añadir el mensaje al chat localmente
-                chatLog.append('<div class="message sent"><strong>You:</strong> ' + message + '</div>');
-                scrollToBottom(); // Desplazar hacia abajo después de añadir el mensaje
-
-                // Enviar el mensaje al servidor
-                $.post("{% url 'chat_room' other_user.user.username %}", $('#chat-message-form').serialize(), function() {
-                    messageInput.val('');
-                    $('#chat-message-submit').attr('disabled', 'disabled').removeClass('enabled');
-                }).fail(function() {
-                    // En caso de error, puedes considerar mostrar un mensaje de error al usuario
-                });
-            }
-        }
-
-        $(document).ready(function() {
-            fetchMessages(); // Desplazar hacia abajo cuando se carga la página
-
-            setInterval(fetchMessages, 2000);
-
-            $('#chat-message-input').on('input', function() {
-                const submitButton = $('#chat-message-submit');
-                const input = $(this).val().trim();
-                if (input) {
-                    submitButton.removeAttr('disabled').addClass('enabled');
-                } else {
-                    submitButton.attr('disabled', 'disabled').removeClass('enabled');
+                // Desplazar hacia abajo solo si hay nuevos mensajes
+                if (currentMessageCount > lastMessageCount) {
+                    scrollToBottom();
                 }
-            });
 
-            $('#chat-message-form').on('submit', function(event) {
-                event.preventDefault();
-                sendMessage();
-            });
+                // Actualiza el contador de mensajes
+                lastMessageCount = currentMessageCount;
+            }
         });
-    </script>
+    }
+
+    function sendMessage() {
+        const messageInput = $('#chat-message-input');
+        const message = messageInput.val().trim();
+        const chatLog = $('#chat-log');
+
+        if (message) {
+            // Añadir el mensaje al chat localmente
+            chatLog.append('<div class="message sent"><strong>You:</strong> ' + message + '</div>');
+            scrollToBottom(); // Desplazar hacia abajo después de añadir el mensaje
+
+            // Enviar el mensaje al servidor
+            $.post("{% url 'chat_room' other_user.user.username %}", $('#chat-message-form').serialize(), function() {
+                messageInput.val('');
+                $('#chat-message-submit').attr('disabled', 'disabled').removeClass('enabled');
+            }).fail(function() {
+                // En caso de error, puedes considerar mostrar un mensaje de error al usuario
+            });
+        }
+    }
+
+    $(document).ready(function() {
+        fetchMessages(); // Desplazar hacia abajo cuando se carga la página
+
+        setInterval(fetchMessages, 2000);
+
+        $('#chat-message-input').on('input', function() {
+            const submitButton = $('#chat-message-submit');
+            const input = $(this).val().trim();
+            if (input) {
+                submitButton.removeAttr('disabled').addClass('enabled');
+            } else {
+                submitButton.attr('disabled', 'disabled').removeClass('enabled');
+            }
+        });
+
+        $('#chat-message-form').on('submit', function(event) {
+            event.preventDefault();
+            sendMessage();
+        });
+    });
+</script>
 </body>
 </html>
