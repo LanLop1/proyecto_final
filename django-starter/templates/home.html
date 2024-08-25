@@ -2,10 +2,16 @@
 
 {% block content %} 
 
-    <div class="max-w-4xl mx-auto px-8 py-24">
+    <div class="text-justify mx-auto px-8 py-24 color">
         <h1>Resultado de Búsqueda "{{ query }}"</h1>
-    <form method="get" action="{% url 'search' %}">
-        <input type="text" name="q" value="{{ query }}" placeholder="Busca artículos...">
+        <input type="text" 
+        name="search"
+        hx-post= "{% url 'search-object' %}"
+        hx-target= "resultados_busqueda"
+        hx-trigger="keyup changed delay:500ms"
+        placeholder="Busca artículos..."
+        
+        >
         <p></p>
         <button type="submit">Buscar</button>
     </form>

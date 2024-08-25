@@ -43,7 +43,9 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django_cleanup.apps.CleanupConfig',
     'django.contrib.sites',
+    'tailwind',
     'allauth',
+    'theme',
     'allauth.account',
     'allauth.socialaccount',
     'allauth.socialaccount.providers.google',
@@ -59,6 +61,7 @@ INSTALLED_APPS = [
     'stores',
     
 ]
+TAILWIND_APP_NAME = 'theme'
 
 SITE_ID = 1
 
@@ -113,7 +116,10 @@ DATABASES = {
         'PORT': config('DB_PORT', default='5432'),
     }
 }
-
+INTERNAL_IPS = [
+    "127.0.0.1",
+]
+NPM_BIN_PATH = r"C:\Program Files\nodejs\npm.cmd"
 
 SOCIALACCOUNT_ENABLED = True
 # Password validation

@@ -1,5 +1,6 @@
 from django.shortcuts import render, get_object_or_404
 from .models import Article
+from products.models import Product
 def home_view(request):
     return render(request, 'home.html')
 
@@ -14,3 +15,10 @@ def search_view(request):
 def article_detail_view(request, id):
         article = get_object_or_404(Article, id=id)
         return render(request, 'article_detail.html', {'article': article})
+
+def search_object(request):
+     search_text=request.POST.get('search')
+     results = Product.objects.filter(name__icontains=search_text)
+     context = {'results' : results}
+     return render(request,'/partials/search-object.html')
+     pass
