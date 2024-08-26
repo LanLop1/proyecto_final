@@ -22,3 +22,4 @@ def search_object(request):
      context = {'results' : results}
      return render(request,'/partials/search-object.html')
      pass
+
