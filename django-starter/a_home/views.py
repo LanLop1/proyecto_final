@@ -2,7 +2,13 @@ from django.shortcuts import render, get_object_or_404
 from .models import Article
 from products.models import Product
 def home_view(request):
-    return render(request, 'home.html')
+    products = Product.objects.all()
+    return render(request, 'home.html',{'products': products})
+
+
+def product_detail(request, id):
+    product = get_object_or_404(Product, id=id)
+    return render(request, 'product_detail.html', {'product': product})
 
 def search_view(request):
     query = request.GET.get('q')
