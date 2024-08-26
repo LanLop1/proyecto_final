@@ -1,16 +1,18 @@
+{% extends "account/base_entrance.html" %}
+{% block content %}
 <body>
     <h1>Crear Nuevo Producto</h1>
     <form id="product-form" hx-post="{% url 'create_product' %}" hx-target="#product-list" hx-swap="beforeend">
         {% csrf_token %}
         {{ product_form.as_p }}
-        <button type="submit" name="product_submit">Crear Producto</button>
+        <button type="submit" name="product_submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Crear Producto</button>
     </form>
 
     <h2>Subir Nueva Imagen</h2>
     <form id="image-form" hx-post="{% url 'create_product' %}" hx-target="#id_image" hx-swap="beforeend" enctype="multipart/form-data">
         {% csrf_token %}
         {{ image_form.as_p }}
-        <button type="submit" name="image_submit">Subir Imagen</button>
+        <button type="submit" name="image_submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Subir Imagen</button>
     </form>
 
     <h2>Lista de Productos</h2>
@@ -29,3 +31,4 @@
     </script>
 </body>
 </html>
+{% endblock content %}

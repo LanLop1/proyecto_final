@@ -1,34 +1,36 @@
+{% extends "account/base_entrance.html" %}
+{% block content %}
 <body>
     <h1>Crear Nueva Tienda</h1>
     <form id="store-form" hx-post="{% url 'stores:create_store' %}" hx-target="#store-list" hx-swap="beforeend">
         {% csrf_token %}
         {{ store_form.as_p }}
-        <button type="submit" name="store_submit">Crear Tienda</button>
+        <button type="submit" name="store_submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">>Crear Tienda</button>
     </form>
 
-    <h2>Crear QR Code</h2>
+    {% comment %} <h2>Crear QR Code</h2> 
     <form id="qr-form" hx-post="{% url 'stores:create_store' %}" hx-target="#qr-list" hx-swap="beforeend">
         {% csrf_token %}
         {{ qr_form.as_p }}
         <button type="submit" name="qr_submit">Crear QR Code</button>
-    </form>
+    </form> {% endcomment %}
 
-    <h2>Subir Nueva Imagen</h2>
+    {% comment %} <h2>Subir Nueva Imagen</h2>
     <form id="image-form" hx-post="{% url 'stores:create_store' %}" hx-target="#id_image" hx-swap="beforeend" enctype="multipart/form-data">
         {% csrf_token %}
         {{ image_form.as_p }}
-        <button type="submit" name="image_submit">Subir Imagen</button>
-    </form>
+        <button type="submit" name="image_submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">>Subir Imagen</button>
+    </form> {% endcomment %}
 
     <h2>Lista de Tiendas</h2>
     <div id="store-list">
         <!-- Las tiendas se insertarán aquí -->
     </div>
 
-    <h2>Lista de QR Codes</h2>
+    {% comment %} <h2>Lista de QR Codes</h2>
     <div id="qr-list">
         <!-- Los QR Codes se insertarán aquí -->
-    </div>
+    </div> {% endcomment %}
 
     <script>
         htmx.on("htmx:afterSwap", function(event) {
@@ -43,3 +45,4 @@
     </script>
 </body>
 </html>
+{% endblock content %}
