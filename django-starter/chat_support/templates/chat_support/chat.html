@@ -1,217 +1,205 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chat con {{ other_user.user.username }}</title>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap">
-    <style>
-        /* Estilos para el spinner y contenedor de carga */
-.spinner-container {
-    display: none; /* Oculto por defecto */
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.3); /* Fondo semitransparente */
-    color: #fff;
-    display: flex;
-    justify-content: center; /* Centra horizontalmente */
-    align-items: center; /* Centra verticalmente */
-    z-index: 1000; /* Asegura que esté por encima de otros contenidos */
-    font-family: 'Roboto', sans-serif;
-}
+<style>
+    :root {
+        --primary-color: #007bff;
+        --primary-dark-color: #0056b3;
+        --background-color: #e5e5e5;
+        --chat-bg-color: #ffffff;
+        --chat-log-bg-color: #f1f1f1;
+        --message-sent-bg-color: var(--primary-color);
+        --message-received-bg-color: #ffffff;
+        --border-color: #e0e0e0;
+        --text-color: #333;
+        --text-light-color: #ffffff;
+    }
+    
+    /* Spinner Styles */
+    .spinner {
+        border: 8px solid var(--border-color);
+        border-top: 8px solid var(--primary-color);
+        border-radius: 50%;
+        width: 40px;
+        height: 40px;
+        animation: spin 1s linear infinite;
+        margin: auto;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        display: none; /* Hidden by default */
+    }
 
-.spinner {
-    border: 8px solid #f3f3f3; /* Color de fondo del spinner */
-    border-top: 8px solid #007bff; /* Color de la animación del spinner */
-    border-radius: 50%;
-    width: 60px;
-    height: 60px;
-    animation: spin 1s linear infinite;
-}
+    @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
 
-@keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-}
+    body {
+        font-family: 'Roboto', sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: var(--background-color);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        overflow: hidden;
+    }
+    
+    #chat-container {
+        display: flex;
+        flex-direction: column;
+        height: 90vh;
+        max-width: 800px;
+        width: 100%;
+        background-color: var(--chat-bg-color);
+        border-radius: 16px;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+        overflow: hidden;
+        animation: fadeIn 0.6s ease-in-out;
+    }
+    
+    #chat-header {
+        background-color: var(--primary-color);
+        color: var(--text-light-color);
+        padding: 20px;
+        font-size: 26px;
+        font-weight: 500;
+        display: flex;
+        align-items: center;
+        border-bottom: 2px solid var(--primary-dark-color);
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+        border-top-left-radius: 16px;
+        border-top-right-radius: 16px;
+    }
+    
+    #chat-log {
+        flex: 1;
+        padding: 20px;
+        overflow-y: auto;
+        background-color: var(--chat-log-bg-color);
+        border-bottom: 2px solid var(--border-color);
+        display: flex;
+        flex-direction: column;
+        scroll-behavior: smooth;
+    }
+    
+    .message {
+        margin-bottom: 14px;
+        padding: 14px 18px;
+        border-radius: 18px;
+        max-width: 85%;
+        word-wrap: break-word;
+        line-height: 1.5;
+        position: relative;
+        font-size: 16px;
+        transition: background-color 0.3s, transform 0.3s;
+    }
+    
+    .message.sent {
+        background-color: var(--message-sent-bg-color);
+        color: var(--text-light-color);
+        align-self: flex-end;
+        border: 1px solid var(--primary-dark-color);
+    }
+    
+    .message.received {
+        background-color: var(--message-received-bg-color);
+        border: 1px solid var(--border-color);
+        color: var(--text-color);
+        align-self: flex-start;
+    }
+    
+    .message:hover {
+        transform: translateY(-3px);
+    }
+    
+    .message::before {
+        content: "";
+        position: absolute;
+        width: 0;
+        height: 0;
+        border: 12px solid transparent;
+    }
+    
+    .message.sent::before {
+        right: -12px;
+        top: 50%;
+        border-left-color: var(--message-sent-bg-color);
+        border-width: 12px 12px 12px 0;
+        transform: translateY(-50%);
+    }
+    
+    .message.received::before {
+        left: -12px;
+        top: 50%;
+        border-right-color: var(--message-received-bg-color);
+        border-width: 12px 0 12px 12px;
+        transform: translateY(-50%);
+    }
+    
+    #chat-footer {
+        padding: 20px;
+        border-top: 2px solid var(--border-color);
+        background-color: var(--chat-bg-color);
+        display: flex;
+        align-items: center;
+        border-bottom-left-radius: 16px;
+        border-bottom-right-radius: 16px;
+    }
+    
+    #chat-message-form {
+        display: flex;
+        width: 100%;
+    }
+    
+    #chat-message-input {
+        flex: 1;
+        padding: 12px;
+        border: 1px solid var(--border-color);
+        border-radius: 8px;
+        margin-right: 10px;
+        font-size: 16px;
+    }
+    
+    #chat-message-submit {
+        padding: 12px 20px;
+        background-color: var(--primary-color);
+        border: none;
+        border-radius: 8px;
+        color: var(--text-light-color);
+        font-size: 16px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
+    
+    #chat-message-submit.enabled {
+        background-color: var(--primary-dark-color);
+    }
+    
+    #chat-message-submit:disabled {
+        background-color: var(--border-color);
+        cursor: not-allowed;
+    }
 
-.spinner-container p {
-    font-size: 18px;
-    font-weight: 500;
-    color: #ffffff;
-    margin-top: 15px; /* Ajusta el margen superior para el texto */
-}
+    #chat-message-input:focus, #chat-message-submit:focus {
+        outline: 2px solid var(--primary-dark-color);
+        outline-offset: 2px;
+    }
 
-        /* Estilos generales del chat */
-        body {
-            font-family: 'Roboto', sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #e5e5e5;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            overflow: hidden;
-        }
-        
-        #chat-container {
-            display: flex;
-            flex-direction: column;
-            height: 90vh;
-            max-width: 800px;
-            width: 100%;
-            background-color: #ffffff;
-            border-radius: 16px;
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
-            overflow: hidden;
-            animation: fadeIn 0.6s ease-in-out;
-        }
-        
-        #chat-header {
-            background-color: #007bff;
-            color: #ffffff;
-            padding: 20px;
-            font-size: 26px;
-            font-weight: 500;
-            display: flex;
-            align-items: center;
-            border-bottom: 2px solid #0056b3;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-            border-top-left-radius: 16px;
-            border-top-right-radius: 16px;
-        }
-        
-        #chat-log {
-            flex: 1;
-            padding: 20px;
-            overflow-y: auto;
-            background-color: #f1f1f1;
-            border-bottom: 2px solid #e0e0e0;
-            display: flex;
-            flex-direction: column;
-            scroll-behavior: smooth;
-        }
-        
-        .message {
-            margin-bottom: 14px;
-            padding: 14px 18px;
-            border-radius: 18px;
-            max-width: 85%;
-            word-wrap: break-word;
-            line-height: 1.5;
-            position: relative;
-            font-size: 16px;
-            transition: background-color 0.3s, transform 0.3s;
-        }
-        
-        .message.sent {
-            background-color: #007bff;
-            color: #ffffff;
-            align-self: flex-end;
-            border: 1px solid #0056b3;
-        }
-        
-        .message.received {
-            background-color: #ffffff;
-            border: 1px solid #e0e0e0;
-            color: #333;
-            align-self: flex-start;
-        }
-        
-        .message:hover {
-            transform: translateY(-3px);
-        }
-        
-        .message::before {
-            content: "";
-            position: absolute;
-            width: 0;
-            height: 0;
-            border: 12px solid transparent;
-        }
-        
-        .message.sent::before {
-            right: -12px;
-            top: 50%;
-            border-left-color: #007bff;
-            border-width: 12px 12px 12px 0;
-            border-radius: 4px;
-            transform: translateY(-50%);
-        }
-        
-        .message.received::before {
-            left: -12px;
-            top: 50%;
-            border-right-color: #ffffff;
-            border-width: 12px 0 12px 12px;
-            border-radius: 4px;
-            transform: translateY(-50%);
-        }
-        
-        #chat-footer {
-            padding: 20px;
-            border-top: 2px solid #e0e0e0;
-            background-color: #ffffff;
-            display: flex;
-            align-items: center;
-            border-bottom-left-radius: 16px;
-            border-bottom-right-radius: 16px;
-        }
-        
-        #chat-message-form {
-            display: flex;
-            width: 100%;
-        }
-        
-        #chat-message-input {
-            flex: 1;
-            padding: 12px;
-            border: 1px solid #e0e0e0;
-            border-radius: 8px;
-            margin-right: 10px;
-            font-size: 16px;
-        }
-        
-        #chat-message-submit {
-            padding: 12px 20px;
-            background-color: #007bff;
-            border: none;
-            border-radius: 8px;
-            color: #ffffff;
-            font-size: 16px;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-        
-        #chat-message-submit.enabled {
-            background-color: #0056b3;
-        }
-        
-        #chat-message-submit:disabled {
-            background-color: #e0e0e0;
-            cursor: not-allowed;
-        }
-    </style>
-</head>
+    @keyframes fadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
+    }
+</style>
+
 <body>
-    <div id="loading-container" class="spinner-container">
-        <div class="spinner"></div>
-        <p>Loading messages...</p>
-    </div>
-
-    <div id="sending-container" class="spinner-container">
-        <div class="spinner"></div>
-        <p>Sending message...</p>
-    </div>
-
     <div id="chat-container">
         <div id="chat-header">
             <div>{{ other_user.user.username }}</div>
         </div>
-        <div id="chat-log"></div>
+        <div id="chat-log">
+            <div class="spinner" id="spinner"></div>
+        </div>
         <div id="chat-footer">
             <form id="chat-message-form">
                 {% csrf_token %}
@@ -220,87 +208,86 @@
             </form>
         </div>
     </div>
+    
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
-        function showSpinner() {
-            $('#spinner-container').show();
-        }
-
-        function hideSpinner() {
-            $('#spinner-container').hide();
-        }
-
         $(document).ready(function() {
-            let messagesLoaded = false;
-
-            function fetchMessages() {
-                showSpinner();
-                $.get("{% url 'get_messages' other_user.user.username %}", function(data) {
-                    const chatLog = $('#chat-log');
-                    const currentMessageCount = data.length;
-
-                    // Solo actualiza el chat si hay un cambio en el número de mensajes
-                    if (currentMessageCount !== lastMessageCount) {
-                        chatLog.empty();
-                        data.forEach(function(message) {
-                            const messageClass = message.sender === '{{ request.user.username }}' ? 'sent' : 'received';
-                            chatLog.append('<div class="message ' + messageClass + '"><strong>' + (message.sender === '{{ request.user.username }}' ? 'You' : message.sender) + ':</strong> ' + message.messagecontent + '</div>');
-                        });
-
-                        // Desplazar hacia abajo solo si hay nuevos mensajes
-                        if (currentMessageCount > lastMessageCount) {
-                            chatLog.scrollTop(chatLog[0].scrollHeight);
-                        }
-
-                        // Actualiza el contador de mensajes
-                        lastMessageCount = currentMessageCount;
-                    }
-
-                    // Ocultar el spinner después de cargar los mensajes
-                    hideSpinner();
-                    messagesLoaded = true;
-                }).fail(function() {
-                    // En caso de error, ocultar el spinner
-                    hideSpinner();
-                });
-            }
-
-            fetchMessages(); // Llamar a la función al cargar la página
-
-            setInterval(function() {
-                if (messagesLoaded) {
-                    fetchMessages();
-                }
-            }, 2000);
-
-            $('#chat-message-form').on('submit', function(event) {
-                event.preventDefault();
-                showSpinner();
-                const messageInput = $('#chat-message-input');
-                const message = messageInput.val().trim();
-
-                if (message) {
-                    $.post("{% url 'chat_room' other_user.user.username %}", $('#chat-message-form').serialize(), function() {
-                        messageInput.val('');
-                        $('#chat-message-submit').attr('disabled', 'disabled').removeClass('enabled');
-                        hideSpinner(); // Ocultar el spinner después de enviar el mensaje
-                    }).fail(function() {
-                        hideSpinner(); // Ocultar el spinner en caso de error
+            const chatLog = $('#chat-log');
+            const messageInput = $('#chat-message-input');
+            const submitButton = $('#chat-message-submit');
+            const spinner = $('#spinner');
+            
+            // Optimización del fetchMessages para usar DocumentFragment
+            async function fetchMessages() {
+                spinner.show(); // Mostrar spinner mientras se obtienen los mensajes
+                
+                try {
+                    const response = await $.get("{% url 'get_messages' other_user.user.username %}");
+                    const fragment = document.createDocumentFragment();
+                    
+                    response.forEach(message => {
+                        const messageClass = message.sender === '{{ request.user.username }}' ? 'sent' : 'received';
+                        const div = document.createElement('div');
+                        div.className = `message ${messageClass}`;
+                        div.innerHTML = `<strong>${message.sender === '{{ request.user.username }}' ? 'Tú' : message.sender}:</strong> ${message.messagecontent}`;
+                        fragment.appendChild(div);
                     });
+        
+                    chatLog.empty().append(fragment); // Insertar todos los mensajes de una vez
+        
+                    // Desplazar hacia abajo para el último mensaje
+                    chatLog.scrollTop(chatLog[0].scrollHeight);
+                } catch (error) {
+                    console.error('Error fetching messages:', error);
+                } finally {
+                    spinner.hide(); // Ocultar spinner después de cargar los mensajes
+                }
+            }
+        
+            // Cargar mensajes al cargar la página
+            fetchMessages();
+        
+            // Refrescar mensajes cada 5 segundos (ajustado a un intervalo más razonable)
+            setInterval(fetchMessages, 5000);
+        
+            // Manejar el envío de formularios
+            $('#chat-message-form').on('submit', async function(event) {
+                event.preventDefault();
+        
+                const message = messageInput.val().trim();
+                if (message) {
+                    spinner.show(); // Mostrar spinner mientras se envía el mensaje
+                    submitButton.attr('disabled', true); // Deshabilitar botón de enviar
+        
+                    try {
+                        await $.post("{% url 'chat_room' other_user.user.username %}", $(this).serialize());
+                        messageInput.val(''); // Limpiar campo de entrada
+                        await fetchMessages(); // Obtener mensajes para incluir el nuevo
+                    } catch (error) {
+                        console.error('Error sending message:', error);
+                    } finally {
+                        spinner.hide(); // Ocultar spinner después de enviar y cargar el mensaje
+                        submitButton.attr('disabled', !messageInput.val().trim()); // Rehabilitar botón si hay entrada
+                    }
                 }
             });
-
-            $('#chat-message-input').on('input', function() {
-                const submitButton = $('#chat-message-submit');
-                const input = $(this).val().trim();
-                if (input) {
-                    submitButton.removeAttr('disabled').addClass('enabled');
-                } else {
-                    submitButton.attr('disabled', 'disabled').removeClass('enabled');
+        
+            // Habilitar o deshabilitar el botón de enviar basado en la entrada
+            messageInput.on('input', function() {
+                submitButton.prop('disabled', !$(this).val().trim());
+            });
+        
+            // Habilitar botón de enviar si hay entrada y enviar con la tecla Enter
+            messageInput.on('keydown', function(event) {
+                if (event.key === 'Enter' && !submitButton.prop('disabled')) {
+                    event.preventDefault();
+                    $('#chat-message-form').submit(); // Enviar formulario
                 }
             });
         });
+        
     </script>
+    
+
 </body>
-</html>
