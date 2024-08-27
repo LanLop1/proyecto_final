@@ -28,10 +28,15 @@ def create_product(request):
         'image_form': image_form
     })
 
-
+def product_detail(request, id):
+    product = get_object_or_404(Product, id=id)
+    return render(request, 'product_detail.html', {'product': product})
 
 def add_to_cart(request, product_id):
     # Aquí iría la lógica para añadir el producto al carrito
     # Por ahora, solo devolvemos un contador ficticio
     return HttpResponse("1")  # Devuelve el nuevo número de items en el carrito
 
+def product_list(request):
+    products = Product.objects.all()
+    return render(request, 'product_list.html', {'products': products})
