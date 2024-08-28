@@ -1,9 +1,10 @@
 # chat_support/views.py
-
+import json
 from django.shortcuts import render, redirect
 from django.http import JsonResponse
+from django.utils import timezone
 from django.contrib.auth.decorators import login_required
-from .models import ChatMessage
+from .models import ChatMessage, Notification
 from a_users.models import Profile, User
 
 @login_required
@@ -21,7 +22,8 @@ def chat_room(request, username):
             receiver=other_user,
             messagecontent=message_content
         )
-        return JsonResponse({'status': 'success'})  # Cambiar la respuesta a JSON
+        
+        return JsonResponse({'status': 'success'})  # Cambia la respuesta a JSON
 
     return render(request, 'chat_support/chat.html', {
         'other_user': other_user,

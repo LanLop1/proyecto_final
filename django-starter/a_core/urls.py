@@ -31,6 +31,7 @@ urlpatterns = [
     path('search/', search_view, name='search'),
     path('article/<int:id>/', article_detail_view, name='article_detail'),
     path('', include('chat_support.urls'), name='chat_support'),
+    path('', include('notifications.urls'), name='notifications'),
 ]
 
 # Only used when DEBUG=True, whitenoise can serve files when DEBUG=False

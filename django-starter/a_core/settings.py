@@ -105,12 +105,12 @@ WSGI_APPLICATION = 'a_core.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': config('DB_NAME'),
-        'USER': config('DB_USER'),
-        'PASSWORD': config('DB_PASSWORD'),
-        'HOST': config('DB_HOST'),
-        'PORT': config('DB_PORT', default='5432'),
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'click_and_go',        # Nombre de la base de datos
+        'USER': 'postgres',            # Nombre del usuario
+        'PASSWORD': 'asd123asd%',    # Contraseña del usuario
+        'HOST': 'localhost',          # Host
+        'PORT': '5432',               # Puerto
     }
 }
 
