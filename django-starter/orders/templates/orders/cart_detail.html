@@ -1,0 +1,6 @@
+<h1>Tu Carrito</h1>
+{% comment %} {% for item in cart.items.all %}
+    <p>{{ item.product.name }} - Cantidad: {{ item.quantity }} - Precio: {{ item.price }}</p>
+{% endfor %} 
+<p>Total: {{ cart.items.all|sum:'price' }}</p>{% endcomment %}
+<a href="{% url 'checkout' %}">Proceder al pago</a>

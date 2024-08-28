@@ -4,3 +4,9 @@ django-cleanup
 django-allauth
 django-htmx
 psycopg2
+python-decouple
+python-dotenv 
+django-tailwind
+google-api-python-client
+PyJWT
+cryptography
