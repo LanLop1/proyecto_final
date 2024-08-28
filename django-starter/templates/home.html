@@ -8,12 +8,12 @@
     <h2 class="text-2xl font-semibold mb-4">Productos recientes</h2>
     <div class="grid grid-cols-3 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
         {% for product in products %}
-            <div class="bg-white shadow-md rounded-lg overflow-hidden grid w-40 h-40">
+            <div class="bg-white shadow-md rounded-lg overflow-hidden grid w-45 h-50 ">
                 <div class="p-4">
-                    <img src="{{ product.image.file.url }}" alt="{{ product.name }}" class="w-full h-full object-cover">
-                    <h3 class="font-bold text-xl mb-2">{{ product.name }}</h3>
-                    <p class="text-gray-700 text-base mb-2">Precio: ${{ product.price }}</p>
-                    <p class="text-gray-600 text-sm mb-4">Categoría: {{ product.get_category_display }}</p>
+                    <img src="{{ product.image.file.url }}" alt="{{ product.name }}" class="w-30 h-50 object-cover">
+                    <h6 class="font-bold text-xl mb-2">{{ product.name }}</h3>
+                    {% comment %} <p class="text-gray-700 text-base mb-2">Precio: ${{ product.price }}</p>
+                    <p class="text-gray-600 text-sm mb-4">Categoría: {{ product.get_category_display }}</p> {% endcomment %}
                     <a href="{% url 'product_detail' product.id %}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
                          Ver detalles
                     </a>
