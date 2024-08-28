@@ -4,6 +4,7 @@ from django.views.decorators.http import require_http_methods
 from .forms import ProductForm, ImageForm
 from .models import Product
 from a_home.models import Image
+from django.template.loader import render_to_string
 from django.shortcuts import render, get_object_or_404
 
 @require_http_methods(["GET", "POST"])
@@ -28,7 +29,10 @@ def create_product(request):
         'image_form': image_form
     })
 
-
+def product_detail(request, product_id):
+    product = get_object_or_404(Product, id=product_id)
+    html = render_to_string('product_detail.html', {'product': product})
+    return HttpResponse(html)
 
 def add_to_cart(request, product_id):
     # Aquí iría la lógica para añadir el producto al carrito

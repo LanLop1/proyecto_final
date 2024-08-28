@@ -1,6 +1,10 @@
 from django.shortcuts import render, get_object_or_404
 from .models import Article
 from products.models import Product
+from django.shortcuts import render
+from rest_framework import serializers
+from django.db.models import Q
+
 def home_view(request):
     products = Product.objects.all()
     return render(request, 'home.html',{'products': products})
@@ -10,12 +14,13 @@ def product_detail(request, id):
     product = get_object_or_404(Product, id=id)
     return render(request, 'product_detail.html', {'product': product})
 
+
+
 def search_view(request):
     query = request.GET.get('q')
-    results = []
-    if query:
-        results = Article.objects.filter(title__icontains=query) | Article.objects.filter(content__icontains=query) | Article.objects.filter(resumen__icontains=query)
-    return render(request, 'search_results.html', {'results': results, 'query': query})
+    busquedas = Product.objects.filter(Q(name__icontains=query) | Q(description__icontains=query)).order_by('-createdat')[:5]
+    serializer = serializers(busquedas, many=True)
+    return render(request, 'busqueda_resultados.html', {'resultados': serializer.data})
 
 
 def article_detail_view(request, id):

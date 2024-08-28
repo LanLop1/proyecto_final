@@ -20,13 +20,14 @@ from django.conf.urls.static import static
 from django.conf import settings
 from a_users.views import profile_view
 from a_home.views import *
-from a_home.views import search_view, article_detail_view, search_object, product_detail
-from products.views import  add_to_cart
+from a_home.views import search_view, article_detail_view, search_object, product_detail, search_view
+from products.views import  add_to_cart, product_detail
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('accounts/', include('allauth.urls')),
     path('', home_view, name="home"),
+    path('buscar/', search_view, name='search_view'),
     path('profile/', include('a_users.urls')),
     path('@<username>/', profile_view, name="profile"),
     path('article/<int:id>/', article_detail_view, name='article_detail'),
@@ -35,7 +36,7 @@ urlpatterns = [
     path('', include('products.urls'), name='products'),
     path('stores/', include('stores.urls', namespace='stores')),
     path('add-to-cart/<int:product_id>/', add_to_cart, name='add_to_cart'),
-    path('product/<int:id>/', product_detail, name='product_detail'),
+    path('product/<int:product_id>/modal/', product_detail, name='product_detail'),
 ]
 
 
