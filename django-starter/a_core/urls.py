@@ -20,8 +20,8 @@ from django.conf.urls.static import static
 from django.conf import settings
 from a_users.views import profile_view
 from a_home.views import *
-from a_home.views import search_view, article_detail_view, search_object
-from products.views import product_detail, add_to_cart, product_list
+from a_home.views import search_view, article_detail_view, search_object, product_detail
+from products.views import  add_to_cart
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -32,9 +32,9 @@ urlpatterns = [
     path('article/<int:id>/', article_detail_view, name='article_detail'),
     path('chat/', include('chat_support.urls'), name='chat_support'),
     path('orders/', include('orders.urls'), name='orders'),
+    path('', include('products.urls'), name='products'),
     path('stores/', include('stores.urls', namespace='stores')),
     path('add-to-cart/<int:product_id>/', add_to_cart, name='add_to_cart'),
-    path('products/', product_list, name='product_list'),
     path('product/<int:id>/', product_detail, name='product_detail'),
 ]
 
