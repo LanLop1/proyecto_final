@@ -1,8 +1,0 @@
-{
-  "devDependencies": {
-    "cross-env": "^7.0.3"
-  },
-  "scripts": {
-  "dev": "cross-env NODE_ENV=development tailwindcss --postcss -i ./src/styles.css -o ../static/css/dist/styles.css -w"
-}
-}

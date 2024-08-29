@@ -44,8 +44,8 @@ INSTALLED_APPS = [
     'django_cleanup.apps.CleanupConfig',
     'django.contrib.sites',
     'tailwind',
-    'allauth',
     'theme',
+    'allauth',
     'allauth.account',
     'allauth.socialaccount',
     'allauth.socialaccount.providers.google',
@@ -119,7 +119,6 @@ DATABASES = {
 INTERNAL_IPS = [
     "127.0.0.1",
 ]
-NPM_BIN_PATH = r"C:\Program Files\nodejs\npm.cmd"
 
 SOCIALACCOUNT_ENABLED = True
 # Password validation
