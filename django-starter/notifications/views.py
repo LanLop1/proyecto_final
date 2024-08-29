@@ -3,6 +3,7 @@ from django.shortcuts import render
 from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.http import require_POST
 from chat_support.models import Notification
 
 @login_required
@@ -50,3 +51,10 @@ def mark_notification_as_read(request, notification_id):
         except Notification.DoesNotExist:
             return JsonResponse({'status': 'error', 'message': 'Notificación no encontrada'})
     return JsonResponse({'status': 'error', 'message': 'Método no permitido'})
+
+@login_required
+@require_POST
+def mark_all_notifications_as_read(request):
+    notifications = Notification.objects.filter(usuario=request.user.profile, readstatus=b'\x00')
+    notifications.update(readstatus=b'\x01')  # Marcar todas como leídas
+    return JsonResponse({'status': 'success'})
