@@ -9,6 +9,17 @@
         <ul class="navitems flex items-center justify-center h-full">
             {% if request.user.is_authenticated %}
             <li><a href="/">Home</a></li>
+
+            <!-- Icono de notificaciones -->
+            <li class="relative">
+                <a href="{% url 'notification_list' %}" class="flex items-center relative">
+                    <i class="fas fa-bell text-xl"></i>
+                    {% if unread_count > 0 %}
+                    <span class="notification-count">{{ unread_count }}</span>
+                    {% endif %}
+                </a>
+            </li>
+
             <li x-data="{ dropdownOpen: false }" class="relative">
                 <a @click="dropdownOpen = !dropdownOpen" @click.away="dropdownOpen = false" class="cursor-pointer select-none">
                     <img class="h-8 w-8 rounded-full object-cover" src="{{ user.profile.avatar }}"/>
@@ -36,3 +47,31 @@
         </ul>
     </nav>
 </header>
+
+<style>
+    /* Estilo del icono de notificaciones */
+    .relative {
+        position: relative;
+    }
+    
+    .notification-count {
+        position: absolute;
+        top: -10px; /* Ajusta según sea necesario */
+        right: -10px; /* Ajusta según sea necesario */
+        background-color: #dc3545; /* Color de fondo del contador */
+        color: #ffffff; /* Color del texto */
+        border-radius: 50%;
+        padding: 2px 6px; /* Tamaño del contador */
+        font-size: 12px; /* Tamaño del texto */
+        font-weight: bold;
+        min-width: 16px; /* Tamaño mínimo del contador */
+        text-align: center;
+        box-shadow: 0 0 4px rgba(0, 0, 0, 0.5); /* Sombra para mejor visibilidad */
+        z-index: 10; /* Asegúrate de que el contador esté por encima del icono */
+    }
+
+    /* Ajusta el tamaño del icono y la posición del contador si es necesario */
+    .fa-bell {
+        font-size: 24px; /* Ajusta según el tamaño que desees */
+    }
+</style>

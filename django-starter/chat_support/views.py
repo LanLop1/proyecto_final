@@ -9,24 +9,36 @@ from django.utils import timezone
 from django.contrib.auth.decorators import login_required
 from .models import ChatMessage, Notification
 from a_users.models import Profile, User
+from django.db.models import Q
 
 @login_required
 def chat_room(request, username):
     other_user = Profile.objects.get(user__username=username)
     messages = ChatMessage.objects.filter(
-        sender__in=[request.user.profile, other_user],
-        receiver__in=[request.user.profile, other_user]
+        Q(sender=request.user.profile, receiver=other_user) |
+        Q(sender=other_user, receiver=request.user.profile)
     ).order_by('sentat')
 
     if request.method == 'POST':
         message_content = request.POST.get('message')
-        ChatMessage.objects.create(
+        message = ChatMessage.objects.create(
             sender=request.user.profile,
             receiver=other_user,
             messagecontent=message_content
         )
-        
-        return JsonResponse({'status': 'success'})  # Cambia la respuesta a JSON
+
+        # Verificar si el otro usuario está fuera de línea
+        user_key = f"user_status_{other_user.user.username}"
+        user_status = cache.get(user_key, 'offline')
+        print('STATUS --->>> ' + user_status)
+        if user_status == 'offline':
+            Notification.objects.create(
+                usuario=other_user,
+                message=f"Nuevo mensaje de {request.user.username}: {message_content}",
+                readstatus=b'\x00'  # No leído
+            )
+
+        return JsonResponse({'status': 'success'})
 
     return render(request, 'chat_support/chat.html', {
         'other_user': other_user,

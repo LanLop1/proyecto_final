@@ -221,7 +221,8 @@
             const submitButton = $('#chat-message-submit');
             const spinner = $('#spinner');
             const userStatus = $('#user-status'); // Elemento para mostrar el estado del usuario
-            
+            let isPageVisible = true; // Para seguir el estado de visibilidad de la página
+    
             // Función para actualizar el estado del usuario
             const updateUserStatus = (status) => {
                 $.ajax({
@@ -240,31 +241,35 @@
                 });
             };
     
-            // Detectar si la ventana está activa o inactiva
-            $(window).on('focus', function() {
-                updateUserStatus('online');
+            // Detectar cambios en la visibilidad de la página
+            $(document).on('visibilitychange', function() {
+                if (document.hidden) {
+                    isPageVisible = false;
+                    updateUserStatus('offline');
+                } else {
+                    isPageVisible = true;
+                    updateUserStatus('online');
+                }
             });
     
-            $(window).on('blur', function() {
-                updateUserStatus('offline');
-            });
+            // Actualizar el estado cada 30 segundos si la página está visible
+            setInterval(function() {
+                if (isPageVisible) {
+                    updateUserStatus('online');
+                }
+            }, 30000); // 30 segundos
     
-            // Actualizar el estado a 'online' cuando se carga la página
+            // Inicialmente, actualizar el estado a 'online' cuando se carga la página
             updateUserStatus('online');
-    
-            // Cambiar estado a 'offline' antes de cerrar o dejar la página
-            $(window).on('beforeunload', function() {
-                updateUserStatus('offline');
-            });
     
             // Obtener los mensajes y actualizar el log del chat
             async function fetchMessages() {
                 spinner.show(); // Mostrar spinner mientras se obtienen los mensajes
-                
+    
                 try {
                     const response = await $.get("{% url 'get_messages' other_user.user.username %}");
                     const fragment = document.createDocumentFragment();
-                    
+    
                     response.forEach(message => {
                         const messageClass = message.sender === '{{ request.user.username }}' ? 'sent' : 'received';
                         const div = document.createElement('div');
@@ -286,19 +291,19 @@
     
             // Cargar mensajes al cargar la página
             fetchMessages();
-        
+    
             // Refrescar mensajes cada 5 segundos
             setInterval(fetchMessages, 5000);
     
             // Manejar el envío de formularios
             $('#chat-message-form').on('submit', async function(event) {
                 event.preventDefault();
-        
+    
                 const message = messageInput.val().trim();
                 if (message) {
                     spinner.show(); // Mostrar spinner mientras se envía el mensaje
                     submitButton.attr('disabled', true); // Deshabilitar botón de enviar
-        
+    
                     try {
                         await $.post("{% url 'chat_room' other_user.user.username %}", $(this).serialize());
                         messageInput.val(''); // Limpiar campo de entrada
@@ -337,5 +342,7 @@
             }, 5000); // Comprobar cada 5 segundos
         });
     </script>
+    
+    
        
 </body>

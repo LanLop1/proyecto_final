@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notificaciones</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            width: 80%;
+            max-width: 800px;
+            background: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            margin: 20px;
+        }
+
+        header {
+            background-color: #007bff;
+            color: #fff;
+            padding: 15px;
+            text-align: center;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .notification {
+            padding: 15px;
+            border-bottom: 1px solid #e0e0e0;
+            transition: background-color 0.3s, transform 0.3s;
+        }
+
+        .notification:last-child {
+            border-bottom: none;
+        }
+
+        .notification:hover {
+            background-color: #f0f8ff;
+            transform: translateY(-2px);
+        }
+
+        .notification a {
+            text-decoration: none;
+            color: #333;
+            font-size: 16px;
+            display: block;
+        }
+
+        .notification.unread {
+            background-color: #e8f4f8;
+        }
+
+        .notification.read {
+            background-color: #f9f9f9;
+        }
+
+        .new-badge {
+            background-color: #dc3545;
+            color: white;
+            border-radius: 12px;
+            padding: 2px 8px;
+            font-size: 12px;
+            margin-left: 10px;
+            font-weight: bold;
+        }
+
+        footer {
+            background-color: #f0f0f0;
+            padding: 10px;
+            text-align: center;
+            font-size: 14px;
+            color: #777;
+            border-top: 1px solid #e0e0e0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>Notificaciones</header>
+        <ul>
+            {% for notification in notifications %}
+                <li class="notification {% if notification.readstatus_text == 'unread' %}unread{% else %}read{% endif %}">
+                    <a href="{% url 'chat_room' notification.sender_username %}" onclick="markAsRead({{ notification.id }});">
+                        {{ notification.message }}
+                        {% if notification.readstatus_text == 'unread' %}
+                            <span class="new-badge">Nuevo</span>
+                        {% endif %}
+                    </a>
+                </li>
+            {% endfor %}
+        </ul>
+        <footer>
+            &copy; {{ current_year }} Click&Go - Todos los derechos reservados
+        </footer>
+    </div>
+
+    <script>
+        function markAsRead(notificationId) {
+            fetch(`/mark_notification_as_read/${notificationId}/`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': '{{ csrf_token }}'
+                },
+                body: JSON.stringify({ 'read': true })
+            })
+            .then(response => {
+                if (!response.ok) {
+                    console.error('Error al marcar la notificación como leída');
+                }
+            })
+            .catch(error => console.error('Error:', error));
+        }
+    </script>
+</body>
+</html>
