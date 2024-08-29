@@ -17,10 +17,10 @@ def product_detail(request, id):
 
 
 def search_view(request):
-    query = request.GET.get('q')
+    query = request.GET.get('search')
     busquedas = Product.objects.filter(Q(name__icontains=query) | Q(description__icontains=query)).order_by('-createdat')[:5]
-    serializer = serializers(busquedas, many=True)
-    return render(request, 'busqueda_resultados.html', {'resultados': serializer.data})
+    
+    return render(request, 'busqueda_resultados.html', {'resultados': busquedas})
 
 
 def article_detail_view(request, id):
