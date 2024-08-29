@@ -1,6 +1,9 @@
 # chat_support/views.py
 import json
 from django.shortcuts import render, redirect
+from django.core.cache import cache
+from django.utils.decorators import method_decorator
+from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse
 from django.utils import timezone
 from django.contrib.auth.decorators import login_required
@@ -29,6 +32,28 @@ def chat_room(request, username):
         'other_user': other_user,
         'messages': messages
     })
+
+@login_required
+@csrf_exempt
+def update_user_status(request, username):
+    if request.method == 'POST':
+        status = request.POST.get('status')
+        user_key = f"user_status_{request.user.username}"
+
+        if status == 'online':
+            cache.set(user_key, 'online', timeout=300)  # El estado se mantiene durante 5 minutos (300 segundos)
+        else:
+            cache.set(user_key, 'offline')
+
+        return JsonResponse({'status': 'success'})
+    
+    return JsonResponse({'status': 'failed'}, status=400)
+
+@login_required
+def check_user_status(request, username):
+    user_key = f"user_status_{username}"
+    status = cache.get(user_key, 'offline')
+    return JsonResponse({'status': status})
 
 @login_required
 def get_messages(request, username):

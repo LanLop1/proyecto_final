@@ -195,7 +195,10 @@
 <body>
     <div id="chat-container">
         <div id="chat-header">
-            <div>{{ other_user.user.username }}</div>
+            <div>
+                {{ other_user.user.username }} 
+                <span id="user-status">(Fuera de línea)</span> <!-- Espacio para mostrar el estado del usuario -->
+            </div>
         </div>
         <div id="chat-log">
             <div class="spinner" id="spinner"></div>
@@ -217,8 +220,44 @@
             const messageInput = $('#chat-message-input');
             const submitButton = $('#chat-message-submit');
             const spinner = $('#spinner');
+            const userStatus = $('#user-status'); // Elemento para mostrar el estado del usuario
             
-            // Optimización del fetchMessages para usar DocumentFragment
+            // Función para actualizar el estado del usuario
+            const updateUserStatus = (status) => {
+                $.ajax({
+                    url: "{% url 'update_user_status' request.user.username %}",
+                    method: "POST",
+                    data: {
+                        'status': status,
+                        'csrfmiddlewaretoken': '{{ csrf_token }}',
+                    },
+                    success: function(response) {
+                        // Estado actualizado
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('Error al actualizar el estado:', error);
+                    }
+                });
+            };
+    
+            // Detectar si la ventana está activa o inactiva
+            $(window).on('focus', function() {
+                updateUserStatus('online');
+            });
+    
+            $(window).on('blur', function() {
+                updateUserStatus('offline');
+            });
+    
+            // Actualizar el estado a 'online' cuando se carga la página
+            updateUserStatus('online');
+    
+            // Cambiar estado a 'offline' antes de cerrar o dejar la página
+            $(window).on('beforeunload', function() {
+                updateUserStatus('offline');
+            });
+    
+            // Obtener los mensajes y actualizar el log del chat
             async function fetchMessages() {
                 spinner.show(); // Mostrar spinner mientras se obtienen los mensajes
                 
@@ -233,9 +272,9 @@
                         div.innerHTML = `<strong>${message.sender === '{{ request.user.username }}' ? 'Tú' : message.sender}:</strong> ${message.messagecontent}`;
                         fragment.appendChild(div);
                     });
-        
+    
                     chatLog.empty().append(fragment); // Insertar todos los mensajes de una vez
-        
+    
                     // Desplazar hacia abajo para el último mensaje
                     chatLog.scrollTop(chatLog[0].scrollHeight);
                 } catch (error) {
@@ -244,13 +283,13 @@
                     spinner.hide(); // Ocultar spinner después de cargar los mensajes
                 }
             }
-        
+    
             // Cargar mensajes al cargar la página
             fetchMessages();
         
-            // Refrescar mensajes cada 5 segundos (ajustado a un intervalo más razonable)
+            // Refrescar mensajes cada 5 segundos
             setInterval(fetchMessages, 5000);
-        
+    
             // Manejar el envío de formularios
             $('#chat-message-form').on('submit', async function(event) {
                 event.preventDefault();
@@ -272,12 +311,12 @@
                     }
                 }
             });
-        
+    
             // Habilitar o deshabilitar el botón de enviar basado en la entrada
             messageInput.on('input', function() {
                 submitButton.prop('disabled', !$(this).val().trim());
             });
-        
+    
             // Habilitar botón de enviar si hay entrada y enviar con la tecla Enter
             messageInput.on('keydown', function(event) {
                 if (event.key === 'Enter' && !submitButton.prop('disabled')) {
@@ -285,9 +324,18 @@
                     $('#chat-message-form').submit(); // Enviar formulario
                 }
             });
-        });
-        
-    </script>
     
-
+            // Comprobar el estado del otro usuario periódicamente y mostrarlo
+            setInterval(function() {
+                $.get("{% url 'check_user_status' other_user.user.username %}", function(data) {
+                    if (data.status === 'online') {
+                        userStatus.text('(En línea)');
+                    } else {
+                        userStatus.text('(Fuera de línea)');
+                    }
+                });
+            }, 5000); // Comprobar cada 5 segundos
+        });
+    </script>
+       
 </body>
