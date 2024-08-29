@@ -28,6 +28,14 @@ def create_product(request):
         'product_form': product_form,
         'image_form': image_form
     })
+@require_http_methods(["POST"])
+def upload_image(request):
+    image_form = ImageForm(request.POST, request.FILES)
+    if image_form.is_valid():
+        image = image_form.save()
+        # Return some data or a success message
+        return HttpResponse(f'<option value="{image.id}">{image.file.name}</option>')
+    return HttpResponse("Error en la subida de la imagen", status=400)
 
 def product_detail(request, product_id):
     product = get_object_or_404(Product, id=product_id)
