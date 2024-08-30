@@ -27,6 +27,7 @@ urlpatterns = [
     path('accounts/', include('allauth.urls')),
     path('', home_view, name="home"),
     path('profile/', include('a_users.urls')),
+    path('', include('products.urls')),
     path('@<username>/', profile_view, name="profile"),
     path('search/', search_view, name='search'),
     path('article/<int:id>/', article_detail_view, name='article_detail'),
