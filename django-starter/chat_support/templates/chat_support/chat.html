@@ -35,7 +35,7 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        padding: 20px;
+        padding: 0px 15px;
         min-height: 100vh;
         box-sizing: border-box;
     }
@@ -52,6 +52,7 @@
         overflow: hidden;
         animation: fadeIn 0.6s ease-in-out;
         box-sizing: border-box;
+        margin-top: -80px;
     }
     
     #chat-header {
@@ -242,7 +243,7 @@
         color: gray;
     }
 
-    #chat-message-submit:hover {
+    #chat-message-submit:hover:enabled {
         background-color: #FF5722; /* Color de botón más intenso */
         transform: scale(1.05);
         box-shadow: 0 4px 8px var(--shadow-color);
@@ -374,6 +375,10 @@
             const userStatus = $('#user-status'); // Elemento para mostrar el estado del usuario
             let lastMessageCount = 0; // Para seguir el número de mensajes y detectar si hay nuevos
             
+            function scrollToBottom() {
+                chatLog.scrollTop(chatLog[0].scrollHeight); // Desplaza el contenedor del chat hacia abajo
+            }
+
             // Función para actualizar el estado del usuario
             const updateUserStatus = (status) => {
                 $.ajax({
@@ -432,7 +437,7 @@
                     // Solo actualizar el chat y desplazar hacia abajo si hay nuevos mensajes
                     if (newMessageCount > lastMessageCount) {
                         chatLog.empty().append(fragment); // Insertar todos los mensajes de una vez
-                        chatLog.scrollTop(chatLog[0].scrollHeight); // Desplazar hacia abajo
+                        scrollToBottom(); // Desplazar hacia abajo
                         lastMessageCount = newMessageCount;
                     }
                     
@@ -462,7 +467,7 @@
                         await $.post("{% url 'chat_room' other_user.user.username %}", $(this).serialize());
                         messageInput.val(''); // Limpiar campo de entrada
                         await fetchMessages(); // Obtener mensajes para incluir el nuevo
-                        chatLog.scrollTop(chatLog[0].scrollHeight); // Desplazar hacia abajo después de enviar un mensaje
+                        scrollToBottom(); // Desplazar hacia abajo después de enviar un mensaje
                     } catch (error) {
                         console.error('Error sending message:', error);
                     } finally {
