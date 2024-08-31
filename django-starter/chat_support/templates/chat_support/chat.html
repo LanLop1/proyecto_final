@@ -1,5 +1,3 @@
-
-
 <style>
     :root {
         --primary-color: #007bff;
@@ -256,8 +254,8 @@
             const submitButton = $('#chat-message-submit');
             const spinner = $('#spinner');
             const userStatus = $('#user-status'); // Elemento para mostrar el estado del usuario
-            let isPageVisible = true; // Para seguir el estado de visibilidad de la página
-    
+            let lastMessageCount = 0; // Para seguir el número de mensajes y detectar si hay nuevos
+            
             // Función para actualizar el estado del usuario
             const updateUserStatus = (status) => {
                 $.ajax({
@@ -275,21 +273,19 @@
                     }
                 });
             };
-    
+            
             // Detectar cambios en la visibilidad de la página
             $(document).on('visibilitychange', function() {
                 if (document.hidden) {
-                    isPageVisible = false;
                     updateUserStatus('offline');
                 } else {
-                    isPageVisible = true;
                     updateUserStatus('online');
                 }
             });
     
             // Actualizar el estado cada 30 segundos si la página está visible
             setInterval(function() {
-                if (isPageVisible) {
+                if (!document.hidden) {
                     updateUserStatus('online');
                 }
             }, 30000); // 30 segundos
@@ -312,11 +308,16 @@
                         div.innerHTML = `<strong>${message.sender === '{{ request.user.username }}' ? 'Tú' : message.sender}:</strong> ${message.messagecontent}`;
                         fragment.appendChild(div);
                     });
-    
-                    chatLog.empty().append(fragment); // Insertar todos los mensajes de una vez
-    
-                    // Desplazar hacia abajo para el último mensaje
-                    chatLog.scrollTop(chatLog[0].scrollHeight);
+
+                    const newMessageCount = response.length;
+
+                    // Solo actualizar el chat y desplazar hacia abajo si hay nuevos mensajes
+                    if (newMessageCount > lastMessageCount) {
+                        chatLog.empty().append(fragment); // Insertar todos los mensajes de una vez
+                        chatLog.scrollTop(chatLog[0].scrollHeight); // Desplazar hacia abajo
+                        lastMessageCount = newMessageCount;
+                    }
+                    
                 } catch (error) {
                     console.error('Error fetching messages:', error);
                 } finally {
@@ -343,6 +344,7 @@
                         await $.post("{% url 'chat_room' other_user.user.username %}", $(this).serialize());
                         messageInput.val(''); // Limpiar campo de entrada
                         await fetchMessages(); // Obtener mensajes para incluir el nuevo
+                        chatLog.scrollTop(chatLog[0].scrollHeight); // Desplazar hacia abajo después de enviar un mensaje
                     } catch (error) {
                         console.error('Error sending message:', error);
                     } finally {
@@ -378,3 +380,4 @@
         });
     </script>   
 </body>
+
