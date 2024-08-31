@@ -1,28 +1,24 @@
 </header>
 {% block extra_styles %}
 <style>    
-    .notification-count {
-        position: absolute;
-        top: -2px; /* Ajusta según sea necesario */
-        right: -2px; /* Ajusta según sea necesario */
-        background-color: #dc3545; /* Color de fondo del contador */
-        color: #ffffff; /* Color del texto */
-        border-radius: 50%;
-        padding: 0px 4px; /* Tamaño del contador */
-        font-size: 12px; /* Tamaño del texto */
-        font-weight: bold;
-        min-width: 16px; /* Tamaño mínimo del contador */
-        text-align: center;
-        box-shadow: 0 0 4px rgba(0, 0, 0, 0.5); /* Sombra para mejor visibilidad */
-        z-index: 10; /* Asegúrate de que el contador esté por encima del icono */
-    }
-
-    /* Ajusta el tamaño del icono y la posición del contador si es necesario */
-    .fa-bell {
-        font-size: 24px; /* Ajusta según el tamaño que desees */
-    }
+  .notification-count {
+    position: absolute;
+    top: -12px; /* Mueve más hacia arriba */
+    right: -15px; /* Mueve más hacia la derecha */
+    background-color: #dc3545; /* Color de fondo del contador */
+    color: #ffffff; /* Color del texto */
+    border-radius: 50%;
+    padding: 1px 2px; /* Tamaño del contador */
+    font-size: 12px; /* Tamaño del texto */
+    font-weight: bold;
+    min-width: 20px; /* Tamaño mínimo del contador */
+    text-align: center;
+    box-shadow: 0 0 4px rgba(0, 0, 0, 0.5); /* Sombra para mejor visibilidad */
+    z-index: 10; /* Asegúrate de que el contador esté por encima del icono */
+}
 </style>
 {% endblock %}
+
 <nav class="border-gray-200 bg-gray-900">
   <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
     <a href="#" class="flex items-center space-x-3 rtl:space-x-reverse">
@@ -72,10 +68,13 @@
             <a href="#" class="block py-2 px-3 text-gray-400 rounded hover:bg-gray-700 md:hover:bg-transparent md:border-0 md:hover:text-blue-500 md:p-0">Contact</a>
           </li>
           <li class="relative">
-            <a href="{% url 'notification_list' %}" class="flex items-center relative">
-                <i class="fas fa-bell text-xl"></i>
+            <a href="{% url 'notification_list' %}" class="relative flex items-center">
+                <!-- Icono de campana en color blanco por defecto -->
+                <i class="fas fa-bell text-2xl text-white"></i>
                 {% if unread_count > 0 %}
-                <span class="notification-count">{{ unread_count }}</span>
+                <span class="notification-count">
+                    {{ unread_count }}
+                </span>
                 {% endif %}
             </a>
         </li>
