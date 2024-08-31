@@ -1,0 +1,35 @@
+{% extends 'layouts/blank.html' %}
+{% block content %}
+<body>
+    <div class="container mx-auto p-6">
+        <h1 class="text-3xl font-bold mb-6 text-center">Crear Nuevo Producto</h1>
+        <form id="product-form" method="post" action="{% url 'create_product' %}" class="space-y-6 mb-4">
+            {% csrf_token %}
+            {{ product_form.as_p }}
+            <button type="submit" name="product_submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Crear Producto</button>
+        </form>
+
+        <h2 class="text-2xl font-semibold mt-12 mb-6 text-center">Subir Nueva Imagen</h2>
+        <form id="image-form" method="post" action="{% url 'upload_image' %}" enctype="multipart/form-data" class="space-y-6">
+            {% csrf_token %}
+            {{ image_form.as_p }}
+            <button type="submit" name="image_submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Subir Imagen</button>
+        </form>
+
+        <h2 class="text-2xl font-semibold mt-12 mb-6 text-center">Lista de Productos</h2>
+        <div id="product-list">
+            <!-- Los productos se insertarán aquí -->
+        </div>
+    </div>
+
+    <script>
+        htmx.on("htmx:afterSwap", function(event) {
+            if (event.detail.target.id == "product-list") {
+                document.querySelector('#product-form').reset();
+            } else if (event.detail.target.id == "id_image") {
+                document.querySelector('#image-form').reset();
+            }
+        });
+    </script>
+</body>
+{% endblock content %}

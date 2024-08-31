@@ -1,22 +1,26 @@
 {% extends 'layouts/blank.html' %}
-{% block head_title %}Home{% endblock %}
-{% block content %} 
 
-    <div class="max-w-4xl mx-auto px-8 py-24">
-        <h1>Resultado de Búsqueda "{{ query }}"</h1>
-    <form method="get" action="{% url 'search' %}">
-        <input type="text" name="q" value="{{ query }}" placeholder="Busca artículos...">
-        <p></p>
-        <button type="submit">Buscar</button>
-    </form>
-    <ul>
-        {% for article in results %}
-            <li>{{ article.title }}</li>
-        {% empty %}
-            <li>No results found.</li>
+
+{% block content %}
+<div class="container mx-auto px-4">
+    <h1 class="text-4xl font-bold mb-8 text-center">Bienvenido a nuestra tienda</h1>
+
+    <h2 class="text-3xl font-semibold mb-6">Productos recientes</h2>
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
+        {% for product in products %}
+            <div class="bg-white shadow-md rounded-lg overflow-hidden cursor-pointer hover:shadow-xl transition-shadow duration-300"
+                 hx-get="{% url 'product_detail' product.id %}"
+                 hx-target="#modal-container"
+                 hx-trigger="click">
+                <div class="p-4">
+                    <img src="{{ product.image.file.url }}" alt="{{ product.name }}" class="w-full h-64 object-cover mb-4 rounded">
+                    <h6 class="font-bold text-xl mb-2 truncate">{{ product.name }}</h6>
+                    <!-- Puedes agregar más detalles del producto aquí si lo deseas -->
+                </div>
+            </div>
         {% endfor %}
-    </ul>
     </div>
-
-
+</div>
+<!-- Contenedor del modal fuera del bucle for -->
+<div id="modal-container"></div>
 {% endblock %}

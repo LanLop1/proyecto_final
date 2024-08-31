@@ -43,6 +43,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django_cleanup.apps.CleanupConfig',
     'django.contrib.sites',
+    'tailwind',
+    'theme',
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
@@ -59,6 +61,7 @@ INSTALLED_APPS = [
     'stores',
     
 ]
+TAILWIND_APP_NAME = 'theme'
 
 SITE_ID = 1
 
@@ -92,7 +95,6 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
-                'a_core.context_processors.notifications_context',
             ],
         },
     },
@@ -115,6 +117,9 @@ DATABASES = {
     }
 }
 
+INTERNAL_IPS = [
+    "127.0.0.1",
+]
 
 SOCIALACCOUNT_ENABLED = True
 # Password validation
