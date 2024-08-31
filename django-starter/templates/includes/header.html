@@ -80,5 +80,16 @@
                 event.detail.target.classList.toggle('hidden', event.detail.target.innerHTML.trim() === '');
             }
         });
+         
+        {% comment %} // Escuchar clic en el body
+        document.body.addEventListener('click', function(event) {
+            // Obtener el div con id 'resultados'
+            var resultados = document.getElementById('resultados');
+            
+            // Verificar si el clic no se realizó dentro del div 'resultados'
+            if (!resultados.contains(event.target)) {
+                // Ocultar el div agregando la clase 'hidden'
+                resultados.classList.add('hidden');
+            } {% endcomment %}
     </script>
 </nav>

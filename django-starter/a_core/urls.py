@@ -20,7 +20,7 @@ from django.conf.urls.static import static
 from django.conf import settings
 from a_users.views import profile_view
 from a_home.views import *
-from a_home.views import search_view, article_detail_view, search_object, product_detail, search_view
+from a_home.views import article_detail_view, search_object, product_detail, search_view, empty_view
 from products.views import  add_to_cart, product_detail
 
 urlpatterns = [
@@ -42,10 +42,12 @@ urlpatterns = [
 
 htmx_urlpatterns= [
     path('search/', search_view, name='search'),
-    path('searchobject/', search_object, name='search-object')
-
+    path('searchobject/', search_object, name='search-object'),
+    path('empty/', empty_view, name='empty'),
 ]
 urlpatterns += htmx_urlpatterns
+
+
 # Only used when DEBUG=True, whitenoise can serve files when DEBUG=False
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

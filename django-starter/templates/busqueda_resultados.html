@@ -1,5 +1,7 @@
-<ul hx-swap="outerHTML" hx-target="#resultados">
+<ul hx-swap="outerHTML" hx-target="#resultados" class="space-y-2">
   {% for resultado in resultados %}
-  <li>{{ resultado.name }}</li>
+  <li class="cursor-pointer hover:bg-gray-100 p-2 rounded transition duration-150 ease-in-out">
+    {{ resultado.name }}
+  </li>
   {% endfor %}
 </ul>

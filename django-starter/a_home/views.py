@@ -14,7 +14,8 @@ def product_detail(request, id):
     product = get_object_or_404(Product, id=id)
     return render(request, 'product_detail.html', {'product': product})
 
-
+def empty_view(request):
+     return render(request, 'empty_div.html')
 
 def search_view(request):
     query = request.GET.get('search')
