@@ -35,7 +35,7 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        padding: 0px 15px;
+        padding: 0 15px;
         min-height: 100vh;
         box-sizing: border-box;
     }
@@ -58,7 +58,7 @@
     #chat-header {
         background-color: var(--primary-dark-color);
         color: #FFFFFF;
-        padding: 16px;
+        padding: 16px 20px;
         font-size: 18px;
         font-weight: 600;
         display: flex;
@@ -72,30 +72,32 @@
     }
 
     #chat-header .user-avatar {
-        width: 44px;
-        height: 44px;
+        width: 50px;
+        height: 50px;
         border-radius: 50%;
         margin-right: 16px;
         background-color: #ddd; /* Placeholder color */
         object-fit: cover;
-        border: 2px solid var(--primary-color);
+        border: 3px solid var(--primary-color);
     }
 
     #chat-header .username {
-        font-size: 18px;
+        font-size: 20px;
         font-weight: 600;
+        color: #FFF;
         flex-grow: 1;
     }
 
     #chat-header #user-status {
         font-size: 14px;
-        padding: 6px 12px;
+        padding: 8px 14px;
         border-radius: 12px;
         background-color: var(--status-offline-bg-color);
         color: var(--status-offline-text-color); /* Cambiado a un gris más oscuro */
         display: inline-block;
         white-space: nowrap;
         transition: background-color 0.3s;
+        font-weight: 500;
     }
 
     .status-online {
