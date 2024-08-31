@@ -1,92 +1,82 @@
+{% extends 'base.html' %}
+
+{% block head_title %}Chat with {{other_user.user.username}} {% endblock %}
+
+{% block extra_styles %}
 <style>
     :root {
-        --primary-color: #007bff;
-        --primary-dark-color: #0056b3;
-        --background-color: #e5e5e5;
+        --primary-color: #4a90e2; /* Azul más suave y moderno */
+        --primary-dark-color: #003a6c; /* Azul oscuro */
+        --background-color: #f5f7f9; /* Fondo más claro y limpio */
         --chat-bg-color: #ffffff;
-        --chat-log-bg-color: #f1f1f1;
-        --message-sent-bg-color: var(--primary-color);
+        --chat-log-bg-color: #f9f9f9;
+        --message-sent-bg-color: #4a90e2;
         --message-received-bg-color: #ffffff;
-        --border-color: #e0e0e0;
+        --border-color: #dcdcdc;
         --text-color: #333;
         --text-light-color: #ffffff;
-        --status-online-color: #28a745;  /* Verde para online */
-        --status-away-color: #ffc107;    /* Amarillo para away */
-        --status-offline-color: #dc3545; /* Rojo para offline */
-        --shadow-color: rgba(0, 0, 0, 0.2);
-    }
-    
-    /* Spinner Styles */
-    .spinner {
-        border: 8px solid var(--border-color);
-        border-top: 8px solid var(--primary-color);
-        border-radius: 50%;
-        width: 40px;
-        height: 40px;
-        animation: spin 1s linear infinite;
-        margin: auto;
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        display: none; /* Hidden by default */
-    }
-
-    @keyframes spin {
-        0% { transform: rotate(0deg); }
-        100% { transform: rotate(360deg); }
+        --status-online-color: #27ae60; /* Verde moderno */
+        --status-away-color: #f39c12; /* Amarillo moderno */
+        --status-offline-color: #e74c3c; /* Rojo moderno */
+        --shadow-color: rgba(0, 0, 0, 0.1);
+        --font-family: 'Roboto', sans-serif;
     }
 
     body {
-        font-family: 'Roboto', sans-serif;
         margin: 0;
-        padding: 0;
+        font-family: var(--font-family);
         background-color: var(--background-color);
+        overflow-x: hidden;
+    }
+
+    #chat-page {
         display: flex;
         justify-content: center;
         align-items: center;
-        height: 100vh;
-        overflow: hidden;
+        padding: 10px;
+        min-height: 80vh;
+        box-sizing: border-box;
     }
     
     #chat-container {
         display: flex;
         flex-direction: column;
-        height: 90vh;
-        max-width: 800px;
+        height: 85vh;
+        max-width: 100%;
         width: 100%;
+        max-width: 1000px;
         background-color: var(--chat-bg-color);
-        border-radius: 16px;
+        border-radius: 12px;
         box-shadow: 0 8px 24px var(--shadow-color);
         overflow: hidden;
         animation: fadeIn 0.6s ease-in-out;
+        box-sizing: border-box;
     }
     
     #chat-header {
         background-color: var(--primary-color);
         color: var(--text-light-color);
-        padding: 20px;
-        font-size: 26px;
+        padding: 16px;
+        font-size: 20px;
         font-weight: 500;
         display: flex;
         flex-direction: column;
         align-items: center;
-        border-bottom: 2px solid var(--primary-dark-color);
-        box-shadow: 0 2px 8px var(--shadow-color);
-        border-top-left-radius: 16px;
-        border-top-right-radius: 16px;
+        border-bottom: 1px solid var(--primary-dark-color);
+        box-shadow: 0 2px 6px var(--shadow-color);
+        border-top-left-radius: 12px;
+        border-top-right-radius: 12px;
+        text-align: center;
     }
 
     #chat-header .username {
-        font-size: 22px;
+        font-size: 18px;
         font-weight: 600;
         margin-bottom: 4px;
-        color: var(--text-light-color);
     }
 
     #chat-header #user-status {
-        font-size: 14px;
-        color: var(--text-light-color);
+        font-size: 12px;
         padding: 4px 12px;
         border-radius: 12px;
         display: inline-block;
@@ -95,7 +85,6 @@
         transition: background-color 0.3s;
     }
 
-    /* Status colors based on state */
     .status-online {
         background-color: var(--status-online-color);
     }
@@ -110,25 +99,27 @@
 
     #chat-log {
         flex: 1;
-        padding: 20px;
+        padding: 16px;
         overflow-y: auto;
         background-color: var(--chat-log-bg-color);
-        border-bottom: 2px solid var(--border-color);
+        border-bottom: 1px solid var(--border-color);
         display: flex;
         flex-direction: column;
         scroll-behavior: smooth;
+        box-sizing: border-box;
     }
     
     .message {
-        margin-bottom: 14px;
-        padding: 14px 18px;
-        border-radius: 18px;
-        max-width: 85%;
+        margin-bottom: 16px;
+        padding: 12px 18px;
+        border-radius: 16px;
+        max-width: 100%;
         word-wrap: break-word;
         line-height: 1.5;
         position: relative;
-        font-size: 16px;
+        font-size: 14px;
         transition: background-color 0.3s, transform 0.3s;
+        box-sizing: border-box;
     }
     
     .message.sent {
@@ -146,7 +137,7 @@
     }
     
     .message:hover {
-        transform: translateY(-3px);
+        transform: translateY(-2px);
     }
     
     .message::before {
@@ -154,38 +145,39 @@
         position: absolute;
         width: 0;
         height: 0;
-        border: 12px solid transparent;
+        border: 10px solid transparent;
     }
     
     .message.sent::before {
-        right: -12px;
+        right: -10px;
         top: 50%;
         border-left-color: var(--message-sent-bg-color);
-        border-width: 12px 12px 12px 0;
+        border-width: 10px 10px 10px 0;
         transform: translateY(-50%);
     }
     
     .message.received::before {
-        left: -12px;
+        left: -10px;
         top: 50%;
         border-right-color: var(--message-received-bg-color);
-        border-width: 12px 0 12px 12px;
+        border-width: 10px 0 10px 10px;
         transform: translateY(-50%);
     }
     
     #chat-footer {
-        padding: 20px;
-        border-top: 2px solid var(--border-color);
+        padding: 16px;
+        border-top: 1px solid var(--border-color);
         background-color: var(--chat-bg-color);
         display: flex;
         align-items: center;
-        border-bottom-left-radius: 16px;
-        border-bottom-right-radius: 16px;
+        border-bottom-left-radius: 12px;
+        border-bottom-right-radius: 12px;
     }
     
     #chat-message-form {
         display: flex;
         width: 100%;
+        gap: 8px;
     }
     
     #chat-message-input {
@@ -193,8 +185,14 @@
         padding: 12px;
         border: 1px solid var(--border-color);
         border-radius: 8px;
-        margin-right: 10px;
-        font-size: 16px;
+        font-size: 14px;
+        box-sizing: border-box;
+        transition: border-color 0.3s;
+    }
+    
+    #chat-message-input:focus {
+        border-color: var(--primary-dark-color);
+        outline: none;
     }
     
     #chat-message-submit {
@@ -203,9 +201,9 @@
         border: none;
         border-radius: 8px;
         color: var(--text-light-color);
-        font-size: 16px;
+        font-size: 14px;
         cursor: pointer;
-        transition: background-color 0.3s;
+        transition: background-color 0.3s, transform 0.3s;
     }
     
     #chat-message-submit.enabled {
@@ -217,22 +215,88 @@
         cursor: not-allowed;
     }
 
-    #chat-message-input:focus, #chat-message-submit:focus {
-        outline: 2px solid var(--primary-dark-color);
-        outline-offset: 2px;
+    #chat-message-submit:hover {
+        transform: scale(1.05);
     }
 
     @keyframes fadeIn {
         from { opacity: 0; }
         to { opacity: 1; }
     }
-</style>
 
-<body>
+    /* Responsive Adjustments */
+    @media (max-width: 768px) {
+        #chat-header {
+            font-size: 18px;
+        }
+        
+        #chat-header .username {
+            font-size: 16px;
+        }
+        
+        #chat-header #user-status {
+            font-size: 10px;
+            padding: 2px 8px;
+        }
+
+        .message {
+            font-size: 12px;
+        }
+
+        #chat-message-input {
+            font-size: 12px;
+        }
+
+        #chat-message-submit {
+            font-size: 12px;
+        }
+    }
+    
+    @media (max-width: 480px) {
+        #chat-container {
+            height: 100vh;
+            border-radius: 0;
+            padding: 0;
+        }
+        
+        #chat-header {
+            font-size: 16px;
+            padding: 8px;
+        }
+        
+        #chat-header .username {
+            font-size: 14px;
+        }
+        
+        #chat-header #user-status {
+            font-size: 8px;
+            padding: 2px 4px;
+        }
+
+        .message {
+            font-size: 12px;
+            padding: 8px 12px;
+        }
+
+        #chat-message-input {
+            font-size: 12px;
+            padding: 8px;
+        }
+
+        #chat-message-submit {
+            font-size: 12px;
+            padding: 8px 12px;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block layout %}
+<div id="chat-page">
     <div id="chat-container">
         <div id="chat-header">
             <span class="username">{{ other_user.user.username }}</span>
-            <span id="user-status">Desconectado 🔴</span> <!-- Espacio para mostrar el estado del usuario -->
+            <span id="user-status">Desconectado 🔴</span>
         </div>
         <div id="chat-log">
             <div class="spinner" id="spinner"></div>
@@ -245,7 +309,10 @@
             </form>
         </div>
     </div>
+</div>
+{% endblock %}
 
+    {% block extra_scripts %}
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
         $(document).ready(function() {
@@ -379,5 +446,4 @@
             }, 5000); // Comprobar cada 5 segundos
         });
     </script>   
-</body>
-
+{% endblock %}
