@@ -1,27 +1,32 @@
 {% extends 'layouts/blank.html' %}
 {% block content %}
 <body>
-     <!-- <script src="https://cdn.tailwindcss.com"></script> -->
-    <div class="container mx-auto p-6">
-        <h1 class="text-3xl font-bold mb-6 text-center">Crear Nuevo Producto</h1>
-        <form id="product-form" method="post" action="{% url 'create_product' %}" class="space-y-6 mb-4">
+     <!-- <script src="https://cdn.tailwindcss.com"></script> --> <!--SOLUCIONADO!!-->
+      <!-- Contenedor Principal Formulario -->
+    <div class="flex justify-center items-center min-h-screen mt-8 mb-8">
+        <div class="w-full max-w-xl p-10 rounded-lg shadow-md" style="background-color: #4149d0be;">
+            <h1 class="text-3xl font-bold mb-6 text-center">Crear Nuevo Producto</h1>
+            <form id="product-form" method="post" action="{% url 'create_product' %}" class="space-y-6 mb-4">
             {% csrf_token %}
             {{ product_form.as_p }}
-            <button type="submit" name="product_submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Crear Producto</button>
-        </form>
+            <button type="submit" name="product_submit" class="bg-blue-500 hover:bg-blue-700 text-#444cf7 font-bold py-2 px-4 rounded">Crear Producto</button>
+            </form>
 
-        <h2 class="text-2xl font-semibold mt-12 mb-6 text-center">Subir Nueva Imagen</h2>
-        <form id="image-form" method="post" action="{% url 'upload_image' %}" enctype="multipart/form-data" class="space-y-6">
+            <h2 class="text-2xl font-semibold mt-12 mb-6 text-center">Subir Nueva Imagen</h2>
+            <form id="image-form" method="post" action="{% url 'upload_image' %}" enctype="multipart/form-data" class="space-y-6">
             {% csrf_token %}
             {{ image_form.as_p }}
             <button type="submit" name="image_submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Subir Imagen</button>
-        </form>
+            </form>
 
-        <h2 class="text-2xl font-semibold mt-12 mb-6 text-center">Lista de Productos</h2>
-        <div id="product-list">
+            <h2 class="text-2xl font-semibold mt-12 mb-6 text-center">Lista de Productos</h2>
+            <div id="product-list">
             <!-- Los productos se insertarán aquí -->
+            </div>
+
+            <div class="bg-green-50">aaa</div>
+            
         </div>
-        <div class="bg-green-50">aaa</div>
     </div>
 
     <script>
