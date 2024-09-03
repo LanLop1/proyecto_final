@@ -19,8 +19,6 @@ from django.urls import path, include
 from django.conf.urls.static import static
 from django.conf import settings
 from a_users.views import profile_view
-from a_home.views import *
-from a_home.views import search_view, article_detail_view
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -28,8 +26,6 @@ urlpatterns = [
     path('', include('a_home.urls')),
     path('profile/', include('a_users.urls')),
     path('@<username>/', profile_view, name="profile"),
-    path('search/', search_view, name='search'),
-    path('article/<int:id>/', article_detail_view, name='article_detail'),
 ]
 
 # Only used when DEBUG=True, whitenoise can serve files when DEBUG=False
