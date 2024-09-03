@@ -1,110 +1,246 @@
 <header>
   {% block extra_styles %}
   <style>
+    /* General Styles */
+    body {
+      margin: 0;
+      font-family: 'Arial', sans-serif;
+    }
+
+    .navbar {
+      background-color: #2D3748; /* bg-gray-800 */
+      color: #F7FAFC; /* text-gray-50 */
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+      border-bottom: 1px solid #4A5568; /* border-gray-600 */
+      transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .navbar:hover {
+      background-color: #1A202C; /* hover:bg-gray-900 */
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
+    }
+
+    .navbar a {
+      text-decoration: none;
+      color: #F7FAFC; /* text-gray-50 */
+      transition: color 0.3s ease;
+    }
+
+    .navbar a:hover {
+      color: #63B3ED; /* hover:text-blue-300 */
+    }
+
+    /* Notification Badge */
     .notification-count {
       position: absolute;
       top: -8px;
       right: -8px;
-      background-color: #dc3545;
-      color: #ffffff;
+      background-color: #E53E3E; /* bg-red-600 */
+      color: #FFFFFF;
       border-radius: 50%;
       padding: 0.2rem 0.5rem;
-      font-size: 10px;
+      font-size: 0.75rem;
       font-weight: bold;
-      min-width: 20px; /* Aumenté el min-width para una mejor visibilidad */
+      min-width: 20px;
       text-align: center;
       box-shadow: 0 0 4px rgba(0, 0, 0, 0.5);
       z-index: 10;
+      animation: pulse 1.5s infinite;
     }
+
+    @keyframes pulse {
+      0% {
+        transform: scale(1);
+        opacity: 1;
+      }
+      50% {
+        transform: scale(1.2);
+        opacity: 0.7;
+      }
+      100% {
+        transform: scale(1);
+        opacity: 1;
+      }
+    }
+
     .notification-icon {
-      position: relative; /* Necesario para que el contador se posicione correctamente */
+      position: relative;
+      display: flex;
+      align-items: center;
     }
+
+    /* Dropdown Menu */
     .dropdown-menu {
       display: none;
       position: absolute;
       top: 100%;
       right: 0;
-      background-color: #1f2937; /* bg-gray-800 */
+      background-color: #2D3748; /* bg-gray-800 */
       border-radius: 0.375rem; /* rounded-lg */
-      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
       width: 200px;
       z-index: 20;
+      opacity: 0;
+      transform: translateY(-10px);
+      transition: opacity 0.3s ease, transform 0.3s ease;
     }
+
+    .dropdown-menu.show {
+      display: block;
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .dropdown-menu ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
     .dropdown-menu a {
       display: block;
-      padding: 0.5rem 1rem;
-      color: #ffffff;
+      padding: 0.75rem 1rem;
+      color: #F7FAFC; /* text-gray-50 */
       text-decoration: none;
+      transition: background-color 0.3s ease;
     }
+
     .dropdown-menu a:hover {
-      background-color: #4b5563; /* hover:bg-gray-700 */
+      background-color: #4A5568; /* hover:bg-gray-600 */
     }
+
+    /* Navbar Elements */
     .profile-img {
-      height: 2rem;
-      width: 2rem;
+      height: 2.5rem;
+      width: 2.5rem;
       border-radius: 50%;
       object-fit: cover;
+      transition: border 0.3s ease, transform 0.3s ease;
+      border: 2px solid #63B3ED; /* border-blue-300 */
     }
+
+    .profile-img:hover {
+      transform: scale(1.1);
+    }
+
+    /* Mobile Menu */
     .mobile-menu-content {
       display: none;
+      background-color: #2D3748; /* bg-gray-800 */
+      padding: 1rem;
+      transition: max-height 0.3s ease, opacity 0.3s ease;
+      opacity: 0;
+      max-height: 0;
     }
+
     .mobile-menu-content.show {
       display: block;
+      opacity: 1;
+      max-height: 500px; /* Adjust as necessary */
     }
+
+    /* Responsive Styles */
     @media (max-width: 768px) {
-      .notification-count {
-        top: -6px; /* Ajuste para mejorar el posicionamiento en pantallas pequeñas */
-        right: -6px; /* Ajuste para mejorar el posicionamiento en pantallas pequeñas */
+      .navbar {
+        padding: 1rem;
       }
+
+      .dropdown-menu {
+        width: 100%;
+        right: 0;
+      }
+
+      .notification-count {
+        top: -6px;
+        right: -6px;
+      }
+
+      .profile-img {
+        height: 2rem;
+        width: 2rem;
+      }
+
+      .mobile-menu-content ul {
+        flex-direction: column;
+        padding: 0;
+      }
+
+      .mobile-menu-content a {
+        padding: 0.75rem 1rem;
+        text-align: left;
+      }
+    }
+
+    /* Search Input */
+    .search-input {
+      width: 100%;
+      border-radius: 0.375rem;
+      border: 1px solid #4A5568; /* border-gray-600 */
+      padding: 0.5rem 2.5rem 0.5rem 2.5rem;
+      font-size: 0.875rem;
+      color: #2D3748; /* text-gray-800 */
+      outline: none;
+      transition: border-color 0.3s ease, box-shadow 0.3s ease;
+      background-color: #EDF2F7; /* bg-gray-100 */
+    }
+
+    .search-input:focus {
+      border-color: #63B3ED; /* focus:border-blue-300 */
+      box-shadow: 0 0 0 1px rgba(99, 184, 255, 0.5); /* focus:ring-blue-300 */
+    }
+
+    .search-icon {
+      position: absolute;
+      top: 50%;
+      left: 0.75rem;
+      transform: translateY(-50%);
+      color: #CBD5E0; /* text-gray-300 */
     }
   </style>
   {% endblock %}
 
-  <nav class="border-gray-200 bg-gray-900 z-4">
+  <nav class="navbar border-gray-700 bg-gray-800 z-4">
     <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
       <a href="#" class="flex items-center space-x-3 rtl:space-x-reverse">
-        <img class="h-6" src="/static/favicon.jpg" alt="Logo"/>
-        <span class="self-center text-2xl font-semibold whitespace-nowrap text-white">Click&Go</span>
+        <img class="h-8" src="/static/favicon.jpg" alt="Logo"/>
+        <span class="self-center text-3xl font-semibold whitespace-nowrap text-white">Click&Go</span>
       </a>
-      
+
       <!-- Mobile menu button -->
       <button id="menu-button" type="button" class="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-400 rounded-lg md:hidden hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-600" aria-controls="mobile-menu" aria-expanded="false">
         <span class="sr-only">Open main menu</span>
-        <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 17 14">
-          <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 1h15M1 7h15M1 13h15"/>
+        <svg class="w-6 h-6" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+          <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5h14M3 10h14M3 15h14"/>
         </svg>
       </button>
 
       <!-- Navbar content -->
-      <div class="hidden md:flex flex-1 justify-center px-2 lg:ml-6 lg:justify-end space-x-4">
+      <div class="hidden md:flex flex-1 justify-center px-2 lg:ml-6 lg:justify-end space-x-6">
         <!-- Search section -->
         <div class="relative w-full max-w-lg lg:max-w-xs">
           <label for="search" class="sr-only">Search</label>
           <div class="relative text-gray-400 focus-within:text-gray-500">
-            <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
+            <div class="search-icon">
               <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
                 <path fill-rule="evenodd" d="M9 3.5a5.5 5.5 0 100 11 5.5 5.5 0 000-11zM2 9a7 7 0 1112.452 4.391l3.328 3.329a.75.75 0 11-1.06 1.06l-3.329-3.328A7 7 0 012 9z" clip-rule="evenodd"></path>
               </svg>
             </div>
-            <input id="search" hx-get="/buscar" hx-trigger="keyup delay:300ms" hx-swap="innerHTML" hx-target="#resultados" class="block w-full rounded-md border border-gray-300 py-2 pl-10 pr-3 leading-5 text-gray-900 placeholder-gray-500 focus:border-purple-500 focus:placeholder-gray-500 focus:outline-none focus:ring-1 focus:ring-purple-500 sm:text-sm" placeholder="Search" type="search" name="search">
-            <div id="resultados" class="absolute w-full bg-white border border-gray-300 border-t-0 max-h-80 overflow-y-auto shadow-lg hidden z-50"></div>
+            <input id="search" class="search-input pl-10" placeholder="Search" type="search" name="search">
+            <div id="resultados" class="absolute w-full bg-white border border-gray-200 shadow-lg rounded mt-1 hidden"></div>
           </div>
         </div>
-      </div>
 
-      <!-- Desktop menu -->
-      <div class="hidden md:flex md:w-auto flex-1">
-        <ul class="font-medium flex flex-col md:flex-row md:space-x-8 rtl:space-x-reverse mt-4 md:mt-0 p-4 border border-gray-100 rounded-lg bg-gray-800 md:border-0 md:bg-gray-900">
-          <li><a href="/" class="block py-2 px-3 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-500 md:p-0">Home</a></li>
-          <li><a href="/users" class="block py-2 px-3 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-500 md:p-0">Users</a></li>
-          <li><a href="#" class="block py-2 px-3 text-gray-400 rounded hover:bg-gray-700 md:hover:bg-transparent md:border-0 md:hover:text-blue-500 md:p-0">About</a></li>
-          <li><a href="#" class="block py-2 px-3 text-gray-400 rounded hover:bg-gray-700 md:hover:bg-transparent md:border-0 md:hover:text-blue-500 md:p-0">Services</a></li>
-          <li><a href="#" class="block py-2 px-3 text-gray-400 rounded hover:bg-gray-700 md:hover:bg-transparent md:border-0 md:hover:text-blue-500 md:p-0">Contact</a></li>
+        <ul class="flex space-x-4 rtl:space-x-reverse">
+          <li><a href="/" class="block py-2 px-3 text-gray-300 rounded hover:bg-gray-700 md:hover:bg-transparent md:border-0 md:hover:text-blue-400">Home</a></li>
+          <li><a href="/users" class="block py-2 px-3 text-gray-300 rounded hover:bg-gray-700 md:hover:bg-transparent md:border-0 md:hover:text-blue-400">Users</a></li>
+          <li><a href="#" class="block py-2 px-3 text-gray-300 rounded hover:bg-gray-700 md:hover:bg-transparent md:border-0 md:hover:text-blue-400">About</a></li>
+          <li><a href="#" class="block py-2 px-3 text-gray-300 rounded hover:bg-gray-700 md:hover:bg-transparent md:border-0 md:hover:text-blue-400">Services</a></li>
+          <li><a href="#" class="block py-2 px-3 text-gray-300 rounded hover:bg-gray-700 md:hover:bg-transparent md:border-0 md:hover:text-blue-400">Contact</a></li>
 
           <!-- Notification and user profile -->
-          <li class="relative flex items-center space-x-4">
+          <li class="relative flex items-center space-x-4 mt-2">
             <a href="{% url 'notification_list' %}" class="relative flex items-center notification-icon">
-              <i class="fas fa-bell text-2xl text-white"></i>
+              <i class="fas fa-bell text-xl text-white"></i>
               {% if unread_count > 0 %}
               <span class="notification-count">{{ unread_count }}</span>
               {% endif %}
@@ -126,8 +262,8 @@
               </div>
               {% else %}
               <div class="flex space-x-4">
-                <a href="{% url 'account_login' %}" class="text-white hover:text-blue-500">Login</a>
-                <a href="{% url 'account_signup' %}?next={% url 'profile-onboarding' %}" class="text-white hover:text-blue-500">Signup</a>
+                <a href="{% url 'account_login' %}" class="text-white hover:text-blue-400">Login</a>
+                <a href="{% url 'account_signup' %}?next={% url 'profile-onboarding' %}" class="text-white hover:text-blue-400">Signup</a>
               </div>
               {% endif %}
             </div>
@@ -138,13 +274,12 @@
 
     <!-- Mobile menu -->
     <div id="mobile-menu" class="mobile-menu-content">
-      <ul class="flex flex-col p-4 border border-gray-100 rounded-lg bg-gray-800">
-        <li><a href="/" class="block py-2 px-3 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-500">Home</a></li>
-        <li><a href="/users" class="block py-2 px-3 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-500">Users</a></li>
-        <li><a href="#" class="block py-2 px-3 text-gray-400 rounded hover:bg-gray-700">About</a></li>
-        <li><a href="#" class="block py-2 px-3 text-gray-400 rounded hover:bg-gray-700">Services</a></li>
-        <li><a href="#" class="block py-2 px-3 text-gray-400 rounded hover:bg-gray-700">Pricing</a></li>
-        <li><a href="#" class="block py-2 px-3 text-gray-400 rounded hover:bg-gray-700">Contact</a></li>
+      <ul class="flex flex-col">
+        <li><a href="/" class="block py-2 px-3 text-gray-300 rounded hover:bg-gray-700">Home</a></li>
+        <li><a href="/users" class="block py-2 px-3 text-gray-300 rounded hover:bg-gray-700">Users</a></li>
+        <li><a href="#" class="block py-2 px-3 text-gray-300 rounded hover:bg-gray-700">About</a></li>
+        <li><a href="#" class="block py-2 px-3 text-gray-300 rounded hover:bg-gray-700">Services</a></li>
+        <li><a href="#" class="block py-2 px-3 text-gray-300 rounded hover:bg-gray-700">Contact</a></li>
 
         <!-- Notification and user profile in mobile -->
         <li class="relative flex items-center space-x-4 mt-2">
@@ -169,8 +304,8 @@
           </div>
           {% else %}
           <div class="flex flex-col space-y-2">
-            <a href="{% url 'account_login' %}" class="text-white hover:text-blue-500">Login</a>
-            <a href="{% url 'account_signup' %}?next={% url 'profile-onboarding' %}" class="text-white hover:text-blue-500">Signup</a>
+            <a href="{% url 'account_login' %}" class="text-white hover:text-blue-400">Login</a>
+            <a href="{% url 'account_signup' %}?next={% url 'profile-onboarding' %}" class="text-white hover:text-blue-400">Signup</a>
           </div>
           {% endif %}
         </li>
@@ -189,12 +324,12 @@
 
     document.getElementById('profile-button').addEventListener('click', function() {
       const profileMenu = document.getElementById('profile-menu');
-      profileMenu.style.display = profileMenu.style.display === 'block' ? 'none' : 'block';
+      profileMenu.classList.toggle('show');
     });
 
     document.getElementById('mobile-profile-button').addEventListener('click', function() {
       const mobileProfileMenu = document.getElementById('mobile-profile-menu');
-      mobileProfileMenu.style.display = mobileProfileMenu.style.display === 'block' ? 'none' : 'block';
+      mobileProfileMenu.classList.toggle('show');
     });
 
     document.body.addEventListener('htmx:afterSwap', function(event) {
