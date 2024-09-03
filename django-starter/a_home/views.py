@@ -3,6 +3,9 @@ from .models import Article
 # def home_view(request):
 #     return render(request, 'home.html')
 
+def home_view(request):
+     return render(request, 'Pagina_Inicio/index.html')
+
 def search_view(request):
     query = request.GET.get('q')
     results = []
