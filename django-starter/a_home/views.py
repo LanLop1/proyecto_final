@@ -17,4 +17,3 @@ def search_view(request):
 def article_detail_view(request, id):
         article = get_object_or_404(Article, id=id)
         return render(request, 'article_detail.html', {'article': article})
-
