@@ -6,6 +6,7 @@ from .models import Product
 from a_home.models import Image
 from django.template.loader import render_to_string
 from django.shortcuts import render, get_object_or_404
+from django.http import HttpResponseRedirect
 
 @require_http_methods(["GET", "POST"])
 def create_product(request):
@@ -47,3 +48,11 @@ def add_to_cart(request, product_id):
     # Por ahora, solo devolvemos un contador ficticio
     return HttpResponse("1")  # Devuelve el nuevo número de items en el carrito
 
+def product_shop_view(request, id):
+    product = get_object_or_404(Product, id=id)
+
+    # Redirigir si la solicitud es HTMX
+    if request.headers.get('HX-Request'):
+        return HttpResponseRedirect(request.path) 
+
+    return render(request, 'product_shop.html', {'product': product})
