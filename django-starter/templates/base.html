@@ -128,5 +128,15 @@
     {% include 'includes/messages.html' %} {% include 'includes/header.html' %}
     {% block layout %} {% include 'includes/footer.html' %} {%
     block javascript %}{% endblock %}
+    <script>
+        document.addEventListener("click", function(event) {
+            var resultados = document.getElementById("resultados");
+            var searchInput = document.getElementById("search");
+
+            if (!searchInput.contains(event.target) && !resultados.contains(event.target)) {
+                resultados.classList.add("hidden");
+            }
+        });
+    </script>
   </body>
 </html>
