@@ -1,0 +1,509 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Click & Go</title>
+    <link rel="shortcut icon" href="{% static './images/home/logo.png'%}" type="image/x-icon">
+    <link rel="stylesheet" href="{% static './CSS/base.css' %}">
+    <link rel="stylesheet" href="{% static './CSS/home.css' %}">
+
+    <meta name="theme-color" content="#2091F9">
+
+    <!-- Primary Meta Tags -->
+    <meta name="title" content="COMPRA LOCAL, CONECTA GLOBAL." />
+    <meta name="description"
+        content="Únete a nuestra comunidad de apoyo a autónomos y pequeños emprendedores en España. Accede a herramientas, visibilidad y conexiones para hacer crecer tu negocio. ¡Descubre cómo podemos ayudarte a prosperar!" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="http://127.0.0.1:3000/J/django-starter/templates/Pagina_Inicio/index.html" />
+    <meta property="og:title" content="COMPRA LOCAL, CONECTA GLOBAL." />
+    <meta property="og:description"
+        content="Únete a nuestra comunidad de apoyo a autónomos y pequeños emprendedores en España. Accede a herramientas, visibilidad y conexiones para hacer crecer tu negocio. ¡Descubre cómo podemos ayudarte a prosperar!" />
+    <meta property="og:image"
+        content="http://127.0.0.1:3000/J/django-starter/templates/Pagina_Inicio/index.html/images/comunidad.jpg" />
+
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:url" content="Click&Go.com" />
+    <meta property="twitter:title" content="COMPRA LOCAL, CONECTA GLOBAL." />
+    <meta property="twitter:description"
+        content="Únete a nuestra comunidad de apoyo a autónomos y pequeños emprendedores en España. Accede a herramientas, visibilidad y conexiones para hacer crecer tu negocio. ¡Descubre cómo podemos ayudarte a prosperar!" />
+    <meta property="twitter:image"
+        content="http://127.0.0.1:3000/J/django-starter/templates/Pagina_Inicio/index.html/images/comunidad.jpg" />
+
+    <!-- Meta Tags Generated with https://metatags.io -->
+
+</head>
+
+<body>
+    <style>
+        .fixed {
+            position: fixed;
+            bottom: 1rem;
+            right: 1rem;
+          }
+          
+          .z-50 {
+            z-index: 50;
+          }
+          
+          .bg-blue-500 {
+            background-color: #4299E1;
+          }
+          
+          .hover\:bg-blue-600:hover {
+            background-color: #3182CE;
+          }
+          
+          .text-white {
+            color: white;
+          }
+          
+          .font-bold {
+            font-weight: 700;
+          }
+          
+          .py-2 {
+            padding-top: 0.5rem;
+            padding-bottom: 0.5rem;
+          }
+          
+          .px-4 {
+            padding-left: 1rem;
+            padding-right: 1rem;
+          }
+          
+          .rounded-full {
+            border-radius: 9999px;
+          }
+          
+          .shadow-lg {
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+          }
+          
+          .transition {
+            transition-property: all;
+          }
+          
+          .duration-300 {
+            transition-duration: 300ms;
+          }
+          
+          .ease-in-out {
+            transition-timing-function: ease-in-out;
+          }
+
+          /* Notification Badge */
+            .notification-count {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background-color: #E53E3E; /* bg-red-600 */
+            color: #FFFFFF;
+            border-radius: 50%;
+            padding: 0.2rem 0.3rem;
+            font-size: 0.75rem;
+            font-weight: bold;
+            min-width: 20px;
+            text-align: center;
+            box-shadow: 0 0 4px rgba(0, 0, 0, 0.5);
+            z-index: 10;
+            animation: pulse 1.5s infinite;
+            }
+
+          .notification-icon {
+            position: relative;
+            display: flex;
+            align-items: center;
+            margin-right: 10px;
+          }
+
+          #bell-icon {
+            transition: transform 0.6s ease;
+          }
+
+          #bell-icon:hover {
+            transform: scale(1.3);
+          }
+
+          @keyframes pulse {
+            0% {
+              transform: scale(1);
+              opacity: 1;
+            }
+            50% {
+              transform: scale(1.15);
+              opacity: 0.9;
+            }
+            100% {
+              transform: scale(1);
+              opacity: 1;
+            }
+          }
+
+    </style>
+    <!-- Botón de Soporte -->
+    <a href="/chat/support" class="fixed z-50 bottom-4 right-4 bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-full shadow-2xl transition duration-300 ease-in-out">
+        <svg height="65px" width="50px" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
+         viewBox="0 0 508 508" xml:space="preserve">
+    <circle style="fill:#54C0EB;" cx="254" cy="254" r="254"/>
+    <path style="fill:#FFFFFF;" d="M303.7,303.3c30.5-17.3,51-50.1,51-87.6c0-55.7-45.1-100.8-100.8-100.8S153.2,160,153.2,215.6
+        c0,37.6,20.6,70.3,51,87.6C141,319.3,89.7,365,66,424.8c46.5,51.1,113.5,83.2,188,83.2s141.5-32.1,188-83.2
+        C418.3,365,367,319.3,303.7,303.3z"/>
+    <path style="fill:#324A5E;" d="M401.6,182.3h-15.8C370.9,123.4,317.5,79.6,254,79.6s-116.9,43.7-131.8,102.7h-15.8
+        c-5.4,0-9.8,4.4-9.8,9.8V240c0,5.4,4.4,9.8,9.8,9.8h20c6.1,0,10.8-5.5,9.7-11.4c-2-10.4-2.7-21.3-1.8-32.5
+        c4.8-59.3,53.6-106.9,113.1-110.1c69.2-3.8,126.8,51.5,126.8,119.9c0,7.8-0.8,15.3-2.2,22.7c-1.2,6,3.6,11.5,9.6,11.5h1.8
+        c-4.2,13-14.9,37.2-38.3,50.2c-19.6,10.9-44.3,11.9-73.4,2.8c-1.5-6.7-8.9-14.6-16.5-18.3c-9.8-4.9-15.9-0.8-19.4,6.2
+        s-3,14.3,6.7,19.2c8.6,4.3,21.6,5.2,27,0.5c13.9,4.3,26.9,6.5,39,6.5c15,0,28.5-3.3,40.4-10c27.5-15.3,38.8-43.7,42.8-57.2h9.9
+        c5.4,0,9.8-4.4,9.8-9.8v-47.9C411.4,186.7,407,182.3,401.6,182.3z"/>
+    </svg>
+      </a>
+    <header class="hero">
+        <div id="inicio">
+            <nav class="nav container">
+                <div class="nav__logo">
+                    <h2 class="nav__title">Click & Go</h2>
+                </div>
+
+                <ul class="nav__link nav__link--menu">
+                    <li class="nav__items">
+                        <a href="#inicio" class="nav__links">Inicio</a>
+                    </li>
+                    <li class="nav__items">
+                        <a href="#acerca_de" class="nav__links">Acerca de</a>
+                    </li>
+                    <li class="nav__items">
+                        <a href="#suscripciones" class="nav__links">Suscripciones</a>
+                    </li>
+                    <li class="nav__items">
+                        <a href="#contacto" class="nav__links">Contacto</a>
+                    </li>
+                    <li class="nav__items">
+                        <a href="{% url 'notification_list' %}" class="relative flex items-center notification-icon">
+                            <svg id="bell-icon" enable-background="new 0 0 52 52" height="30" viewBox="0 0 52 52" width="20" xmlns="http://www.w3.org/2000/svg"><g fill="#fff">
+                                <path d="m46 33h-.5c-1.9 0-3.5-1.6-3.5-3.5v-11.5c0-9.1-7.6-16.4-16.8-16-8.6.4-15.2 7.8-15.2 16.5v11.1c0 1.9-1.6 3.4-3.5 3.4h-.5c-2.2 0-4 1.9-4 4.1v1.5c0 .7.7 1.4 1.5 1.4h45c.8 0 1.5-.7 1.5-1.5v-1.5c0-2.2-1.8-4-4-4z"/>
+                                <path d="m30.9 44h-9.8c-.6 0-1.1.6-1 1.2.5 2.8 3 4.8 5.9 4.8s5.4-2.1 5.9-4.8c.1-.6-.4-1.2-1-1.2z"/></g>
+                            </svg>
+                            {% if unread_count > 0 %}
+                            <span class="notification-count">{{ unread_count }}</span>
+                            {% endif %}
+                          </a>
+                    </li>
+                    <div class="nav__close">
+                        <img src="{% static './images/home/close.svg' %}" alt="nav__img">
+                    </div>
+                </ul>
+
+                <div class="nav__menu">
+                    <img src="{% static './images/home/menu.svg' %}" alt="nav__img">
+                </div>
+            </nav>
+        </div>
+        <section class="hero__container container">
+            <h1 class="hero__title">COMPRA LOCAL, CONECTA GLOBAL.</h1>
+            <p class="hero__paragraph">Unidos para que el pequeño negocio vuelva a ser grande.</p>
+            <a href="#" class="cta">Descubre más y únete</a>
+        </section>
+    </header>
+
+    <main>
+        <section class="container about">
+            <h2 class="subtitle">¿Por qué deberías pertenecer a esta comunidad?</h2>
+            <p class="about__paragraph">Imagina un país donde cada pequeño emprendedor tenga la oportunidad de triunfar.
+                En España, más del 50% de los autónomos no logran superar los tres años de actividad, y cada día cerca
+                de 200 se ven obligados a cerrar sus puertas. No es porque les falte talento o determinación, sino
+                porque el sistema está en su contra. Las grandes multinacionales, con sus recursos ilimitados, aplastan
+                a los pequeños negocios, dejando un vacío en la economía local y en la vida de las personas que dependen
+                de ellos.
+            </p>
+            <div class="about__main">
+                <article class="about__icons">
+                    <img src="{% static './images/home/comunidad.svg' %}" class="about__icon">
+                    <h3 class="about__title">Comunidad</h3>
+                    <p class="about__paragrah">Creamos una comunidad que apoya a los autónomos.</p>
+                </article>
+
+                <article class="about__icons">
+                    <img src="{% static './images/home/vision.svg' %}" class="about__icon">
+                    <h3 class="about__title">Visibilidad</h3>
+                    <p class="about__paragrah">Les damos las herramientas y visibilidad que necesitan.
+                    </p>
+                </article>
+
+                <article class="about__icons">
+                    <img src="{% static './images/home/valor.svg' %}" class="about__icon">
+                    <h3 class="about__title">Valor</h3>
+                    <p class="about__paragrah">Conectamos a emprendedores con clientes que valoran lo local.</p>
+                </article>
+            </div>
+        </section>
+
+        <section class="knowledge">
+            <div id="acerca_de">
+                <div class="knowledge__container container">
+                    <div class="knowledege__texts">
+                        <h2 class="subtitle">Estamos aquí para hacer una diferencia ¡Para poder mirar al futuro con
+                            confianza y ambición!</h2>
+                        <p class="knowledge__paragraph">Nuestro proyecto nace para cambiar esta realidad. Hemos creado
+                            una comunidad que no solo proporciona las herramientas que los autónomos necesitan para
+                            competir, sino que también les da visibilidad y el apoyo que merecen. Ayudamos a estos
+                            emprendedores a expandirse y a conectar con clientes que valoran lo local y auténtico.
+                            Nuestra misión es asegurar que el pequeño autónomo en España no solo sobreviva, sino que
+                            prospere y se convierta en el verdadero protagonista de su propio éxito.
+                        </p>
+                        <a href="#" class="cta">Únete y transforma tu futuro</a>
+                    </div>
+
+                    <figure class="knowledge__picture">
+                        <img src="{% static './images/home/computers.jpg' %}" class="knowledge__img">
+                    </figure>
+                </div>
+            </div>
+        </section>
+
+        <section class="price container">
+            <div id="suscripciones">
+                <h2 class="subtitle">Obten el plan perfecto para tu nueva aventura</h2>
+                <!-- <div class="all_prices"> -->
+                <div class="price__table">
+                    <div class="price__element">
+                        <p class="price__name">Básico</p>
+                        <h3 class="price__price">Gratuito</h3>
+
+                        <div class="price__items">
+                            <p class="price__features">- Acceso a recursos y guías básicas para emprendedores.</p>
+                            <p class="price__features">- Participación en foros y grupos de discusión comunitarios.</p>
+                            <p class="price__features">- Perfil en el directorio de negocios con visibilidad limitada.</p>
+                            <p class="price__features">- Recepción de un boletín mensual con consejos y novedades del sector.</p>
+                        </div>
+                        <a href="#" class="price__cta">Empieza ahora</a>
+                    </div>
+                    
+                    <div class="price__element price__element--best">
+                        <p class="price__name">Avanzado</p>
+                        <h3 class="price__price">30€/mes</h3>
+    
+                        <div class="price__items">
+                            <p class="price__features">- Todo lo incluido en el plan Básico.</p>
+                            <p class="price__features">- Acceso a herramientas avanzadas para la gestión y crecimiento del
+                                negocio.</p>
+                            <p class="price__features">- Mayor visibilidad en el directorio de negocios.</p>
+                            <p class="price__features">- Oportunidades de networking con otros autónomos y emprendedores.
+                            </p>
+                            <p class="price__features">- Descuentos en eventos y formaciones exclusivas.</p>
+                            <p class="price__features">- Asesoramiento personalizado básico para la optimización del
+                                negocio.</p>
+                        </div>
+    
+                        <a href="#" class="price__cta">Empieza ahora</a>
+                    </div>
+    
+                    <div class="price__element price__element--max">
+                        <p class="price__name">Premium</p>
+                        <h3 class="price__price">60€/mes</h3>
+    
+                        <div class="price__items">
+                            <p class="price__features">- Todo lo incluido en el plan Avanzado.</p>
+                            <p class="price__features">- Máxima visibilidad y promoción en la comunidad y el directorio de
+                                negocios.</p>
+                            <p class="price__features">- Acceso prioritario a eventos, formaciones y oportunidades de
+                                colaboración.</p>
+                            <p class="price__features">- Asesoramiento personalizado avanzado y sesiones de mentoría
+                                individual.</p>
+                            <p class="price__features">- Análisis detallado de mercado y estrategias de expansión.</p>
+                            <p class="price__features">- Publicidad destacada en campañas de la comunidad y redes sociales.
+                            </p>
+                        </div>
+    
+                        <a href="#" class="price__cta">Empieza ahora</a>
+                    </div>
+                </div>
+                <!-- </div> -->
+            </div>
+        </section>
+
+        <section class="testimony">
+            <div class="testimony__container container">
+                <img src="{% static './images/home/leftarrow.svg' %}" class="testimony__arrow" id="before">
+
+                <section class="testimony__body testimony__body--show" data-id="1">
+                    <div class="testimony__texts">
+                        <h2 class="subtitle">Mi nombre es Alexandra Martin, dueña de Llenceria PECAT DOLÇ.</h2>
+                        <p class="testimony__review">Unirme a esta comunidad ha sido clave para el crecimiento de mi
+                            lencería. Las herramientas y la visibilidad que ofrece han impulsado mi negocio y me han
+                            conectado con más clientes. ¡Totalmente recomendada para emprendedores!</p>
+                    </div>
+
+                    <figure class="testimony__picture">
+                        <img src="{% static './images/home/face.jpg' %}" class="testimony__img">
+                    </figure>
+                </section>
+
+                <section class="testimony__body" data-id="2">
+                    <div class="testimony__texts">
+                        <h2 class="subtitle">Mi nombre es Alejandra Perez, dueña de DESTÍ MODA.</h2>
+                        <p class="testimony__review">Gracias a esta comunidad, mi tienda de moda ha ganado la
+                            visibilidad y el apoyo que necesitaba. He podido conectar con más clientes y hacer crecer mi
+                            negocio de manera efectiva. ¡Una plataforma imprescindible para cualquier emprendedor!</p>
+                    </div>
+
+                    <figure class="testimony__picture">
+                        <img src="{% static './images/home/face2.jpg' %}" class="testimony__img">
+                    </figure>
+                </section>
+
+                <section class="testimony__body" data-id="3">
+                    <div class="testimony__texts">
+                        <h2 class="subtitle">Mi nombre es Antonio Arteaga, dueño de SPICA SOFTWARE SL.</h2>
+                        <p class="testimony__review">Mi empresa tecnológica ya estaba en un buen camino, pero el plan
+                            Premium de esta comunidad ha llevado mi negocio a otro nivel. Las herramientas avanzadas y
+                            el asesoramiento personalizado han sido claves para escalar y optimizar nuestras
+                            operaciones. ¡El plan Premium ha superado todas mis expectativas!</p>
+                    </div>
+
+                    <figure class="testimony__picture">
+                        <img src="{% static './images/home/face3.jpg' %}" class="testimony__img">
+                    </figure>
+                </section>
+
+                <section class="testimony__body" data-id="4">
+                    <div class="testimony__texts">
+                        <h2 class="subtitle">Mi nombre es Hasan Ramirez, dueño de Frutas y Verduras Hasan</h2>
+                        <p class="testimony__review">Como nuevo emprendedor, me uní a esta comunidad buscando apoyo y
+                            orientación. Gracias a sus recursos y conexiones, he logrado escalar mi negocio mucho más
+                            rápido de lo que imaginaba. ¡No puedo agradecer lo suficiente el impacto positivo que han
+                            tenido en mi crecimiento!</p>
+                    </div>
+
+                    <figure class="testimony__picture">
+                        <img src="{% static './images/home/face4.jpg' %}" class="testimony__img">
+                    </figure>
+                </section>
+
+
+                <img src="{% static './images/home/rightarrow.svg' %}" class="testimony__arrow" id="next">
+            </div>
+        </section>
+
+        <section class="questions container">
+            <h2 class="subtitle">Preguntas frecuentes</h2>
+            <p class="questions__paragraph">Encuentra aquí las respuestas a las dudas más comunes sobre nuestra
+                comunidad y descubre cómo podemos ayudarte a hacer crecer tu negocio.</p>
+
+            <section class="questions__container">
+                <article class="questions__padding">
+                    <div class="questions__answer">
+                        <h3 class="questions__title">¿Qué beneficios obtengo al unirme a la comunidad en el plan
+                            gratuito?
+                            <span class="questions__arrow">
+                                <img src="{% static './images/home/arrow.svg' %}" class="questions__img">
+                            </span>
+                        </h3>
+
+                        <p class="questions__show">Con el plan gratuito, tendrás acceso a recursos básicos,
+                            participación en foros y grupos de discusión, y un perfil en nuestro directorio de negocios
+                            con visibilidad limitada. Además, recibirás un boletín mensual con consejos y novedades para
+                            ayudarte a seguir creciendo. Es una excelente manera de comenzar y conectar con otros
+                            emprendedores.</p>
+                    </div>
+                </article>
+
+                <article class="questions__padding">
+                    <div class="questions__answer">
+                        <h3 class="questions__title">¿Cómo me ayudará el plan Premium a hacer crecer mi negocio?
+                            <span class="questions__arrow">
+                                <img src="{% static './images/home/arrow.svg' %}" class="questions__img">
+                            </span>
+                        </h3>
+
+                        <p class="questions__show">El plan Premium ofrece herramientas avanzadas, asesoramiento
+                            personalizado y la máxima visibilidad en nuestra comunidad. Además, tendrás acceso
+                            prioritario a eventos, formaciones, y oportunidades de colaboración. Este plan está diseñado
+                            para llevar tu negocio al siguiente nivel, ayudándote a expandir y optimizar cada aspecto de
+                            tu emprendimiento.</p>
+                    </div>
+                </article>
+
+                <article class="questions__padding">
+                    <div class="questions__answer">
+                        <h3 class="questions__title">¿Puedo cambiar de plan en cualquier momento?
+                            <span class="questions__arrow">
+                                <img src="{% static './images/home/arrow.svg' %}" class="questions__img">
+                            </span>
+                        </h3>
+
+                        <p class="questions__show">Sí, puedes cambiar de plan en cualquier momento según las necesidades
+                            de tu negocio. Si comienzas con el plan gratuito y decides que necesitas más herramientas o
+                            apoyo, puedes actualizarte fácilmente a un plan Avanzado o Premium. Nuestro objetivo es
+                            brindarte la flexibilidad necesaria para que sigas creciendo a tu propio ritmo.</p>
+                    </div>
+                </article>
+            </section>
+
+            <section class="questions__offer">
+                <h2 class="subtitle">¿Estas listo para emprender tu viaje?</h2>
+                <p class="questions__copy">Con nuestra comunidad a tu lado, tendrás las herramientas, el apoyo y la
+                    visibilidad que necesitas para transformar tu idea en un negocio exitoso. Únete a nosotros y
+                    descubre cómo puedes escalar y prosperar desde el primer día. ¡El momento de dar el primer paso es
+                    ahora!</p>
+                <a href="#" class="cta">Comienza tu viaje ahora</a>
+            </section>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <section class="footer__container container">
+            <div id="contacto">
+                <nav class="nav nav--footer">
+                    <h2 class="footer__title">Click & Go</h2>
+
+                    <ul class="nav__link nav__link--footer">
+                        <li class="nav__items">
+                            <a href="#inicio" class="nav__links">Inicio</a>
+                        </li>
+                        <li class="nav__items">
+                            <a href="#acerca_de" class="nav__links">Acerca de</a>
+                        </li>
+                        <li class="nav__items">
+                            <a href="#suscripciones" class="nav__links">Suscripciones</a>
+                        </li>
+                        <li class="nav__items">
+                            <a href="#contacto" class="nav__links">Contacto</a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+
+            <form class="footer__form" action="https://formspree.io/f/mwpezkzn" method="POST">
+                <h2 class="footer__newsletter">Únete a nuestra comunidad</h2>
+                <div class="footer__inputs">
+                    <input type="email" placeholder="Email:" class="footer__input" name="email">
+                    <input type="submit" value="Registrate" class="footer__submit">
+                </div>
+            </form>
+        </section>
+
+        <section class="footer__copy container">
+            <div class="footer__social">
+                <a href="#" class="footer__icons"><img src="{% static './images/home/facebook.svg' %}"
+                        class="footer__img"></a>
+                <a href="#" class="footer__icons"><img src="{% static './images/home/twitter.svg' %}"
+                        class="footer__img"></a>
+                <a href="#" class="footer__icons"><img src="{% static './images/home/youtube.svg' %}"
+                        class="footer__img"></a>
+            </div>
+
+            <h3 class="footer__copyright">Derechos reservados &copy; Click & Go</h3>
+        </section>
+    </footer>
+
+    <script src="{% static './JS/slider.js' %}"></script>
+    <script src="{% static './JS/questions.js' %}"></script>
+    <script src="{% static './JS/menu.js' %}"></script>
+</body>
+
+</html>

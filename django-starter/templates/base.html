@@ -1,5 +1,4 @@
 {% load static %}
-{% load static tailwind_tags %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -12,8 +11,7 @@
     <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
     <script src="https://unpkg.com/htmx.org/dist/htmx.js"></script>
     <script src="https://unpkg.com/hyperscript.org@0.9.12"></script>
-    <script src="https://accounts.google.com/gsi/client" async></script>
-    {% tailwind_css %}
+    <script src="https://cdn.tailwindcss.com"></script>
     <style type="text/tailwindcss">
         [x-cloak] { 
             display: none !important; 
@@ -106,11 +104,9 @@
 <body class="{% block class %}{% endblock %}">
     {% include 'includes/messages.html' %}
     {% include 'includes/header.html' %}
-    
+
     {% block layout %}
     {% endblock %}
-    
-    {% include 'includes/footer.html' %}
 
     {% block javascript %}{% endblock %}
     {% block extra_scripts %}

@@ -1,9 +1,9 @@
 from django.contrib import admin
-from .models import Article, Template, Image
+from .models import Article, Template
 
 
 admin.site.register(Article)
 admin.site.register(Template)
-admin.site.register(Image)
+
 
 
