@@ -31,6 +31,7 @@ urlpatterns = [
     path('@<username>/', profile_view, name="profile"),
     path('search/', search_view, name='search'),
     path('article/<int:id>/', article_detail_view, name='article_detail'),
+    path("__reload__/", include("django_browser_reload.urls")), # TODO: considerar que esté solo en DEBUG
 ]
 
 # Only used when DEBUG=True, whitenoise can serve files when DEBUG=False

@@ -55,10 +55,23 @@ INSTALLED_APPS = [
     'products',
     'reviews',
     'stores',
-    
+    'tailwind',
+    'theme',
+    'django_browser_reload',
 ]
 
 SITE_ID = 1
+
+TAILWIND_APP_NAME = 'theme'
+INTERNAL_IPS = [
+    "127.0.0.1:8000",
+]
+NPM_BIN_PATH=r"C:\\Program Files\\nodejs\\npm.CMD"
+
+# C:\Program Files\nodejs\npm
+# C:\Program Files\nodejs\npm.cmd
+# C:\Users\tarda\AppData\Roaming\npm\npm
+# C:\Users\tarda\AppData\Roaming\npm\npm.cmd
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -70,6 +83,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'allauth.account.middleware.AccountMiddleware',
     'django_htmx.middleware.HtmxMiddleware',
+    'django_browser_reload.middleware.BrowserReloadMiddleware',
 ]
 
 AUTHENTICATION_BACKENDS = [
@@ -103,12 +117,12 @@ WSGI_APPLICATION = 'a_core.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': config('DB_NAME'),
-        'USER': config('DB_USER'),
-        'PASSWORD': config('DB_PASSWORD'),
-        'HOST': config('DB_HOST'),
-        'PORT': config('DB_PORT', default='5432'),
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'click_and_go',
+        'USER': 'postgres',
+        'PASSWORD': 'MetroiD31953',
+        'HOST': 'localhost',
+        'PORT': '5432',
     }
 }
 
@@ -150,6 +164,7 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 STATICFILES_DIRS = [ BASE_DIR / 'static' ]
+STATIC_ROOT = BASE_DIR / 'staticfiles'
 
 MEDIA_URL = 'media/'
 MEDIA_ROOT = BASE_DIR / 'media' 
