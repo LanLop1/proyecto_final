@@ -1,0 +1,9 @@
+{% if products %}
+<ul id="product-list">
+  {% for product in products %}
+  <li>{{ product.name }} - ${{ product.price }}</li>
+  {% endfor %}
+</ul>
+{% else %}
+<p>No hay productos disponibles.</p>
+{% endif %}
