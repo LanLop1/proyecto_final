@@ -19,15 +19,27 @@ class ProductForm(forms.ModelForm):
         widgets = {
             'description': forms.Textarea(attrs={'rows': 4}),
         }
-def clean_price(self):
+
+    def __init__(self, *args, **kwargs):
+        self.user = kwargs.pop('user', None)
+        super(ProductForm, self).__init__(*args, **kwargs)
+
+    def clean_price(self):
         price = self.cleaned_data['price']
         if price <= 0:
             raise forms.ValidationError("El precio debe ser mayor que cero.")
         return price
 
-def clean_stockquantity(self):
+    def clean_stockquantity(self):
         quantity = self.cleaned_data['stockquantity']
         if quantity < 0:
             raise forms.ValidationError("La cantidad en stock no puede ser negativa.")
         return quantity
 
+    def save(self, commit=True):
+        instance = super(ProductForm, self).save(commit=False)
+        if self.user:
+            instance.user = self.user
+        if commit:
+            instance.save()
+        return instance

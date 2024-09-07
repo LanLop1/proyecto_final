@@ -6,7 +6,9 @@ from django.views.decorators.http import require_http_methods
 from .forms import StoreForm, QRCodeForm, ImageForm
 from .models import Store, QRCode
 from a_home.models import Image
+from django.contrib.auth.decorators import login_required
 
+@login_required
 @require_http_methods(["GET", "POST"])
 def create_store(request):
     store_form = StoreForm()

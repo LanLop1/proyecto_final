@@ -4,7 +4,7 @@ from django.templatetags.static import static
 from django.utils import timezone
 
 class Profile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    user = models.OneToOneField(User, related_name="user", on_delete=models.CASCADE)
     image = models.ImageField(upload_to='avatars/', null=True, blank=True)
     nombre = models.CharField(max_length=200, null = False)
     apellido = models.CharField(max_length=200, null = False)

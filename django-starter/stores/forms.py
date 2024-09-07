@@ -2,6 +2,9 @@ from django import forms
 from .models import Store, QRCode
 from a_home.models import Image, Template
 from a_users.models import Profile
+from django.contrib.auth.decorators import login_required
+
+@login_required
 
 class StoreForm(forms.ModelForm):
     class Meta:

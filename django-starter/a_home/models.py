@@ -1,7 +1,9 @@
 from django.db import models
 from django.utils import timezone
+from a_users.models import Profile
 
 class Image(models.Model):
+    user = models.ForeignKey(Profile, related_name="user_image", on_delete=models.CASCADE, null=True)
     file = models.ImageField(upload_to='images/')
     description = models.TextField(max_length=1255, null=True, blank=True)
 
