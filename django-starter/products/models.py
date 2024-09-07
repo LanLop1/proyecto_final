@@ -36,7 +36,7 @@ class Product(models.Model):
     # Añade más categorías según sea necesario
 ]
 
-    store = models.ForeignKey(Store, on_delete=models.CASCADE, null=False)
+    store = models.ForeignKey(Store, on_delete=models.CASCADE , related_name='store', null=False)
     name = models.CharField(max_length=200, null=False)
     description = models.TextField(max_length=1255, null=False)
     price = models.DecimalField(max_digits=10, decimal_places=2, null=False)

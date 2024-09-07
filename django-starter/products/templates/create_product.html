@@ -5,14 +5,46 @@
         <h1 class="text-3xl font-bold mb-6 text-center">Crear Nuevo Producto</h1>
         <form id="product-form" method="post" action="{% url 'create_product' %}" class="space-y-6 mb-4">
             {% csrf_token %}
-            {{ product_form.as_p }}
+            {% for field in product_form %}
+                <div class="mb-4">
+                    <label for="{{ field.id_for_label }}" class="block text-sm font-medium text-gray-700">
+                        {{ field.label }}
+                    </label>
+                    {{ field }}
+                    {% if field.help_text %}
+                        <p class="mt-2 text-sm text-gray-500">{{ field.help_text }}</p>
+                    {% endif %}
+                    {% if field.errors %}
+                        {% for error in field.errors %}
+                            <p class="mt-2 text-sm text-red-600">{{ error }}</p>
+                        {% endfor %}
+                    {% endif %}
+                    <p class="mt-2 text-sm text-gray-500">Valor por defecto: {{ field.initial|default_if_none:"No establecido" }}</p>
+                </div>
+            {% endfor %}
             <button type="submit" name="product_submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Crear Producto</button>
         </form>
 
         <h2 class="text-2xl font-semibold mt-12 mb-6 text-center">Subir Nueva Imagen</h2>
         <form id="image-form" method="post" action="{% url 'upload_image' %}" enctype="multipart/form-data" class="space-y-6">
             {% csrf_token %}
-            {{ image_form.as_p }}
+            {% for field in image_form %}
+                <div class="mb-4">
+                    <label for="{{ field.id_for_label }}" class="block text-sm font-medium text-gray-700">
+                        {{ field.label }}
+                    </label>
+                    {{ field }}
+                    {% if field.help_text %}
+                        <p class="mt-2 text-sm text-gray-500">{{ field.help_text }}</p>
+                    {% endif %}
+                    {% if field.errors %}
+                        {% for error in field.errors %}
+                            <p class="mt-2 text-sm text-red-600">{{ error }}</p>
+                        {% endfor %}
+                    {% endif %}
+                    <p class="mt-2 text-sm text-gray-500">Valor por defecto: {{ field.initial|default_if_none:"No establecido" }}</p>
+                </div>
+            {% endfor %}
             <button type="submit" name="image_submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Subir Imagen</button>
         </form>
 

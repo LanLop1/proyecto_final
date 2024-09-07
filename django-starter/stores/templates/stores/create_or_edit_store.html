@@ -1,0 +1,12 @@
+{% extends 'layouts/blank.html' %}
+{% block content %}
+
+  <h2>{% if editing %}Editar{% else %}Crear{% endif %} Tienda</h2>
+  
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">{% if editing %}Actualizar{% else %}Crear{% endif %} Tienda</button>
+  </form>
+
+{% endblock content %}
