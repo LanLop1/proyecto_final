@@ -1,6 +1,6 @@
 {% extends 'layouts/blank.html' %}
 {% block content %}
-<body>
+<!-- <body>
     <div class="container mx-auto p-6">
         <h1 class="text-3xl font-bold mb-6 text-center">Crear Nuevo Producto</h1>
         <form id="product-form" method="post" action="{% url 'create_product' %}" class="space-y-6 mb-4">
@@ -18,6 +18,39 @@
 
         <h2 class="text-2xl font-semibold mt-12 mb-6 text-center">Lista de Productos</h2>
         <div id="product-list">
+            -- Los productos se insertarán aquí --
+        </div>
+    </div> -->
+
+    <!-- <script>
+        htmx.on("htmx:afterSwap", function(event) {
+            if (event.detail.target.id == "product-list") {
+                document.querySelector('#product-form').reset();
+            } else if (event.detail.target.id == "id_image") {
+                document.querySelector('#image-form').reset();
+            }
+        });
+    </script>
+</body> -->
+
+<body>
+    <div class="container">
+        <h1>Crear Nuevo Producto</h1>
+        <form id="product-form" method="post" action="{% url 'create_product' %}">
+            {% csrf_token %}
+            {{ product_form.as_p }}
+            <button type="submit" name="product_submit">Crear Producto</button>
+        </form>
+
+        <h2>Subir Nueva Imagen</h2>
+        <form id="image-form" method="post" action="{% url 'upload_image' %}" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ image_form.as_p }}
+            <button type="submit" name="image_submit">Subir Imagen</button>
+        </form>
+
+        <h2>Lista de Productos</h2>
+        <div id="product-list">
             <!-- Los productos se insertarán aquí -->
         </div>
     </div>
@@ -31,5 +64,45 @@
             }
         });
     </script>
+
+    <style>
+        /* Estilos generales */
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 24px;
+        }
+        h1, h2 {
+            text-align: center;
+            margin-bottom: 24px;
+        }
+        h1 {
+            font-size: 2rem;
+            font-weight: bold;
+        }
+        h2 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-top: 48px;
+        }
+        form {
+            margin-bottom: 24px;
+        }
+        button {
+            background-color: #3B82F6;
+            color: white;
+            font-weight: bold;
+            padding: 8px 16px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #1D4ED8;
+        }
+    </style>
 </body>
 {% endblock content %}
