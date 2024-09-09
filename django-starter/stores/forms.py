@@ -12,6 +12,15 @@ class StoreForm(forms.ModelForm):
         widgets = {
             'description': forms.Textarea(attrs={'rows': 3}),
         }
+        labels = {
+            'template': 'Template',
+            'name': 'Nombre',
+            'description': 'Descripción',
+            'horario': 'Horario',
+            'dirección': 'Dirección',
+            'imageStore': 'Imagen del local'
+        }
+
 
 class QRCodeForm(forms.ModelForm):
     class Meta:
