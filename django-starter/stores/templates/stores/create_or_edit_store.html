@@ -1,0 +1,104 @@
+{% extends 'layouts/blank.html' %} {% block content %}
+<div class="container mx-auto p-6">
+  <h1 class="text-3xl font-bold mb-6 text-center">Crear Nueva Tienda</h1>
+  <form id="stores-form" class="space-y-6 mb-4">
+    <div class="mb-4">
+      <label for="id_name" class="block text-sm font-medium text-gray-700">
+        Nombre de la tienda
+      </label>
+      <input
+        type="text"
+        name="name"
+        maxlength="200"
+        required
+        aria-describedby="id_name_helptext"
+        id="id_name"
+      />
+
+      <p class="mt-2 text-sm text-gray-500">Ingrese el nombre de la tienda.</p>
+    </div>
+
+    <div class="mb-4">
+      <label
+        for="id_description"
+        class="block text-sm font-medium text-gray-700"
+      >
+        Descripción
+      </label>
+      <textarea
+        name="description"
+        cols="40"
+        rows="10"
+        maxlength="1255"
+        required
+        aria-describedby="id_description_helptext"
+        id="id_description"
+      >
+      </textarea>
+
+      <p class="mt-2 text-sm text-gray-500">
+        Proporcione una descripción detallada de su local.
+      </p>
+    </div>
+
+    <div class="mb-4">
+      <label for="id_price" class="block text-sm font-medium text-gray-700">
+        Horario
+      </label>
+      <input
+        type="number"
+        name="price"
+        step="0.01"
+        required
+        aria-describedby="id_price_helptext"
+        id="id_price"
+      />
+
+      <p class="mt-2 text-sm text-gray-500">
+        Ingrese el horario del local incluyendo días festivos.
+      </p>
+    </div>
+
+    <div class="mb-4">
+      <label
+        for="id_stockquantity"
+        class="block text-sm font-medium text-gray-700"
+      >
+        Dirección
+      </label>
+      <input
+        type="number"
+        name="stockquantity"
+        required
+        aria-describedby="id_stockquantity_helptext"
+        id="id_stockquantity"
+      />
+
+      <p class="mt-2 text-sm text-gray-500">Ingrese la dirección</p>
+    </div>
+
+    <div class="mb-4">
+      <label for="id_image" class="block text-sm font-medium text-gray-700">
+        Imagen de la tienda
+      </label>
+      <select name="image" aria-describedby="id_image_helptext" id="id_image">
+        <option value="" selected>---------</option>
+
+        <option value="1">Image: images/tuba-5.jpg</option>
+
+        <option value="2">Image: images/guitarra.jpeg</option>
+
+        <option value="3">Image: images/violín.jpeg</option>
+
+        <option value="4">Image: images/click-go-desktop.jpg</option>
+
+        <option value="5">Image: images/ign_astronaut.png</option>
+
+        <option value="6">Image: images/Cosmere-Star-Chart.jpg</option>
+
+        <option value="7">Image: images/Cosmere-Star-Chart_xwZCwif.jpg</option>
+      </select>
+      {% endblock content %}
+    </div>
+  </form>
+</div>
