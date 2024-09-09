@@ -1,108 +1,97 @@
 {% extends 'layouts/blank.html' %}
 {% block content %}
-<!-- <body>
-    <div class="container mx-auto p-6">
-        <h1 class="text-3xl font-bold mb-6 text-center">Crear Nuevo Producto</h1>
-        <form id="product-form" method="post" action="{% url 'create_product' %}" class="space-y-6 mb-4">
-            {% csrf_token %}
-            {{ product_form.as_p }}
-            <button type="submit" name="product_submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Crear Producto</button>
-        </form>
+<div class="container mx-auto p-6">
+    <h1 class="text-3xl font-bold mb-6 text-center">Crear Nuevo Producto</h1>
+    <form id="product-form" hx-post="{% url 'create_product' %}" hx-target="#product-list-container" hx-swap="afterend" hx-on::after-request="resetForm(event)" class="space-y-6 mb-4">
+        {% csrf_token %}
+        {% for field in product_form %}
+            <div class="mb-4">
+                <label for="{{ field.id_for_label }}" class="block text-sm font-medium text-gray-700">
+                    {{ field.label }}
+                </label>
+                {{ field }}
+                {% if field.help_text %}
+                    <p class="mt-2 text-sm text-gray-500">{{ field.help_text }}</p>
+                {% endif %}
+                {% if field.errors %}
+                    {% for error in field.errors %}
+                        <p class="mt-2 text-sm text-red-600">{{ error }}</p>
+                    {% endfor %}
+                {% endif %}
+            </div>
+        {% endfor %}
+        <button type="submit" name="product_submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Crear Producto</button>
+    </form>
 
-        <h2 class="text-2xl font-semibold mt-12 mb-6 text-center">Subir Nueva Imagen</h2>
-        <form id="image-form" method="post" action="{% url 'upload_image' %}" enctype="multipart/form-data" class="space-y-6">
-            {% csrf_token %}
-            {{ image_form.as_p }}
-            <button type="submit" name="image_submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Subir Imagen</button>
-        </form>
+    <h2 class="text-2xl font-semibold mt-12 mb-6 text-center">Subir Nueva Imagen</h2>
+    <form  id="image-form" hx-post="{% url 'upload_image' %}" hx-encoding="multipart/form-data" hx-target="#success-upload" class="space-y-6">
+        {% csrf_token %}
+        {% for field in image_form %}
+            <div class="mb-4">
+                <label for="{{ field.id_for_label }}" class="block text-sm font-medium text-gray-700">
+                    {{ field.label }}
+                </label>
+                {{ field }}
+                {% if field.help_text %}
+                    <p class="mt-2 text-sm text-gray-500">{{ field.help_text }}</p>
+                {% endif %}
+                {% if field.errors %}
+                    {% for error in field.errors %}
+                        <p class="mt-2 text-sm text-red-600">{{ error }}</p>
+                    {% endfor %}
+                {% endif %}
+            </div>
+        {% endfor %}
+        <button type="submit" name="image_submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Subir Imagen</button>
+    </form>
+    <div id="success-upload"></div>
 
-        <h2 class="text-2xl font-semibold mt-12 mb-6 text-center">Lista de Productos</h2>
-        <div id="product-list">
-            -- Los productos se insertarán aquí --
-        </div>
-    </div> -->
-
-    <!-- <script>
-        htmx.on("htmx:afterSwap", function(event) {
-            if (event.detail.target.id == "product-list") {
-                document.querySelector('#product-form').reset();
-            } else if (event.detail.target.id == "id_image") {
-                document.querySelector('#image-form').reset();
-            }
-        });
-    </script>
-</body> -->
-
-<body>
-    <div class="container">
-        <h1>Crear Nuevo Producto</h1>
-        <form id="product-form" method="post" action="{% url 'create_product' %}">
-            {% csrf_token %}
-            {{ product_form.as_p }}
-            <button type="submit" name="product_submit">Crear Producto</button>
-        </form>
-
-        <h2>Subir Nueva Imagen</h2>
-        <form id="image-form" method="post" action="{% url 'upload_image' %}" enctype="multipart/form-data">
-            {% csrf_token %}
-            {{ image_form.as_p }}
-            <button type="submit" name="image_submit">Subir Imagen</button>
-        </form>
-
-        <h2>Lista de Productos</h2>
-        <div id="product-list">
-            <!-- Los productos se insertarán aquí -->
-        </div>
+    <h2 class="text-2xl font-semibold mt-12 mb-6 text-center">Lista de Productos</h2>
+    <div id="product-list-container">
+        {% include 'product_list_partial.html' %}
     </div>
+</div>
 
-    <script>
-        htmx.on("htmx:afterSwap", function(event) {
-            if (event.detail.target.id == "product-list") {
-                document.querySelector('#product-form').reset();
-            } else if (event.detail.target.id == "id_image") {
-                document.querySelector('#image-form').reset();
-            }
-        });
-    </script>
 
-    <style>
-        /* Estilos generales */
-        body {
-            font-family: Arial, sans-serif;
+
+<script>
+    function resetForm(event) {
+        if (event.detail.successful) {
+            // Reset the form
+            document.getElementById('product-form').reset();
+            
+            // Reset select fields to their first option
+            document.querySelectorAll('#product-form select').forEach(select => {
+                select.selectedIndex = 0;
+            });
+
+            // Clear any previous error messages
+            document.querySelectorAll('.text-red-600').forEach(error => {
+                error.textContent = '';
+            });
+
+            // Show a success message
+            const successMessage = document.createElement('p');
+            successMessage.textContent = 'Producto creado exitosamente!';
+            successMessage.className = 'text-green-600 mt-2';
+            document.getElementById('product-form').appendChild(successMessage);
+
+            // Remove the success message after 3 seconds
+            setTimeout(() => {
+                successMessage.remove();
+            }, 3000);
+        } else {
+            // Handle unsuccessful submission if needed
+            console.log('Form submission was not successful');
         }
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 24px;
+    }
+
+    // Add event listener for HTMX after-request event
+    document.body.addEventListener('htmx:afterRequest', function(event) {
+        if (event.detail.elt.id === 'product-form') {
+            resetForm(event);
         }
-        h1, h2 {
-            text-align: center;
-            margin-bottom: 24px;
-        }
-        h1 {
-            font-size: 2rem;
-            font-weight: bold;
-        }
-        h2 {
-            font-size: 1.5rem;
-            font-weight: 600;
-            margin-top: 48px;
-        }
-        form {
-            margin-bottom: 24px;
-        }
-        button {
-            background-color: #3B82F6;
-            color: white;
-            font-weight: bold;
-            padding: 8px 16px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-        button:hover {
-            background-color: #1D4ED8;
-        }
-    </style>
-</body>
+    });
+</script>
+
 {% endblock content %}

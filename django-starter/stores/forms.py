@@ -2,11 +2,13 @@ from django import forms
 from .models import Store, QRCode
 from a_home.models import Image, Template
 from a_users.models import Profile
+from django.contrib.auth.decorators import login_required
+
 
 class StoreForm(forms.ModelForm):
     class Meta:
         model = Store
-        fields = ['owner', 'template', 'name', 'description', 'logourl', 'bannerurl']
+        fields = ['template', 'name', 'description', 'logourl', 'bannerurl']
         widgets = {
             'description': forms.Textarea(attrs={'rows': 3}),
         }

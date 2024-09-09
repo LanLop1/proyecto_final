@@ -1,41 +1,49 @@
 from django.shortcuts import render
-
-from django.shortcuts import render
-from django.http import HttpResponse
 from django.views.decorators.http import require_http_methods
-from .forms import StoreForm, QRCodeForm, ImageForm
-from .models import Store, QRCode
 from a_home.models import Image
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import render, redirect
+from django.core.exceptions import ObjectDoesNotExist
+from django.contrib import messages
+from stores.models import Store  
+from stores.forms import StoreForm 
 
+@login_required
 @require_http_methods(["GET", "POST"])
-def create_store(request):
-    store_form = StoreForm()
-    qr_form = QRCodeForm()
-    image_form = ImageForm()
+def create_or_edit_store(request):
+    try:
+        # Intenta obtener la tienda existente del usuario
+        store = Store.objects.get(owner=request.user)
+        # Si existe, estamos editando
+        editing = True
+    except ObjectDoesNotExist:
+        # Si no existe, estamos creando
+        store = None
+        editing = False
 
     if request.method == 'POST':
-        if 'store_submit' in request.POST:
-            store_form = StoreForm(request.POST)
-            if store_form.is_valid():
-                store = store_form.save()
-                return HttpResponse(f"<div id='store-{store.id}'>{store.name} creado exitosamente!</div>")
-        elif 'qr_submit' in request.POST:
-            qr_form = QRCodeForm(request.POST)
-            if qr_form.is_valid():
-                qr = qr_form.save()
-                return HttpResponse(f"<div id='qr-{qr.id}'>QR Code para {qr.store.name} creado exitosamente!</div>")
-        elif 'image_submit' in request.POST:
-            image_form = ImageForm(request.POST, request.FILES)
-            if image_form.is_valid():
-                image = image_form.save()
-                return HttpResponse(f'<option value="{image.id}">{image.file.name}</option>')
-    
-    return render(request, 'stores/create_store.html', {
-        'store_form': store_form,
-        'qr_form': qr_form,
-        'image_form': image_form
-    })
+        if editing:
+            form = StoreForm(request.POST, instance=store)
+        else:
+            form = StoreForm(request.POST)
 
-def store_list(request):
-    stores = Store.objects.all()
-    return render(request, 'stores/store_list.html', {'stores': stores})
+        if form.is_valid():
+            if editing:
+                form.save()
+                messages.success(request, "Tu tienda ha sido actualizada.")
+            else:
+                store = form.save(commit=False)
+                store.owner = request.user
+                store.save()
+                messages.success(request, "Tu tienda ha sido creada.")
+            return redirect('store_detail', store_id=store.id)
+    else:
+        form = StoreForm(instance=store) if editing else StoreForm()
+    
+    context = {
+        'form': form,
+        'editing': editing,
+    }
+    return render(request, 'stores/create_or_edit_store.html', context)
+
+
