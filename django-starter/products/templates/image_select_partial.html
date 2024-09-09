@@ -1,6 +1,0 @@
-<select name="image" id="image-select" class="form-select">
-    <option value="">Seleccionar imagen</option>
-    {% for image in images %}
-        <option value="{{ image.id }}">{{ image.file.name }}</option>
-    {% endfor %}
-</select>

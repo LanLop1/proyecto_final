@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django.http import HttpResponse
 from django.views.decorators.http import require_http_methods
 from a_home.models import Image
 from django.contrib.auth.decorators import login_required
@@ -7,6 +8,9 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.contrib import messages
 from stores.models import Store  
 from stores.forms import StoreForm 
+from django.template.loader import render_to_string
+from django.shortcuts import  get_object_or_404
+from django.http import HttpResponseRedirect
 
 @login_required
 @require_http_methods(["GET", "POST"])
@@ -47,3 +51,19 @@ def create_or_edit_store(request):
     return render(request, 'stores/create_or_edit_store.html', context)
 
 
+
+def store_detail(request, product_id):
+    store = get_object_or_404(Store, id=store_id)
+    html = render_to_string('store_detail.html', {'store': store})
+    return HttpResponse(html)
+
+
+
+def store_shop_view(request, id):
+    product = get_object_or_404(Store, id=id)
+
+    # Redirigir si la solicitud es HTMX
+    if request.headers.get('HX-Request'):
+        return HttpResponseRedirect(request.path) 
+
+    return render(request, 'product_shop.html', {'product': product})

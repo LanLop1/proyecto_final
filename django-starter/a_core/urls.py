@@ -22,6 +22,7 @@ from a_users.views import profile_view
 from a_home.views import *
 from a_home.views import article_detail_view, search_object, product_detail, search_view, empty_view
 from products.views import  product_detail, product_shop_view
+from stores.views import  store_detail, store_shop_view
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -35,8 +36,8 @@ urlpatterns = [
     path('orders/', include('orders.urls'), name='orders'),
     path('', include('products.urls'), name='productSergio/django-starters'),
     path('stores/', include('stores.urls', namespace='stores')),
-    path('product/<int:product_id>/modal/', product_detail, name='product_detail'),
-    path('product/<int:id>/', product_shop_view, name='product_shop_view'),
+    path('store/<int:product_id>/modal/', store_detail, name='store_detail'),
+    path('store/<int:id>/', store_shop_view, name='store_shop_view'),
 ]
 
 

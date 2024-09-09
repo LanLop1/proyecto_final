@@ -8,8 +8,8 @@ class Store(models.Model):
     template = models.ForeignKey(Template, on_delete=models.CASCADE, null=False)
     name = models.CharField(max_length=200, null=False)
     description = models.TextField(max_length=1255, null=False)
-    logourl = models.TextField(max_length=1255,null=True)  # Changed to allow null
-    bannerurl = models.TextField(max_length=1255,null=True)  # Changed to allow null
+    horario = models.TextField(max_length=1255,null=True)  # Changed to allow null
+    dirección = models.TextField(max_length=1255,null=True)  # Changed to allow null
     imageStore= models.ForeignKey(Image, on_delete=models.SET_NULL, null=True, blank=True, related_name='stores_images')
     createdat = models.DateTimeField(default=timezone.now)
     updatedat = models.DateTimeField(default=timezone.now)

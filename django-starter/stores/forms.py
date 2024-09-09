@@ -8,7 +8,7 @@ from django.contrib.auth.decorators import login_required
 class StoreForm(forms.ModelForm):
     class Meta:
         model = Store
-        fields = ['template', 'name', 'description', 'logourl', 'bannerurl']
+        fields = ['template', 'name', 'description', 'horario' ,'dirección', 'imageStore']
         widgets = {
             'description': forms.Textarea(attrs={'rows': 3}),
         }
