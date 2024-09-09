@@ -11,25 +11,33 @@ from django.contrib.auth.decorators import login_required
 
 @login_required
 @require_http_methods(["GET", "POST"])
+
 def create_product(request):
+    product_form = ProductForm(user=request.user)
+    image_form = ImageForm()
+
     if request.method == 'POST':
-        product_form = ProductForm(request.POST, user=request.user)
-        if product_form.is_valid():
-            product = product_form.save()
-            products = Product.objects.filter(store__owner=request.user)
-            html = render_to_string('product_list_partial.html', {'products': products})
-            return HttpResponse(html)
-    else:
-        product_form = ProductForm(user=request.user)
-        image_form = ImageForm()
+        if 'product_submit' in request.POST:
+            product_form = ProductForm(request.POST, request.FILES, user=request.user)
+            if product_form.is_valid():
+                product = product_form.save()
+                return HttpResponse(f"<div id='product-{product.id}'>{product.name} creado exitosamente!</div>")
+        elif 'image_submit' in request.POST:
+            image_form = ImageForm(request.POST, request.FILES)
+            if image_form.is_valid():
+                image = image_form.save(commit=False)
+                image.user = request.user
+                image.save()
+                return HttpResponse(f'<option value="{image.id}">{image.file.name}</option>')
+        else:
+            # Si no es ni product_submit ni image_submit, reinicializamos los formularios
+            product_form = ProductForm(user=request.user)
+            image_form = ImageForm()
     
-    products = Product.objects.filter(store__owner=request.user)
     return render(request, 'create_product.html', {
         'product_form': product_form,
-        'image_form': image_form,
-        'products': products
+        'image_form': image_form
     })
-
 @login_required
 def upload_image(request):
     if request.method == 'POST':
