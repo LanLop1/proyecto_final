@@ -1,26 +1,54 @@
 {% extends 'layouts/blank.html' %}
 
-
 {% block content %}
 <div class="container mx-auto px-4">
     <h1 class="text-4xl font-bold mb-8 text-center">Bienvenido a nuestra tienda</h1>
 
-    <h2 class="text-3xl font-semibold mb-6">Productos recientes</h2>
+    <h2 class="text-3xl font-semibold mb-6">Tiendas disponibles</h2>
     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
-        {% for s in Store %}
+        {% for store in stores %}
             <div class="bg-white shadow-md rounded-lg overflow-hidden cursor-pointer hover:shadow-xl transition-shadow duration-300"
-                 hx-get="{% url 'store_detail' s.id %}"
-                 hx-target="#modal-container"
-                 hx-trigger="click">
+             hx-get="{% url 'store_detail' store.id %}"
+             hx-target="#modal-container"
+             hx-trigger="click">
                 <div class="p-4">
-                    <img src="{{ s.imageStore.file.url }}" alt="{{ s.name }}" class="w-full h-64 object-cover mb-4 rounded">
-                    <h6 class="font-bold text-xl mb-2 truncate">{{ s.name }}</h6>
-                    <!-- Puedes agregar más detalles del producto aquí si lo deseas -->
+                    {% if store.imageStore %}
+                        <img src="{{ store.imageStore.file.url }}" alt="{{ store.name }}" class="w-full h-64 object-cover mb-4 rounded">
+                    {% else %}
+                        <div class="w-full h-64 bg-gray-200 flex items-center justify-center mb-4 rounded">
+                            <span class="text-gray-500">No image available</span>
+                        </div>
+                    {% endif %}
+                    <h6 class="font-bold text-xl mb-2 truncate">{{ store.name }}</h6>
+                    <p class="text-gray-600 truncate">{{ store.description }}</p>
                 </div>
             </div>
+        {% empty %}
+            <p class="col-span-full text-center text-gray-500">No hay tiendas disponibles en este momento.</p>
         {% endfor %}
     </div>
 </div>
 <!-- Contenedor del modal fuera del bucle for -->
-<div id="modal-container"></div>
+<div id="modal-container"class="modal hidden fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full"></div>
+<script>
+    document.body.addEventListener('htmx:afterSwap', function(event) {
+        console.log('htmx:afterSwap event fired');
+        console.log('Target ID:', event.detail.target.id);
+        if (event.detail.target.id === 'modal-container') {
+            console.log('Removing hidden class');
+            document.getElementById('modal-container').classList.remove('hidden');
+        }
+    });
+
+    document.body.addEventListener('htmx:beforeSwap', function(event) {
+        console.log('htmx:beforeSwap event fired');
+        console.log('Response text:', event.detail.serverResponse);
+    });
+
+    function closeModal() {
+        console.log('Closing modal');
+        document.getElementById('modal-container').classList.add('hidden');
+        document.getElementById('modal-container').innerHTML = '';
+    }
+</script>
 {% endblock %}

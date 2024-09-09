@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponse
+from django.urls import reverse
 from django.views.decorators.http import require_http_methods
 from a_home.models import Image
 from django.contrib.auth.decorators import login_required
@@ -40,7 +41,7 @@ def create_or_edit_store(request):
                 store.owner = request.user
                 store.save()
                 messages.success(request, "Tu tienda ha sido creada.")
-            return redirect('store_detail', store_id=store.id)
+            return redirect('')
     else:
         form = StoreForm(instance=store) if editing else StoreForm()
     
@@ -52,18 +53,17 @@ def create_or_edit_store(request):
 
 
 
-def store_detail(request, product_id):
+
+def store_detail(request, store_id):
     store = get_object_or_404(Store, id=store_id)
     html = render_to_string('store_detail.html', {'store': store})
     return HttpResponse(html)
 
-
-
 def store_shop_view(request, id):
-    product = get_object_or_404(Store, id=id)
+    store = get_object_or_404(Store, id=id)
 
     # Redirigir si la solicitud es HTMX
     if request.headers.get('HX-Request'):
         return HttpResponseRedirect(request.path) 
 
-    return render(request, 'product_shop.html', {'product': product})
+    return render(request, 'store_shop.html', {'store': store})

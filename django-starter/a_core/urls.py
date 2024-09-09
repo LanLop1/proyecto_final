@@ -36,8 +36,9 @@ urlpatterns = [
     path('orders/', include('orders.urls'), name='orders'),
     path('', include('products.urls'), name='productSergio/django-starters'),
     path('stores/', include('stores.urls', namespace='stores')),
-    path('store/<int:product_id>/modal/', store_detail, name='store_detail'),
     path('store/<int:id>/', store_shop_view, name='store_shop_view'),
+    path('detail/<int:store_id>/', store_detail, name='store_detail'),
+    
 ]
 
 

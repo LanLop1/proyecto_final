@@ -4,10 +4,11 @@ from products.models import Product
 from django.shortcuts import render
 from rest_framework import serializers
 from django.db.models import Q
+from stores.models import Store
 
 def home_view(request):
-    products = Product.objects.all()
-    return render(request, 'home.html',{'products': products})
+    stores = Store.objects.all()
+    return render(request, 'home.html',{'stores': stores})
 
 
 def product_detail(request, id):
@@ -15,7 +16,7 @@ def product_detail(request, id):
     return render(request, 'product_detail.html', {'product': product})
 
 def empty_view(request):
-     return render(request, 'empty_div.html')
+     return render(request, 'includes/empty_div.html')
 
 def search_view(request):
     query = request.GET.get('search')

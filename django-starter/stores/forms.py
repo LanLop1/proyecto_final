@@ -21,7 +21,6 @@ class StoreForm(forms.ModelForm):
             'imageStore': 'Imagen del local'
         }
 
-
 class QRCodeForm(forms.ModelForm):
     class Meta:
         model = QRCode
