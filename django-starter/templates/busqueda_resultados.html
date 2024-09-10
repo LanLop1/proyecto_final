@@ -1,0 +1,9 @@
+<ul hx-swap="outerHTML" hx-target="#resultados" class="space-y-2">
+  {% for resultado in resultados %}
+  <li hx-get="{% url 'product_shop_view' resultado.id %}"
+                 hx-trigger="click"
+                 class="cursor-pointer hover:bg-gray-100 p-2 rounded transition duration-150 ease-in-out">
+    {{ resultado.name }}
+  </li>
+  {% endfor %}
+</ul>

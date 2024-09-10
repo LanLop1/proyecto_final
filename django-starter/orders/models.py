@@ -4,6 +4,17 @@ from stores.models import Store
 from django.utils import timezone
 from products.models import Product
 
+class Cart(models.Model):
+    usuario = models.ForeignKey(Profile, on_delete=models.CASCADE, null=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+class CartItem(models.Model):
+    cart = models.ForeignKey(Cart, on_delete=models.CASCADE, related_name='items')
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    quantity = models.PositiveIntegerField(default=1)
+    price = models.DecimalField(max_digits=10, decimal_places=2)
+    
 class Order(models.Model):
     usuario = models.ForeignKey(Profile, on_delete=models.CASCADE, null=False)
     store = models.ForeignKey(Store, on_delete=models.CASCADE, null=False)

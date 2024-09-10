@@ -19,14 +19,36 @@ from django.urls import path, include
 from django.conf.urls.static import static
 from django.conf import settings
 from a_users.views import profile_view
+from a_home.views import *
+from a_home.views import article_detail_view, search_object, product_detail, search_view, empty_view
+from products.views import  product_detail, product_shop_view
+from stores.views import  store_detail, store_shop_view
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('accounts/', include('allauth.urls')),
-    path('', include('a_home.urls')),
+    path('', home_view, name="home"),
+    path('buscar/', search_view, name='search_view'),
     path('profile/', include('a_users.urls')),
     path('@<username>/', profile_view, name="profile"),
+    path('article/<int:id>/', article_detail_view, name='article_detail'),
+    path('chat/', include('chat_support.urls'), name='chat_support'),
+    path('orders/', include('orders.urls'), name='orders'),
+    path('', include('products.urls'), name='productSergio/django-starters'),
+    path('stores/', include('stores.urls', namespace='stores')),
+    path('store/<int:id>/', store_shop_view, name='store_shop_view'),
+    path('detail/<int:store_id>/', store_detail, name='store_detail'),
+    
 ]
+
+
+htmx_urlpatterns= [
+    path('search/', search_view, name='search'),
+    path('searchobject/', search_object, name='search-object'),
+    path('empty/', empty_view, name='empty'),
+]
+urlpatterns += htmx_urlpatterns
+
 
 # Only used when DEBUG=True, whitenoise can serve files when DEBUG=False
 if settings.DEBUG:

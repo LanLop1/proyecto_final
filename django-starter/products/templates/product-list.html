@@ -1,0 +1,5 @@
+{% for product in products %}
+    <div id="product-{{ product.id }}">
+        {{ product.name }} - ${{ product.price }}
+    </div>
+{% endfor %}
