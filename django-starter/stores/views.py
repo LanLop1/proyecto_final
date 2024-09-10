@@ -49,7 +49,7 @@ def create_or_edit_store(request):
         'form': form,
         'editing': editing,
     }
-    return render(request, 'stores/create_or_edit_store.html', context)
+    return render(request,'stores/create_or_edit_store.html', context)
 
 
 
