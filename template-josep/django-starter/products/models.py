@@ -45,9 +45,5 @@ class Product(models.Model):
     image = models.ForeignKey(Image, on_delete=models.SET_NULL, null=True, blank=True, related_name='product_images')
     createdat = models.DateTimeField(default=timezone.now)
     updatedat = models.DateTimeField(default=timezone.now)
-    def save(self, *args, **kwargs):
-        # Asigna el nombre completo basado en la sigla antes de guardar
-        self.category_full_name = dict(self.CATEGORY_CHOICES).get(self.category, '')
-        super().save(*args, **kwargs)
     def __str__(self) -> str:
         return f"Product name, price, store and stock: {self.name, self.price, self.store, self.stockquantity}"

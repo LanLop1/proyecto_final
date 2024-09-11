@@ -3,7 +3,7 @@
 <html lang="en">
 
 <head>
-    <title>Titulo - Product Detail Page</title>
+    <title>{{product.name}} - Product Detail Page</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -69,16 +69,16 @@ https://templatemo.com/tm-559-zay-shop
                 <div class="flex-fill">
                     <ul class="nav navbar-nav d-flex justify-content-between mx-lg-auto">
                         <li class="nav-item">
-                            <a class="nav-link" href="index.html">Inicio</a>
+                            <a class="nav-link" href="{% url 'store_index' product.store_id %}">Inicio</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="about.html">Sobre nosotros</a>
+                            <a class="nav-link" href="{% url 'store_about' product.store_id %}">Sobre nosotros</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="shop.html">Tienda</a>
+                            <a class="nav-link" href="{% url 'store_detail' product.store_id %}">Tienda</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="contact.html">Contáctanos</a>
+                            <a class="nav-link" href="{% url 'store_contact' product.store_id %}">Contáctanos</a>
                         </li>
                     </ul>
                 </div>
@@ -248,7 +248,7 @@ https://templatemo.com/tm-559-zay-shop
                                     <h6>Tipo:</h6>
                                 </li>
                                 <li class="list-inline-item">
-                                    <p class="text-muted"><strong>{{product.get_category_display}}</strong></p>
+                                    <p class="text-muted"><strong>{{product.category}}</strong></p>
                                 </li>
                             </ul>
 
@@ -876,7 +876,7 @@ https://templatemo.com/tm-559-zay-shop
                 <div class="row pt-2">
                     <div class="col-12">
                         <p class="text-left text-light">
-                            Copyright &copy; 2024 Titulo 
+                            Copyright &copy; 2024 
                             | Designed by <a rel="sponsored" href="https://google.com" target="_blank">Click&Go</a>
                         </p>
                     </div>
