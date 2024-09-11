@@ -1,0 +1,71 @@
+/* Colores base */
+:root {
+    --blue-light: #e0f2ff;
+    --blue: #4a90e2;
+    --blue-dark: #003f8e;
+    --blue-darker: #002963;
+    --gray-light: #f7f9fc;
+    --gray-dark: #4a4a4a;
+    --white: #ffffff;
+}
+
+/* Estilo general */
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: var(--gray-light);
+    color: var(--gray-dark);
+}
+
+/* Navegación */
+.nav-link:hover {
+    background-color: var(--blue-light);
+}
+
+/* Tarjetas de producto */
+.product-card {
+    transition: transform 0.2s;
+}
+
+.product-card:hover {
+    transform: scale(1.05);
+}
+
+/* Estilo de botones y enlaces */
+a {
+    color: var(--blue);
+    text-decoration: none;
+}
+
+a:hover {
+    color: var(--blue-dark);
+}
+
+/* Estilos de título y texto */
+h3 {
+    color: var(--blue-darker);
+}
+
+.header-title {
+    text-align: center;
+    display: block;
+    margin: 0 auto;
+}
+
+
+span.text-blue-600 {
+    color: var(--blue) !important;
+}
+
+span.text-blue-500 {
+    color: var(--blue-dark) !important;
+}
+
+/* Footer */
+footer {
+    background-color: var(--blue-darker);
+    color: var(--white);
+}
+
+footer p {
+    margin: 0;
+}

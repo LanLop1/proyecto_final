@@ -1,0 +1,5 @@
+<form hx-post="{% url 'upload_image' %}" hx-target="#id_image" hx-swap="beforeend" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ image_form.as_p }}
+    <button type="submit">Subir Imagen</button>
+</form>

@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Listado de Tiendas</title>
+</head>
+<body>
+    <h1>Listado de Tiendas</h1>
+    <ul>
+        {% for store in stores %}
+            <li>
+                <a href="{% url 'store_detail' store.id %}">
+                    {{ store.name }}
+                </a>
+            </li>
+        {% empty %}
+            <li>No hay tiendas disponibles.</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
