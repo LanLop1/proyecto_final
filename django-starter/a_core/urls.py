@@ -37,7 +37,7 @@ urlpatterns = [
     path('', include('notifications.urls'), name='notifications'),
     path('orders/', include('orders.urls'), name='orders'),
     path('', include('products.urls'), name='productSergio/django-starters'),
-    path('stores/', include('stores.urls'), name='stores'),
+    path('stores/', include('stores.urls')),
     path('store/<int:id>/', store_shop_view, name='store_shop_view'),
     path('detail/<int:store_id>/', store_detail, name='store_detail'),
     path('product/<int:product_id>/', product_detail, name='product_detail'),

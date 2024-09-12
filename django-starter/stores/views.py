@@ -71,6 +71,7 @@ def store_shop_view(request, id):
     return render(request, 'store_shop.html', {'store': store})
 
 def store_index(request, store_id):
+    print("store_id", store_id)
     store = get_object_or_404(Store, id=store_id)
 
     products = Product.objects.filter(store=store).order_by('price')  # Ascendente (menor a mayor)
@@ -81,7 +82,7 @@ def store_index(request, store_id):
     context = {
         'store': store,
         'products': products,
-        'categories': categories
+        'categories': categories,
     }
     
     return render(request, 'stores/index.html', context)
