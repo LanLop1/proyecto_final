@@ -3,8 +3,8 @@
 <div class="max-w-4xl mx-auto bg-white shadow-md rounded-lg overflow-hidden">
     <div class="md:flex">
         <div class="md:flex-shrink-0">
-            {% if product.image %}
-            <img src="{{ product.image.file.url }}" alt="{{ product.name }}" class="h-48 w-full object-cover md:w-48">
+            {% if Store.image %}
+            <img src="{{ Store.imageStore.file.url }}" alt="{{ product.name }}" class="h-48 w-full object-cover md:w-48">
             {% else %}
             <div class="h-48 w-full md:w-48 bg-gray-200 flex items-center justify-center">
                 <span class="text-gray-500">No image</span>
@@ -12,11 +12,11 @@
             {% endif %}
         </div>
         <div class="p-8">
-            <h1 class="text-2xl font-bold text-gray-900 mb-2">{{ products.name }}</h1>
-            <p class="text-gray-600 text-sm mb-4">Categoría: {{ products.get_category_display }}</p>
-            <p class="text-gray-700 text-base mb-4">{{ products.description }}</p>
-            <p class="text-gray-800 font-bold text-xl mb-2">Precio: ${{ products.price }}</p>
-            <p class="text-gray-600">Stock disponible: {{ products.stockquantity }}</p>
+            <h1 class="text-2xl font-bold text-gray-900 mb-2">{{ Store.name }}</h1>
+            <p class="text-gray-600 text-sm mb-4">Categoría: {{ Store.get_category_display }}</p>
+            <p class="text-gray-700 text-base mb-4">{{ Store.description }}</p>
+            <p class="text-gray-800 font-bold text-xl mb-2">Precio: ${{ Store.price }}</p>
+            <p class="text-gray-600">Stock disponible: {{ Store.stockquantity }}</p>
             <button hx-post="{% url 'add_to_cart' product.id %}"
                     hx-target="#cart-count"
                     hx-swap="innerHTML"

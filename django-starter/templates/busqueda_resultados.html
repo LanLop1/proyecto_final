@@ -1,0 +1,9 @@
+<ul class="space-y-2">
+  {% for resultado in resultados %}
+  <li class="hover:bg-gray-100 p-2 rounded transition duration-150 ease-in-out">
+    <a href="{% url 'product_detail_with_related' resultado.id %}" class="block">
+      {{ resultado.name }}
+    </a>
+  </li>
+  {% endfor %}
+</ul>

@@ -44,8 +44,8 @@ INSTALLED_APPS = [
     'django_cleanup.apps.CleanupConfig',
     'django.contrib.sites',
     'tailwind',
-    'allauth',
     'theme',
+    'allauth',
     'allauth.account',
     'allauth.socialaccount',
     'allauth.socialaccount.providers.google',
@@ -69,6 +69,7 @@ MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
+    'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
@@ -119,7 +120,6 @@ DATABASES = {
 INTERNAL_IPS = [
     "127.0.0.1",
 ]
-NPM_BIN_PATH = r"C:\Program Files\nodejs\npm.cmd"
 
 SOCIALACCOUNT_ENABLED = True
 # Password validation
