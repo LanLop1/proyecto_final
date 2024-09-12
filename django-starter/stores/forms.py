@@ -8,7 +8,7 @@ from django.contrib.auth.decorators import login_required
 class StoreForm(forms.ModelForm):
     class Meta:
         model = Store
-        fields = ['template', 'name', 'description', 'horario' ,'dirección', 'imageStore']
+        fields = ['template', 'name', 'description', 'horario', 'dirección', 'imageStore', 'logoImage', 'bannerImage']
         widgets = {
             'description': forms.Textarea(attrs={'rows': 3}),
         }
@@ -18,7 +18,9 @@ class StoreForm(forms.ModelForm):
             'description': 'Descripción',
             'horario': 'Horario',
             'dirección': 'Dirección',
-            'imageStore': 'Imagen del local'
+            'imageStore': 'Imagen del local',
+            'logoImage': 'Segunda imagen del local',
+            'bannerImage': 'tercera imagen del local',
         }
 
 class QRCodeForm(forms.ModelForm):

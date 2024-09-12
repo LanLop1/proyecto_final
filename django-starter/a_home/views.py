@@ -8,7 +8,7 @@ from stores.models import Store
 
 def home_view(request):
     stores = Store.objects.all()
-    return render(request, 'home.html',{'stores': stores})
+    return render(request, 'home.html', {'stores': stores})
 
 
 def product_detail(request, id):

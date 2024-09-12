@@ -17,41 +17,42 @@ from django.http import HttpResponseRedirect
 @require_http_methods(["GET", "POST"])
 def create_or_edit_store(request):
     try:
-        # Intenta obtener la tienda existente del usuario
         store = Store.objects.get(owner=request.user)
-        # Si existe, estamos editando
         editing = True
-    except ObjectDoesNotExist:
-        # Si no existe, estamos creando
+    except Store.DoesNotExist:
         store = None
         editing = False
 
     if request.method == 'POST':
-        if editing:
-            form = StoreForm(request.POST, instance=store)
-        else:
-            form = StoreForm(request.POST)
-
+        form = StoreForm(request.POST, request.FILES, instance=store)
         if form.is_valid():
-            if editing:
-                form.save()
-                messages.success(request, "Tu tienda ha sido actualizada.")
-            else:
-                store = form.save(commit=False)
+            store = form.save(commit=False)
+            if not editing:
                 store.owner = request.user
-                store.save()
-                messages.success(request, "Tu tienda ha sido creada.")
-            return redirect('')
+            
+            # Manejo de imágenes
+            for field_name in ['imageStore', 'logoImage', 'bannerImage']:
+                if field_name in request.FILES:
+                    image_file = request.FILES[field_name]
+                    image = Image.objects.create(
+                        user=request.user,
+                        file=image_file,
+                        description=f"{field_name} for {store.name}"
+                    )
+                    setattr(store, field_name, image)
+            
+            store.save()
+            action = "actualizada" if editing else "creada"
+            messages.success(request, f"Tu tienda ha sido {action} exitosamente.")
+            return redirect(reverse('stores:create_or_edit_store'))
     else:
-        form = StoreForm(instance=store) if editing else StoreForm()
+        form = StoreForm(instance=store)
     
     context = {
         'form': form,
         'editing': editing,
     }
-    return render(request,'stores/create_or_edit_store.html', context)
-
-
+    return render(request, 'stores/create_or_edit_store.html', context)
 
 
 def store_detail(request, store_id):
