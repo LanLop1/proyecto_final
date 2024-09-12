@@ -20,19 +20,21 @@ from django.conf.urls.static import static
 from django.conf import settings
 from a_users.views import profile_view
 from a_home.views import *
-from a_home.views import article_detail_view, search_object, product_detail, search_view, empty_view
+from a_home.views import product_detail, search_view, empty_view
 from products.views import  product_detail, product_shop_view, product_detail_with_related, product_list
 from stores.views import  store_detail, store_shop_view
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('accounts/', include('allauth.urls')),
-    path('', home_view, name="home"),
+    path('home/', home_view, name="home"),
+    path('', welcome_view, name="pagina_home"),
     path('buscar/', search_view, name='search_view'),
     path('profile/', include('a_users.urls')),
     path('@<username>/', profile_view, name="profile"),
     path('article/<int:id>/', article_detail_view, name='article_detail'),
-    path('chat/', include('chat_support.urls'), name='chat_support'),
+    path('', include('chat_support.urls'), name='chat_support'),
+    path('', include('notifications.urls'), name='notifications'),
     path('orders/', include('orders.urls'), name='orders'),
     path('', include('products.urls'), name='productSergio/django-starters'),
     path('stores/', include('stores.urls', namespace='stores')),

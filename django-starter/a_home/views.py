@@ -9,7 +9,8 @@ from stores.models import Store
 def home_view(request):
     stores = Store.objects.all()
     return render(request, 'home.html', {'stores': stores})
-
+def welcome_view(request):
+     return render(request, 'Pagina_Inicio/index.html')
 
 def product_detail(request, id):
     product = get_object_or_404(Product, id=id)
