@@ -43,6 +43,9 @@ class Product(models.Model):
     stockquantity = models.IntegerField(null=False)
     category = models.CharField(max_length=5, choices=CATEGORY_CHOICES, default='SIN')
     image = models.ForeignKey(Image, on_delete=models.SET_NULL, null=True, blank=True, related_name='product_images')
+    image_2 = models.ForeignKey(Image, on_delete=models.SET_NULL, null=True, blank=True, related_name='product_images_2')
+    image_3 = models.ForeignKey(Image, on_delete=models.SET_NULL, null=True, blank=True, related_name='product_images_3')
+    image_4 = models.ForeignKey(Image, on_delete=models.SET_NULL, null=True, blank=True, related_name='product_images_4')
     createdat = models.DateTimeField(default=timezone.now)
     updatedat = models.DateTimeField(default=timezone.now)
     def __str__(self) -> str:

@@ -4,12 +4,15 @@ from a_users.models import Profile
 from a_home.models import Template, Image
 
 class Store(models.Model):
-    owner = models.ForeignKey(Profile, on_delete=models.CASCADE, null=False)
+    owner = models.OneToOneField(Profile, on_delete=models.CASCADE, null=False)
     template = models.ForeignKey(Template, on_delete=models.CASCADE, null=False)
     name = models.CharField(max_length=200, null=False)
     description = models.TextField(max_length=1255, null=False)
-    logourl = models.TextField(max_length=1255,null=True)  # Changed to allow null
-    bannerurl = models.TextField(max_length=1255,null=True)  # Changed to allow null
+    horario = models.TextField(max_length=1255,null=True)  # Changed to allow null
+    dirección = models.TextField(max_length=1255,null=True)  # Changed to allow null
+    imageStore= models.ForeignKey(Image, on_delete=models.SET_NULL, null=True, blank=True, related_name='stores_images')
+    logoImage= models.ForeignKey(Image, on_delete=models.SET_NULL, null=True, blank=True, related_name='stores_logo_images')
+    bannerImage= models.ForeignKey(Image, on_delete=models.SET_NULL, null=True, blank=True, related_name='stores_banner_images')
     createdat = models.DateTimeField(default=timezone.now)
     updatedat = models.DateTimeField(default=timezone.now)
     def __str__(self) -> str:

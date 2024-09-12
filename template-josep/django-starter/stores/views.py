@@ -116,12 +116,23 @@ def product_detail(request, product_id):
         'ART': 'Arte y Manualidades',
         'JUE': 'Juegos de Mesa y Puzzles'
     }
-    
+
     # Obtén el producto o muestra una página 404 si no se encuentra
     product = get_object_or_404(Product, id=product_id)
-    
-    # Reemplaza las siglas de categoría con la frase completa
-    product.category = category_dict.get(product.category, 'Categoría desconocida')
-    
-    # Pasa el producto al template
-    return render(request, 'stores/shop-single.html', {'product': product})
+
+    # Obtén la categoría del producto actual
+    product_category_code = product.category
+
+    # Reemplaza las siglas de categoría con la frase completa si es necesario para mostrar
+    product.category = category_dict.get(product_category_code, 'Categoría desconocida')
+
+    # Obtén productos relacionados (de la misma categoría) de todas las tiendas excepto el actual
+    related_products = Product.objects.filter(category=product_category_code).exclude(id=product.id)
+
+    # Pasa el producto y los productos relacionados al template
+    context = {
+        'product': product,
+        'related_products': related_products
+    }
+
+    return render(request, 'stores/shop-single.html', context)
