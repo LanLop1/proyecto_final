@@ -56,7 +56,7 @@ def create_or_edit_store(request):
     return render(request, 'stores/create_or_edit_store.html', context)
 
 
-def store_detail(request, store_id):
+def store_detail_modal(request, store_id):
     store = get_object_or_404(Store, id=store_id)
     html = render_to_string('store_detail.html', {'store': store})
     return HttpResponse(html)
