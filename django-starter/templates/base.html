@@ -1,7 +1,7 @@
 {% load static %} 
 {% comment %} {% load static tailwind_tags %} {% endcomment %}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
   <head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -122,6 +122,25 @@
       .alert-danger {
         @apply bg-red-600;
       }
+      body {
+        background-color: #F7F7F7;
+      }
+      .justify-between {
+        background-color: #e5e5f7;
+        opacity: 0.8;
+        background-image:  radial-gradient(#444cf7 0.5px, transparent 0.5px), radial-gradient(#444cf7 0.5px, #e5e5f7 0.5px);
+        background-size: 20px 20px;
+        background-position: 0 0,10px 10px;
+      }
+
+      .font-medium {
+        background-color: #e5e5f7;
+        opacity: 0.8;
+        background-image:  radial-gradient(#444cf7 0.5px, transparent 0.5px), radial-gradient(#444cf7 0.5px, #e5e5f7 0.5px);
+        background-size: 20px 20px;
+        background-position: 0 0,10px 10px;
+      }
+      
     </style>
   </head>
   <body hx-trigger="click" hx-get="/empty" hx-swap="innerHTML" hx-target="#resultados" class="{% block class %}{% endblock %}">
