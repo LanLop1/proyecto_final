@@ -20,7 +20,7 @@ from django.conf.urls.static import static
 from django.conf import settings
 from a_users.views import profile_view
 from a_home.views import *
-from a_home.views import product_detail, search_view, empty_view
+from a_home.views import search_view, empty_view
 from products.views import  product_detail, product_shop_view, product_detail_with_related, product_list
 from stores.views import  store_detail, store_shop_view
 
@@ -40,7 +40,7 @@ urlpatterns = [
     path('stores/', include('stores.urls')),
     path('store/<int:id>/', store_shop_view, name='store_shop_view'),
     path('detail/<int:store_id>/', store_detail, name='store_detail'),
-    path('product/<int:product_id>/', product_detail, name='product_detail'),
+    path('product/modal/<int:product_id>/', product_detail, name='product_detail'),
     path('product/<int:id>/', product_shop_view, name='product_shop_view'),
     path('product/<int:id>/detail/', product_detail_with_related, name='product_detail_with_related'),
     path('product-list/', product_list, name='product_list'),

@@ -153,7 +153,7 @@ def store_detail(request, store_id):
     
     return render(request, 'stores/shop.html', context)
 
-def product_detail(request, product_id):
+def product_detail_screen(request, product_id):
     # Diccionario de categorías
     category_dict = {
         'SIN': 'Sin categoría',
@@ -198,9 +198,12 @@ def product_detail(request, product_id):
     # Obtén productos relacionados (de la misma categoría) de todas las tiendas excepto el actual
     related_products = Product.objects.filter(category=product_category_code).exclude(id=product.id)
 
+    store = get_object_or_404(Store, id=product.store_id)
+
     # Pasa el producto y los productos relacionados al template
     context = {
         'product': product,
+        'store': store,
         'related_products': related_products
     }
 

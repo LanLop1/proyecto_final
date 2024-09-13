@@ -74,7 +74,7 @@ https://templatemo.com/tm-559-zay-shop
         <div class="container d-flex justify-content-between align-items-center">
 
             <a class="navbar-brand text-success logo h1 align-self-center" href="index.html">
-                Zay
+                {{store.name}}
             </a>
 
             <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#templatemo_main_nav" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -85,16 +85,16 @@ https://templatemo.com/tm-559-zay-shop
                 <div class="flex-fill">
                     <ul class="nav navbar-nav d-flex justify-content-between mx-lg-auto">
                         <li class="nav-item">
-                            <a class="nav-link" href="{% url 'store_index' product.store_id %}">Inicio</a>
+                            <a class="nav-link" href="{% url 'stores:store_index' product.store_id %}">Inicio</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{% url 'store_about' product.store_id %}">Sobre nosotros</a>
+                            <a class="nav-link" href="{% url 'stores:store_about' product.store_id %}">Sobre nosotros</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{% url 'store_detail' product.store_id %}">Tienda</a>
+                            <a class="nav-link" href="{% url 'stores:store_detail' product.store_id %}">Tienda</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{% url 'store_contact' product.store_id %}">Contáctanos</a>
+                            <a class="nav-link" href="{% url 'stores:store_contact' product.store_id %}">Contáctanos</a>
                         </li>
                     </ul>
                 </div>
@@ -307,14 +307,14 @@ https://templatemo.com/tm-559-zay-shop
                             </div>
                             <div class="card-img-overlay rounded-0 product-overlay d-flex align-items-center justify-content-center">
                                 <ul class="list-unstyled">
-                                    <li><a class="btn btn-success text-white" href="{% url 'product_detail' related_product.id %}"><i class="far fa-heart"></i></a></li>
-                                    <li><a class="btn btn-success text-white mt-2" href="{% url 'product_detail' related_product.id %}"><i class="far fa-eye"></i></a></li>
+                                    <li><a class="btn btn-success text-white" href="{% url 'stores:product_detail_screen' related_product.id %}"><i class="far fa-heart"></i></a></li>
+                                    <li><a class="btn btn-success text-white mt-2" href="{% url 'stores:product_detail_screen' related_product.id %}"><i class="far fa-eye"></i></a></li>
                                     <li><a class="btn btn-success text-white mt-2" href="#"><i class="fas fa-cart-plus"></i></a></li>
                                 </ul>
                             </div>
                         </div>
                         <div class="card-body">
-                            <a href="{% url 'product_detail' related_product.id %}" class="h3 text-decoration-none">{{ related_product.name }}</a>
+                            <a href="{% url 'stores:product_detail_screen' related_product.id %}" class="h3 text-decoration-none">{{ related_product.name }}</a>
                             <ul class="w-100 list-unstyled d-flex justify-content-between mb-0">
                                 <li>{{ related_product.size }}</li> <!-- Esto es solo si el producto tiene tamaños -->
                                 <li class="pt-2">

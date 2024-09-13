@@ -447,7 +447,7 @@ https://templatemo.com/tm-559-zay-shop
           {% for product in products %}
           <div class="col-12 col-md-4 mb-4">
             <div class="card h-100">
-              <a href="{% url 'stores:product_detail' product.id %}">
+              <a href="{% url 'stores:product_detail_screen' product.id %}">
                 <img
                   src="{{ product.image.file.url }}"
                   class="card-img-top"
@@ -466,7 +466,7 @@ https://templatemo.com/tm-559-zay-shop
                   <li class="text-muted text-right">{{ product.price }} €</li>
                 </ul>
                 <a
-                  href="shop-single.html"
+                  href="{% url 'stores:product_detail_screen' product.id %}"
                   class="h2 text-decoration-none text-dark"
                   >{{product.name}}</a
                 >
@@ -516,15 +516,11 @@ https://templatemo.com/tm-559-zay-shop
               Products
             </h2>
             <ul class="list-unstyled text-light footer-link-list">
-              <li><a class="text-decoration-none" href="#">Sudaderas</a></li>
-              <li><a class="text-decoration-none" href="#">Camisetas</a></li>
-              <li><a class="text-decoration-none" href="#">Accesorios</a></li>
-              <li><a class="text-decoration-none" href="#">Calzado</a></li>
-              <li><a class="text-decoration-none" href="#">Vestido</a></li>
-              <li>
-                <a class="text-decoration-none" href="#">Ropa deportiva</a>
-              </li>
-              <li><a class="text-decoration-none" href="#">Camisas</a></li>
+              {% for product in products %}
+                <li><a class="text-decoration-none" href="{% url 'stores:product_detail_screen' product.id %}">{{product.name}}</a></li>
+              {% empty %}
+              <p>No hay productos disponibles.</p>
+              {% endfor %}
             </ul>
           </div>
 
@@ -616,7 +612,7 @@ https://templatemo.com/tm-559-zay-shop
           <div class="row pt-2">
             <div class="col-12">
               <p class="text-left text-light">
-                Copyright &copy; 2024 Titulo | Designed by
+                Copyright &copy; 2024 {{store.name}} | Designed by
                 <a rel="sponsored" href="https://google.com" target="_blank"
                   >Click&Go</a
                 >
