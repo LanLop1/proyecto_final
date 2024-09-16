@@ -8,7 +8,7 @@
     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
         {% for store in stores %}
             <div class="bg-white shadow-md rounded-lg overflow-hidden cursor-pointer hover:shadow-xl transition-shadow duration-300"
-             hx-get="{% url 'store_detail' store.id %}"
+             hx-get="{% url 'store_detail_modal' store.id %}"
              hx-target="#modal-container"
              hx-trigger="click">
                 <div class="p-4">

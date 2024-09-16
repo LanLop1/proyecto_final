@@ -65,16 +65,16 @@ https://templatemo.com/tm-559-zay-shop
                 <div class="flex-fill">
                     <ul class="nav navbar-nav d-flex justify-content-between mx-lg-auto">
                         <li class="nav-item">
-                            <a class="nav-link" href="{% url 'store_index' store.id %}">Inicio</a>
+                            <a class="nav-link" href="{% url 'stores:store_index' store.id %}">Inicio</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{% url 'store_about' store.id %}">Sobre nosotros</a>
+                            <a class="nav-link" href="{% url 'stores:store_about' store.id %}">Sobre nosotros</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{% url 'store_detail' store.id %}">Tienda</a>
+                            <a class="nav-link" href="{% url 'stores:store_detail' store.id %}">Tienda</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{% url 'store_contact' store.id %}">Contáctanos</a>
+                            <a class="nav-link" href="{% url 'stores:store_contact' store.id %}">Contáctanos</a>
                         </li>
                     </ul>
                 </div>
@@ -318,14 +318,12 @@ https://templatemo.com/tm-559-zay-shop
                 <div class="col-md-4 pt-5">
                     <h2 class="h2 text-light border-bottom pb-3 border-light">Productos</h2>
                     <ul class="list-unstyled text-light footer-link-list">
-                        <li><a class="text-decoration-none" href="#">Sudaderas</a></li>
-                        <li><a class="text-decoration-none" href="#">Camisetas</a></li>
-                        <li><a class="text-decoration-none" href="#">Accesorios</a></li>
-                        <li><a class="text-decoration-none" href="#">Calzado</a></li>
-                        <li><a class="text-decoration-none" href="#">Vestido</a></li>
-                        <li><a class="text-decoration-none" href="#">Ropa deportiva</a></li>
-                        <li><a class="text-decoration-none" href="#">Camisas</a></li>
-                    </ul>
+                        {% for product in products %}
+                          <li><a class="text-decoration-none" href="{% url 'stores:product_detail_screen' product.id %}">{{product.name}}</a></li>
+                        {% empty %}
+                        <p>No hay productos disponibles.</p>
+                        {% endfor %}
+                      </ul>
                 </div>
 
                 <div class="col-md-4 pt-5">
