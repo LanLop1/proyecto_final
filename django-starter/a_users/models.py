@@ -3,16 +3,16 @@ from django.contrib.auth.models import User
 from django.templatetags.static import static
 from django.utils import timezone
 
+
 class Profile(models.Model):
-    user = models.OneToOneField(User, related_name="user", on_delete=models.CASCADE)
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
     image = models.ImageField(upload_to='avatars/', null=True, blank=True)
-    nombre = models.CharField(max_length=200, null = False)
-    apellido = models.CharField(max_length=200, null = False)
+    nombre = models.CharField(max_length=200, null = True, blank=True)
+    apellido = models.CharField(max_length=200, null = True, blank=True)
     displayname = models.CharField(max_length=20, null=True, blank=True)
-    info = models.TextField(null=True, blank=True) 
-    email = models.EmailField(max_length= 50)
-    phone = models.CharField(max_length=200, null=False)
-    address = models.CharField(max_length=200, null=False)
+    info = models.TextField(max_length=1255, null=True, blank=True) 
+    phone = models.CharField(max_length=200, null=True)
+    address = models.CharField(max_length=200, null=True)
     
     def __str__(self):
         return str(self.user)
@@ -28,6 +28,7 @@ class Profile(models.Model):
         if self.image:
             return self.image.url
         return static("images/avatar.svg")
+
 
 class SubscriptionPlan(models.Model):
     planname = models.CharField(max_length=200, null=False, unique=True)
