@@ -20,7 +20,7 @@ class StoreForm(forms.ModelForm):
             'dirección': 'Dirección',
             'imageStore': 'Imagen del local',
             'logoImage': 'Segunda imagen del local',
-            'bannerImage': 'tercera imagen del local',
+            'bannerImage': 'Tercera imagen del local',
         }
 
 class QRCodeForm(forms.ModelForm):
