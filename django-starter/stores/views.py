@@ -3,6 +3,7 @@ from django.http import HttpResponse
 from django.urls import reverse
 from django.views.decorators.http import require_http_methods
 from a_home.models import Image
+from a_users.models import Profile
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from django.core.exceptions import ObjectDoesNotExist
@@ -79,10 +80,17 @@ def store_index(request, store_id):
     # Obtener las categorías únicas para los productos de esta tienda
     categories = Product.objects.filter(store=store).values_list('category', flat=True).distinct()
     
+    user = store.owner
+    try:
+        owner_profile = Profile.objects.get(user=user)
+    except Profile.DoesNotExist:
+        owner_profile = None  # O maneja el caso en que el perfil no exista
+
     context = {
         'store': store,
         'products': products,
         'categories': categories,
+        'owner': owner_profile
     }
     
     return render(request, 'stores/index.html', context)
@@ -95,10 +103,17 @@ def store_about(request, store_id):
     # Obtener las categorías únicas para los productos de esta tienda
     categories = Product.objects.filter(store=store).values_list('category', flat=True).distinct()
     
+    user = store.owner
+    try:
+        owner_profile = Profile.objects.get(user=user)
+    except Profile.DoesNotExist:
+        owner_profile = None  # O maneja el caso en que el perfil no exista
+
     context = {
         'store': store,
         'products': products,
-        'categories': categories
+        'categories': categories,
+        'owner': owner_profile
     }
     
     return render(request, 'stores/about.html', context)
@@ -111,10 +126,17 @@ def store_contact(request, store_id):
     # Obtener las categorías únicas para los productos de esta tienda
     categories = Product.objects.filter(store=store).values_list('category', flat=True).distinct()
     
+    user = store.owner
+    try:
+        owner_profile = Profile.objects.get(user=user)
+    except Profile.DoesNotExist:
+        owner_profile = None  # O maneja el caso en que el perfil no exista
+    
     context = {
         'store': store,
         'products': products,
-        'categories': categories
+        'categories': categories,
+        'owner': owner_profile
     }
     
     return render(request, 'stores/contact.html', context)
@@ -145,10 +167,17 @@ def store_detail(request, store_id):
     # Obtener las categorías únicas para los productos de esta tienda
     categories = Product.objects.filter(store=store).values_list('category', flat=True).distinct()
     
+    user = store.owner
+    try:
+        owner_profile = Profile.objects.get(user=user)
+    except Profile.DoesNotExist:
+        owner_profile = None  # O maneja el caso en que el perfil no exista
+
     context = {
         'store': store,
         'products': products,
-        'categories': categories
+        'categories': categories,
+        'owner': owner_profile
     }
     
     return render(request, 'stores/shop.html', context)
@@ -188,7 +217,7 @@ def product_detail_screen(request, product_id):
 
     # Obtén el producto o muestra una página 404 si no se encuentra
     product = get_object_or_404(Product, id=product_id)
-
+    
     # Obtén la categoría del producto actual
     product_category_code = product.category
 
@@ -200,11 +229,21 @@ def product_detail_screen(request, product_id):
 
     store = get_object_or_404(Store, id=product.store_id)
 
+    user = store.owner
+    try:
+        owner_profile = Profile.objects.get(user=user)
+    except Profile.DoesNotExist:
+        owner_profile = None  # O maneja el caso en que el perfil no exista
+
+    products = Product.objects.filter(store=store).order_by('price')
+    
     # Pasa el producto y los productos relacionados al template
     context = {
         'product': product,
+        'products': products,
         'store': store,
-        'related_products': related_products
+        'related_products': related_products,
+        'owner': owner_profile,
     }
 
     return render(request, 'stores/shop-single.html', context)

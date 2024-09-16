@@ -55,18 +55,10 @@ https://templatemo.com/tm-559-zay-shop
       <div class="container text-light">
         <div class="w-100 d-flex justify-content-between">
           <div>
-            <i class="fa fa-envelope mx-2"></i>
-            <a
-              class="navbar-sm-brand text-light text-decoration-none"
-              href="mailto:info@company.com"
-              >info@company.com</a
-            >
-            <i class="fa fa-phone mx-2"></i>
-            <a
-              class="navbar-sm-brand text-light text-decoration-none"
-              href="tel:010-020-0340"
-              >010-020-0340</a
-            >
+            <i class="fas fa-clock"></i>
+                    <a class="navbar-sm-brand text-light text-decoration-none" href="">{{store.horario}}</a>
+                    <i class="fa fa-phone mx-2"></i>
+                    <a class="navbar-sm-brand text-light text-decoration-none" href="">{{owner.phone}}</a>
           </div>
           <div>
             <a
@@ -493,22 +485,18 @@ https://templatemo.com/tm-559-zay-shop
             </h2>
             <ul class="list-unstyled text-light footer-link-list">
               <li>
-                <i class="fas fa-map-marker-alt fa-fw"></i>
-                123 Consectetur at ligula 10660
+                  <i class="fas fa-map-marker-alt fa-fw"></i>
+                  {{owner.address}}
               </li>
               <li>
-                <i class="fa fa-phone fa-fw"></i>
-                <a class="text-decoration-none" href="tel:010-020-0340"
-                  >010-020-0340</a
-                >
+                  <i class="fa fa-phone fa-fw"></i>
+                  <a class="text-decoration-none" href="">{{owner.phone}}</a>
               </li>
               <li>
-                <i class="fa fa-envelope fa-fw"></i>
-                <a class="text-decoration-none" href="mailto:info@company.com"
-                  >info@company.com</a
-                >
+                  <i class="fas fa-clock"></i>
+                  <a class="text-decoration-none" href="">{{store.horario}}</a>
               </li>
-            </ul>
+          </ul>
           </div>
 
           <div class="col-md-4 pt-5">
