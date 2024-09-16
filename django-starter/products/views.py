@@ -12,28 +12,43 @@ from django.contrib import messages
 from stores.models import Store
 
 
-@login_required
-@require_http_methods(["GET", "POST"])
 def create_product(request):
+    try:
+        store = Store.objects.get(owner=request.user)
+    except Store.DoesNotExist:
+        messages.error(request, "Debes crear una tienda antes de añadir productos.")
+        return redirect('create_store')  # Asume que tienes una URL para crear tiendas
+
     if request.method == 'POST':
-        product_form = ProductForm(request.POST, request.FILES, user=request.user)
+        product_form = ProductForm(request.POST, request.FILES)
         if product_form.is_valid():
-            product = product_form.save()
+            product = product_form.save(commit=False)
+            product.store = store  # Asocia el producto con la tienda del usuario
+            
+            # Handle image upload
+            if 'image' in request.FILES:
+                image_file = request.FILES['image']
+                image = Image.objects.create(
+                    user=request.user,
+                    file=image_file,
+                    description=f"Image for product: {product.name}"
+                )
+                product.image = image
+            
+            product.save()
             messages.success(request, f"{product.name} creado exitosamente!")
-            return redirect('product_list')  # Asume que tienes una vista 'product_list'
+            return HttpResponse(status=204)
         else:
             for field, errors in product_form.errors.items():
                 for error in errors:
                     messages.error(request, f"Error en {field}: {error}")
+            return HttpResponse(status=400)
     else:
-        product_form = ProductForm(user=request.user)
-        image_form = ImageForm()
-        store = Store.objects.get(owner=request.user)
+        product_form = ProductForm()
         products = Product.objects.filter(store=store)
 
     return render(request, 'create_product.html', {
         'product_form': product_form,
-        'image_form': image_form,
         'products': products,
     })
 def product_detail_with_related(request, id):

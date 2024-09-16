@@ -7,14 +7,18 @@
     <!-- Messages container -->
     <div id="messages-container" class="mb-4"></div>
 
-    <form id="product-form" hx-post="{% url 'create_product' %}" hx-target="#messages-container" hx-swap="innerHTML" hx-on::after-request="handleProductFormSubmission(event)" class="space-y-6 mb-4">
+    <form id="product-form" hx-post="{% url 'create_product' %}" hx-encoding="multipart/form-data" hx-target="#messages-container" hx-swap="innerHTML" hx-on::after-request="handleProductFormSubmission(event)" class="space-y-6 mb-4">
         {% csrf_token %}
         {% for field in product_form %}
             <div class="mb-4">
                 <label for="{{ field.id_for_label }}" class="block text-sm font-medium text-gray-700">
                     {{ field.label }}
                 </label>
-                {{ field }}
+                {% if field.name == 'image' %}
+                    <input type="file" name="{{ field.name }}" accept="image/*" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                {% else %}
+                    {{ field }}
+                {% endif %}
                 {% if field.help_text %}
                     <p class="mt-2 text-sm text-gray-500">{{ field.help_text }}</p>
                 {% endif %}
@@ -26,28 +30,8 @@
         </button>
     </form>
 
-    <h2 class="text-2xl font-semibold mt-12 mb-6 text-center">Subir Nueva Imagen</h2>
-    <form id="image-form" hx-post="{% url 'upload_image' %}" hx-encoding="multipart/form-data" hx-target="#messages-container" hx-swap="innerHTML" class="space-y-6">
-        {% csrf_token %}
-        {% for field in image_form %}
-            <div class="mb-4">
-                <label for="{{ field.id_for_label }}" class="block text-sm font-medium text-gray-700">
-                    {{ field.label }}
-                </label>
-                {{ field }}
-                {% if field.help_text %}
-                    <p class="mt-2 text-sm text-gray-500">{{ field.help_text }}</p>
-                {% endif %}
-                <p class="mt-2 text-sm text-red-600" id="{{ field.id_for_label }}-error"></p>
-            </div>
-        {% endfor %}
-        <button type="submit" name="image_submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-            Subir Imagen
-        </button>
-    </form>
-
     <h2 class="text-2xl font-semibold mt-12 mb-6 text-center">Lista de Productos</h2>
-    <div hx-get="{url 'product_list'}" hx-trigger="load" id="product-list-container">
+    <div hx-get="{% url 'product_list' %}" hx-trigger="load" id="product-list-container">
         {% include 'product_list_partial.html' %}
     </div> 
 </div>
@@ -92,18 +76,12 @@
     document.body.addEventListener('htmx:afterRequest', function(event) {
         if (event.detail.elt.id === 'product-form') {
             handleProductFormSubmission(event);
-        } else if (event.detail.elt.id === 'image-form') {
-            if (event.detail.successful) {
-                document.getElementById('image-form').reset();
-                // Optionally, update the image dropdown in the product form
-                // This would require returning the new image data in the response
-            }
         }
     });
 
     // Function to refresh the product list
     function refreshProductList() {
-    htmx.ajax('GET', '{% url "product_list" %}', '#product-list-container');
+        htmx.ajax('GET', '{% url "product_list" %}', '#product-list-container');
     }
 </script>
 
