@@ -9,12 +9,12 @@ class ProfileForm(ModelForm):
         fields = ['image', 'displayname', 'info', 'phone', 'address', 'nombre', 'apellido']
         widgets = {
             'image': forms.FileInput(),
-            'displayname' : forms.TextInput(attrs={'placeholder': 'Add display name'}),
-            'info' : forms.Textarea(attrs={'rows':3, 'placeholder': 'Add information'}),
-            'phone' : forms.TextInput(attrs={'placeholder': 'Add phone number'}),
-            'address' : forms.TextInput(attrs={'placeholder': 'Add address'}),
-            'nombre' : forms.TextInput(attrs={'placeholder': 'Add first name'}),
-            'apellido' : forms.TextInput(attrs={'placeholder': 'Add last name'}),
+            'displayname' : forms.TextInput(attrs={'placeholder': 'Nombre visible'}),
+            'info' : forms.Textarea(attrs={'rows':3, 'placeholder': 'Añadir información'}),
+            'phone' : forms.TextInput(attrs={'placeholder': 'Añadir telefono'}),
+            'address' : forms.TextInput(attrs={'placeholder': 'Añadir dirección'}),
+            'nombre' : forms.TextInput(attrs={'placeholder': 'Añadir nombre'}),
+            'apellido' : forms.TextInput(attrs={'placeholder': 'Añadir apellidos'}),
         }
         
         
