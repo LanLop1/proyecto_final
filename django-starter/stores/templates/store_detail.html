@@ -24,8 +24,8 @@
     <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onclick="closeModal()">
         Cerrar
     </button>
-    <button class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
-        Visitar web
+    <button class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded" >
+        <li><a href="{% url 'stores:store_index' store.id %}">Visitar web</a></li>
     </button>
     
 </div>
