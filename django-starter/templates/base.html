@@ -6,7 +6,7 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Project Title</title>
+    <title>{% block head_title %}Click&Go{% endblock%}</title>
     <link rel="icon" type="image/x-icon" href="{% static 'favicon.ico' %}" />
     <script
       src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"
@@ -123,6 +123,9 @@
         @apply bg-red-600;
       }
     </style>
+    {% block extra_styles %}
+    <!-- Aquí se insertarán los styles adicionales -->
+    {% endblock %}
   </head>
   <body hx-trigger="click" hx-get="/empty" hx-swap="innerHTML" hx-target="#resultados" class="{% block class %}{% endblock %}">
     {% include 'includes/messages.html' %} {% include 'includes/header.html' %}
@@ -143,5 +146,8 @@
         event.detail.headers['X-CSRFToken'] = '{{ csrf_token }}';
     });
 </script>
+{% block extra_scripts %}
+    <!-- Aquí se insertarán los scripts adicionales -->
+    {% endblock %}
   </body>
 </html>
