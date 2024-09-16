@@ -7,6 +7,8 @@ from django.contrib.auth import logout
 from django.contrib.auth.models import User
 from django.contrib import messages
 from .forms import *
+from django.dispatch import receiver
+from django.db.models.signals import post_save
 
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
@@ -14,6 +16,17 @@ from django.views.decorators.csrf import csrf_exempt
 from google.oauth2 import id_token
 from google.auth.transport import requests
 
+
+@receiver(post_save, sender=User)
+def create_user_profile(sender, instance, created, **kwargs):
+    if created:
+        Profile.objects.create(user=instance)
+    else:
+        instance.profile.save()
+
+@receiver(post_save, sender=User)
+def save_user_profile(sender, instance, **kwargs):
+    instance.profile.save()
 
 @csrf_exempt
 def sign_in(request):
