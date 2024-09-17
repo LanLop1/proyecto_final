@@ -205,7 +205,7 @@ https://templatemo.com/tm-559-zay-shop
                     <div class="card">
                         <div class="card-body">
                             <h1 class="h2">{{product.name}}</h1>
-                            <p class="h3 py-2">{{product.price}}</p>
+                            <p class="h3 py-2">{{product.price}} €</p>
                             <p class="py-2">
                                 <i class="fa fa-star text-warning"></i>
                                 <i class="fa fa-star text-warning"></i>
@@ -234,20 +234,12 @@ https://templatemo.com/tm-559-zay-shop
                                 </li>
                             </ul>
 
-                            <h6>Especificaciones:</h6>
-                            <ul class="list-unstyled pb-3">
-                                <li>Lorem ipsum dolor sit</li>
-                                <li>Amet, consectetur</li>
-                                <li>Adipiscing elit,set</li>
-                                <li>Duis aute irure</li>
-                                <li>Ut enim ad minim</li>
-                                <li>Dolore magna aliqua</li>
-                                <li>Excepteur sint</li>
-                            </ul>
+                             
 
                             <form action="" method="GET">
                                 <input type="hidden" name="product-title" value="Activewear">
                                 <div class="row">
+                                    {% if product.category == "Ropa" %}
                                     <div class="col-auto">
                                         <ul class="list-inline pb-3">
                                             <li class="list-inline-item">Talla :
@@ -259,6 +251,7 @@ https://templatemo.com/tm-559-zay-shop
                                             <li class="list-inline-item"><span class="btn btn-success btn-size">XL</span></li>
                                         </ul>
                                     </div>
+                                    {% endif %}
                                     <div class="col-auto">
                                         <ul class="list-inline pb-3">
                                             <li class="list-inline-item text-right">
