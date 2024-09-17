@@ -17,7 +17,7 @@ def create_product(request):
         store = Store.objects.get(owner=request.user)
     except Store.DoesNotExist:
         messages.error(request, "Debes crear una tienda antes de añadir productos.")
-        return redirect('create_store')  # Asume que tienes una URL para crear tiendas
+        return redirect('stores:create_or_edit_store')  # Asume que tienes una URL para crear tiendas
 
     if request.method == 'POST':
         product_form = ProductForm(request.POST, request.FILES)
