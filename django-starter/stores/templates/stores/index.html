@@ -13,7 +13,7 @@
     <link
       rel="shortcut icon"
       type="image/x-icon"
-      href="{% static 'assets/img/favicon.ico' %}"
+      href="{{store.logoImage.file.url}}"
     />
 
     <link rel="stylesheet" href="{% static 'assets/css/bootstrap.min.css' %}" />
@@ -269,41 +269,8 @@ https://templatemo.com/tm-559-zay-shop
               </div>
               <div class="col-lg-6 mb-0 d-flex align-items-center">
                 <div class="text-align-left align-self-center">
-                  <h1 class="h1 text-success"><b>Lorem</b> Loremipsum</h1>
-                  <h3 class="h2">Lorem ipsum dolor sit amet consectetur</h3>
-                  <p>
-                    Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-                    Nihil laboriosam libero earum, quam ipsum explicabo, sunt
-                    expedita eius quas odit ad.
-                    <a
-                      class="text-success"
-                      href="https://www.google.es/"
-                      target="_blank"
-                      >Lorem</a
-                    >
-                    laboriosam. Nihil laboriosam libero earum,
-                    <a
-                      class="text-success"
-                      href="https://www.google.es/"
-                      target="_blank"
-                      >porro illo neque</a
-                    >,
-                    <a
-                      rel="sponsored"
-                      class="text-success"
-                      href="https://www.google.es/"
-                      target="_blank"
-                      >maiores corrupti</a
-                    >
-                    ab
-                    <a
-                      rel="sponsored"
-                      class="text-success"
-                      href="https://www.google.es/"
-                      target="_blank"
-                      >Unde</a
-                    >.
-                  </p>
+                  <h1 class="h1 text-success"><b>Bienvenido</b> a la tienda</h1>
+                  <h3 class="h2">{{store.description}}</h3>
                 </div>
               </div>
             </div>
@@ -321,15 +288,8 @@ https://templatemo.com/tm-559-zay-shop
               </div>
               <div class="col-lg-6 mb-0 d-flex align-items-center">
                 <div class="text-align-left">
-                  <h1 class="h1">Lorem Ipsum</h1>
-                  <h3 class="h2">Ipsum dolor sit amet consectetur</h3>
-                  <p>
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-                    Neque reprehenderit iure quis quas, officia pariatur
-                    mollitia fugiat eum enim nam odit doloremque dignissimos
-                    <strong>harum quia optio ipsum</strong>, iusto nemo
-                    veritatis.
-                  </p>
+                  <h1 class="h1 text-success"><b>Bienvenido</b> a la tienda</h1>
+                  <h3 class="h2">{{store.description}}</h3>
                 </div>
               </div>
             </div>
@@ -347,14 +307,8 @@ https://templatemo.com/tm-559-zay-shop
               </div>
               <div class="col-lg-6 mb-0 d-flex align-items-center">
                 <div class="text-align-left">
-                  <h1 class="h1">Repr in voluptate</h1>
-                  <h3 class="h2">Magnam eum officia</h3>
-                  <p>
-                    Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-                    Laudantium nobis magnam eum officia necessitatibus nesciunt
-                    aliquam sequi numquam, commodi enim atque architecto in amet
-                    deserunt delectus facilis doloribus neque est.
-                  </p>
+                  <h1 class="h1 text-success"><b>Bienvenido</b> a la tienda</h1>
+                  <h3 class="h2">{{store.description}}</h3>
                 </div>
               </div>
             </div>
@@ -386,40 +340,23 @@ https://templatemo.com/tm-559-zay-shop
         <div class="col-lg-6 m-auto">
           <h1 class="h1">Categorias del mes</h1>
           <p>
-            Excepteur sint occaecat cupidatat non proident, sunt in culpa qui
-            officia deserunt mollit anim id est laborum.
+            Estas son las categorias de {{store.name}}! Haz click <a href="{% url 'stores:store_detail' store.id %}"><b>aquí</b></a> para ver la tienda.
           </p>
         </div>
       </div>
       <div class="row">
+        {% for code, name, image_url in categories %}
         <div class="col-12 col-md-4 p-5 mt-3">
-          <a href="#"
-            ><img
-              src="{% static 'assets/img/placeholder4.jpg' %}"
-              class="rounded-circle img-fluid border"
-          /></a>
-          <h5 class="text-center mt-3 mb-3">Camisetas</h5>
-          <p class="text-center"><a class="btn btn-success">Go Shop</a></p>
+            <a href="{% url 'stores:store_detail' store.id %}">
+                <img src="{{ image_url }}" class="rounded-circle img-fluid border" alt="{{ name }}" />
+            </a>
+            <h5 class="text-center mt-3 mb-3">{{ name }}</h5>
+            <p class="text-center">
+                <a href="{% url 'stores:store_detail' store.id %}" class="btn btn-success">Go Shop</a>
+            </p>
         </div>
-        <div class="col-12 col-md-4 p-5 mt-3">
-          <a href="#"
-            ><img
-              src="{% static 'assets/img/placeholder5.jpg' %}"
-              class="rounded-circle img-fluid border"
-          /></a>
-          <h2 class="h5 text-center mt-3 mb-3">Zapatos</h2>
-          <p class="text-center"><a class="btn btn-success">Go Shop</a></p>
-        </div>
-        <div class="col-12 col-md-4 p-5 mt-3">
-          <a href="#"
-            ><img
-              src="{% static 'assets/img/placeholder6.jpg' %}"
-              class="rounded-circle img-fluid border"
-          /></a>
-          <h2 class="h5 text-center mt-3 mb-3">Accesorios</h2>
-          <p class="text-center"><a class="btn btn-success">Go Shop</a></p>
-        </div>
-      </div>
+        {% endfor %}
+    </div>
     </section>
     <!-- End Categories of The Month -->
 

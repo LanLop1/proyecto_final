@@ -72,14 +72,56 @@ def store_shop_view(request, id):
     return render(request, 'store_shop.html', {'store': store})
 
 def store_index(request, store_id):
-    print("store_id", store_id)
-    store = get_object_or_404(Store, id=store_id)
+    category_dict = {
+        'SIN': 'Sin categoría',
+        'LIB': 'Libros',
+        'TEC': 'Tecnología',
+        'JAR': 'Jardinería',
+        'ROP': 'Ropa',
+        'HOG': 'Hogar',
+        'ELE': 'Electrónicos',
+        'DEP': 'Deportes',
+        'JUG': 'Juguetes',
+        'ORD': 'Ordenadores y Accesorios',
+        'MOV': 'Móviles y Accesorios',
+        'COS': 'Cosmética y Belleza',
+        'SAL': 'Salud y Cuidado Personal',
+        'ALM': 'Alimentos y Bebidas',
+        'BEB': 'Bebés y Niños',
+        'AUT': 'Automóviles y Motocicletas',
+        'MUS': 'Música e Instrumentos Musicales',
+        'VID': 'Videojuegos',
+        'PEL': 'Películas y Series',
+        'MAS': 'Mascotas y Animales',
+        'OFI': 'Oficina y Papelería',
+        'HERR': 'Herramientas y Mejoras del Hogar',
+        'CAL': 'Calzado',
+        'REC': 'Recreación al Aire Libre',
+        'JOY': 'Joyas y Relojes',
+        'VIA': 'Viajes y Equipaje',
+        'ART': 'Arte y Manualidades',
+        'JUE': 'Juegos de Mesa y Puzzles'
+    }
 
+    store = get_object_or_404(Store, id=store_id)
     products = Product.objects.filter(store=store).order_by('price')  # Ascendente (menor a mayor)
 
     # Obtener las categorías únicas para los productos de esta tienda
-    categories = Product.objects.filter(store=store).values_list('category', flat=True).distinct()
-    
+    category_codes = Product.objects.filter(store=store).values_list('category', flat=True).distinct()
+
+    # Crear un diccionario para las categorías con la imagen del primer producto
+    category_images = {}
+    for code in category_codes:
+        first_product = Product.objects.filter(store=store, category=code).first()
+        if first_product and first_product.image:
+            # Usa `first_product.image.file.url` si el campo de imagen se llama `file`
+            category_images[code] = first_product.image.file.url
+        else:
+            category_images[code] = '/static/assets/img/placeholder4.jpg'
+
+    # Convertir códigos de categoría a nombres completos
+    categories = [(code, category_dict.get(code, 'Desconocido'), category_images.get(code, '/static/assets/img/placeholder4.jpg')) for code in category_codes]
+
     user = store.owner
     try:
         owner_profile = Profile.objects.get(user=user)
