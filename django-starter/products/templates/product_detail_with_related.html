@@ -2,16 +2,72 @@
 
 {% block content %}
 <div class="container mx-auto px-4 py-8">
-    <div class="mb-8">
-        <img src="{{ product.image.file.url }}" alt="{{ product.name }}" class="w-64 h-64 object-cover mb-4 rounded">
-        <h1 class="text-3xl font-bold mb-4">{{ product.name }}</h1>
-        <p class="text-gray-600 mb-4">{{ product.description }}</p>
-        <p class="text-xl font-semibold">Precio: ${{ product.price }}</p>
-        <!-- Añade más detalles del producto aquí -->
+    <!-- Producto principal -->
+    <div class="mb-12 bg-white shadow-lg rounded-lg overflow-hidden">
+        <div class="md:flex">
+            <!-- Columna de la imagen principal y galería -->
+            <div class="md:w-1/2">
+                <img src="{{ product.image.file.url }}" alt="{{ product.name }}" class="w-full h-96 object-cover">
+                
+                <!-- Galería de imágenes adicionales -->
+                <div class="flex mt-4 space-x-2 p-4">
+                    {% if product.image_2 %}
+                        <img src="{{ product.image_2.file.url }}" alt="{{ product.name }}" class="w-24 h-24 object-cover rounded-md cursor-pointer hover:opacity-75">
+                    {% endif %}
+                    {% if product.image_3 %}
+                        <img src="{{ product.image_3.file.url }}" alt="{{ product.name }}" class="w-24 h-24 object-cover rounded-md cursor-pointer hover:opacity-75">
+                    {% endif %}
+                    {% if product.image_4 %}
+                        <img src="{{ product.image_4.file.url }}" alt="{{ product.name }}" class="w-24 h-24 object-cover rounded-md cursor-pointer hover:opacity-75">
+                    {% endif %}
+                </div>
+            </div>
+            
+            <!-- Columna de la información del producto -->
+            <div class="md:w-1/2 p-8">
+                <h1 class="text-3xl font-bold mb-4 text-gray-800">{{ product.name }}</h1>
+                <p class="text-gray-600 mb-6 leading-relaxed">{{ product.description }}</p>
+                <p class="text-2xl font-semibold text-indigo-600 mb-6">$ {{ product.price }}</p>
+                
+                <!-- Detalles adicionales del producto -->
+                <div class="mb-6">
+                    <h3 class="text-lg font-semibold mb-2 text-gray-700">Detalles del producto:</h3>
+                    <ul class="space-y-2 text-gray-600">
+                        <li class="flex items-center">
+                            <svg class="w-5 h-5 mr-2 text-indigo-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"></path></svg>
+                            Categoría: {{ product.get_category_display }}
+                        </li>
+                        <li class="flex items-center">
+                            <svg class="w-5 h-5 mr-2 text-indigo-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4"></path></svg>
+                            Stock disponible: {{ product.stockquantity }}
+                        </li>
+                        <li class="flex items-center">
+                        <svg class="w-5 h-5 mr-2 text-indigo-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
+                        </svg>
+                         <span class="mr-2">Ir a la tienda:</span>
+                        <a href="{% url 'stores:store_index' product.store.id %}" 
+                        class="text-indigo-600 hover:text-indigo-800 font-medium underline hover:no-underline transition duration-300">
+                        {{ product.store.name }}
+                        </a>
+                        </li>
+                        <!-- Añade más detalles según sea necesario -->
+                    </ul>
+                </div>
+                
+                <!-- Botón de compra -->
+                <button class="bg-indigo-600 text-white py-3 px-8 rounded-full hover:bg-indigo-700 transition duration-300 ease-in-out flex items-center">
+                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
+                    Añadir al carrito
+                </button>
+
+            </div>
+        </div>
     </div>
 
-    <h2 class="text-2xl font-bold mb-4">Productos relacionados</h2>
-    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+    <!-- Productos relacionados (sin cambios) -->
+    <h2 class="text-2xl font-bold mb-6 text-gray-800">Productos relacionados</h2>
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
         {% for related_product in related_products %}
         <div class="bg-white shadow rounded-lg overflow-hidden">
             {% if related_product.image %}
