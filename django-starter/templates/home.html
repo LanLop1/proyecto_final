@@ -1,33 +1,116 @@
 {% extends 'layouts/blank.html' %}
 
 {% block content %}
-<div class="container mx-auto px-4">
-    <h1 class="text-4xl font-bold mb-8 text-center">Bienvenido a nuestra tienda</h1>
+<body class="bg-gray-100">
+    <div class="max-w-7xl mx-auto p-6">
+        <!-- Header -->
+        <header class="mb-6">
+            <h1 class="text-3xl font-bold text-gray-900">Categorías de Tiendas</h1>
+        </header>
 
-    <h2 class="text-3xl font-semibold mb-6">Tiendas disponibles</h2>
-    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
-        {% for store in stores %}
-            <div class="bg-white shadow-md rounded-lg overflow-hidden cursor-pointer hover:shadow-xl transition-shadow duration-300"
-             hx-get="{% url 'store_detail_modal' store.id %}"
-             hx-target="#modal-container"
-             hx-trigger="click">
-                <div class="p-4">
-                    {% if store.imageStore %}
-                        <img src="{{ store.imageStore.file.url }}" alt="{{ store.name }}" class="w-full h-64 object-cover mb-4 rounded">
-                    {% else %}
-                        <div class="w-full h-64 bg-gray-200 flex items-center justify-center mb-4 rounded">
-                            <span class="text-gray-500">No image available</span>
-                        </div>
-                    {% endif %}
-                    <h6 class="font-bold text-xl mb-2 truncate">{{ store.name }}</h6>
-                    <p class="text-gray-600 truncate">{{ store.description }}</p>
+        <!-- Main Container -->
+        <div class="flex flex-col lg:flex-row gap-6">
+            <!-- Sidebar -->
+            <aside class="lg:w-1/4 w-full">
+                <div class="bg-white p-4 rounded-lg shadow-md">
+                    <h2 class="text-xl font-semibold mb-4">Filtrar por Categoría</h2>
+                    <ul class="space-y-2">
+                        <li>
+                            <a href="{% url 'home' %}" class="block text-gray-700 hover:text-blue-600 flex items-center">
+                                Todas las tiendas 
+                                <span class="ml-2 text-gray-500 text-sm">({{ stores.count }})</span>
+                            </a>
+                        </li>
+                        {% for code, name, count in category_list %}
+                            <li>
+                                <a href="?category={{ code }}" class="block text-gray-700 hover:text-blue-600 flex items-center">
+                                    {{ name }}
+                                    <span class="ml-2 text-gray-500 text-sm">({{ count }})</span>
+                                </a>
+                            </li>
+                        {% endfor %}
+                    </ul>
                 </div>
-            </div>
-        {% empty %}
-            <p class="col-span-full text-center text-gray-500">No hay tiendas disponibles en este momento.</p>
-        {% endfor %}
+            </aside>
+
+            <!-- Store Items -->
+            <main class="lg:w-3/4 w-full">
+                <!-- Filter Options -->
+                <div class="flex flex-wrap mb-4 space-x-2">
+                    <button class="bg-blue-600 text-white px-4 py-2 rounded-md shadow-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 transition ease-in-out duration-300" onclick="window.location.href='{% url 'home' %}'">Reiniciar Filtros</button>
+
+                    <!-- Sorting Options -->
+                    <div class="relative inline-block text-left">
+                        <button id="sort-menu-button" class="bg-gray-200 text-gray-700 px-4 py-2 rounded-md shadow-md hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-500 transition ease-in-out duration-300">
+                            Ordenar por: 
+                            {% if sort_option == 'name_desc' %}
+                                Nombre (Z-A)
+                            {% else %}
+                                Nombre (A-Z)
+                            {% endif %}
+                            <svg class="w-5 h-5 inline-block ml-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M6 7a1 1 0 01.993.883L7 8v8a1 1 0 01-1.993.117L5 16V8a1 1 0 011-1zM13 6a1 1 0 01.993.883L14 7v9a1 1 0 01-1.993.117L12 16V7a1 1 0 011-1z" clip-rule="evenodd" /></svg>
+                        </button>
+                        <div id="sort-menu" class="absolute right-0 z-10 mt-2 w-48 bg-white border border-gray-300 rounded-lg shadow-lg hidden">
+                            <ul class="py-1 text-gray-700">
+                                <li>
+                                    <a href="?sort=name&category={{ request.GET.category }}" class="block px-4 py-2 text-sm hover:bg-gray-100">Nombre (A-Z)</a>
+                                </li>
+                                <li>
+                                    <a href="?sort=name_desc&category={{ request.GET.category }}" class="block px-4 py-2 text-sm hover:bg-gray-100">Nombre (Z-A)</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Store Grid -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                    {% for store in stores %}
+                        <div class="bg-white shadow-lg rounded-lg overflow-hidden transform hover:scale-105 transition-transform duration-300 cursor-pointer"
+                             hx-get="{% url 'store_detail_modal' store.id %}"
+                             hx-target="#modal-container"
+                             hx-trigger="click">
+                            <div class="relative">
+                                {% if store.imageStore %}
+                                    <img src="{{ store.imageStore.file.url }}" alt="{{ store.name }}" class="w-full h-48 object-cover">
+                                {% else %}
+                                    <div class="w-full h-48 bg-gray-200 flex items-center justify-center">
+                                        <span class="text-gray-500">No image available</span>
+                                    </div>
+                                {% endif %}
+                                <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-50"></div>
+                            </div>
+                            <div class="p-4">
+                                <h6 class="font-bold text-lg mb-2 truncate">{{ store.name }}</h6>
+                                <p class="text-gray-600 text-sm truncate">{{ store.description }}</p>
+                            </div>
+                        </div>
+                    {% empty %}
+                        <p class="col-span-full text-center text-gray-500">No hay tiendas disponibles en este momento.</p>
+                    {% endfor %}
+                </div>
+            </main>
+        </div>
     </div>
-</div>
+
+    <!-- JavaScript to handle dropdown menu -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const sortButton = document.getElementById('sort-menu-button');
+            const sortMenu = document.getElementById('sort-menu');
+
+            sortButton.addEventListener('click', function () {
+                sortMenu.classList.toggle('hidden');
+            });
+
+            document.addEventListener('click', function (event) {
+                if (!sortButton.contains(event.target) && !sortMenu.contains(event.target)) {
+                    sortMenu.classList.add('hidden');
+                }
+            });
+        });
+    </script>
+</body>
 <!-- Contenedor del modal fuera del bucle for -->
 <div id="modal-container"class="modal hidden fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full"></div>
 <script>
