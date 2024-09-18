@@ -78,19 +78,21 @@
         </div>
       </div>
       <!-- Notification Icon -->
+<div>
      <a id="icon-notification" hx-get="{% url 'notification_list' %}" hx-trigger="click" hx-swap="innerHTML" hx-target="#resultados-notification" class="relative flex items-center notification-icon">
-  <svg id="bell-icon" enable-background="new 0 0 52 52" height="30" viewBox="0 0 52 52" width="20" xmlns="http://www.w3.org/2000/svg">
+    <svg id="bell-icon" enable-background="new 0 0 52 52" height="30" viewBox="0 0 52 52" width="20" xmlns="http://www.w3.org/2000/svg">
     <g fill="#001a49">
       <path d="m46 33h-.5c-1.9 0-3.5-1.6-3.5-3.5v-11.5c0-9.1-7.6-16.4-16.8-16-8.6.4-15.2 7.8-15.2 16.5v11.1c0 1.9-1.6 3.4-3.5 3.4h-.5c-2.2 0-4 1.9-4 4.1v1.5c0 .7.7 1.4 1.5 1.4h45c.8 0 1.5-.7 1.5-1.5v-1.5c0-2.2-1.8-4-4-4z"/>
       <path d="m30.9 44h-9.8c-.6 0-1.1.6-1 1.2.5 2.8 3 4.8 5.9 4.8s5.4-2.1 5.9-4.8c.1-.6-.4-1.2-1-1.2z"/>
     </g>
-  </svg>
+    </svg>
   
   {% if unread_count > 0 %}
   <span class="notification-count">{{ unread_count }}</span>
   {% endif %}
-</a>
-<div id="resultados-notification"></div>
+  </a>
+  <div class="absolute z-50 w-60" id="resultados-notification"></div>
+</div>
       <!-- Dropdown Menu placed next to search bar -->
       <div class="relative">
         {% if request.user.is_authenticated %}
