@@ -78,6 +78,7 @@
         </div>
       </div>
       <!-- Notification Icon -->
+      {% if request.user.is_authenticated %}
       <div class="relative">
         <a id="icon-notification" 
            hx-get="{% url 'notification_list' %}" 
@@ -99,6 +100,7 @@
             <!-- Notifications content will be loaded here -->
         </div>
     </div>
+    {% endif %}
       <!-- Dropdown Menu placed next to search bar -->
       <div class="relative">
         {% if request.user.is_authenticated %}
