@@ -1,21 +1,25 @@
 <style>
   /* Notification Badge */
-            .notification-count {
-            position: absolute;
-            top: -8px;
-            right: -8px;
-            background-color: #E53E3E; /* bg-red-600 */
-            color: #FFFFFF;
-            border-radius: 50%;
-            padding: 0.2rem 0.3rem;
-            font-size: 0.75rem;
-            font-weight: bold;
-            min-width: 20px;
-            text-align: center;
-            box-shadow: 0 0 4px rgba(0, 0, 0, 0.5);
-            z-index: 10;
-            animation: pulse 1.5s infinite;
-            }
+  .notification-count {
+    position: absolute;
+    top: -8px;
+    right: -10px;
+    background-color: #E53E3E; /* bg-red-600 */
+    color: #FFFFFF;
+    border-radius: 50%;
+    padding: 0.25rem 0.5rem; /* Ajusta el padding para un círculo más redondo */
+    font-size: 0.75rem;
+    font-weight: bold;
+    min-width: 20px; /* Asegúrate de que el min-width sea igual al height */
+    height: 20px; /* Añadido para garantizar la forma redonda */
+    display: flex;
+    align-items: center;
+    justify-content: center; /* Centra el texto dentro del círculo */
+    text-align: center;
+    box-shadow: 0 0 4px rgba(0, 0, 0, 0.5);
+    z-index: 10;
+    animation: pulse 1.5s infinite;
+}
 
           .notification-icon {
             position: relative;
@@ -85,7 +89,7 @@
            hx-trigger="click" 
            hx-swap="innerHTML" 
            hx-target="#resultados-notification" 
-           class="relative flex items-center notification-icon">
+           class="relative flex items-center notification-icon hover:cursor-pointer">
             <svg id="bell-icon" enable-background="new 0 0 52 52" height="30" viewBox="0 0 52 52" width="20" xmlns="http://www.w3.org/2000/svg">
                 <g fill="#001a49">
                     <path d="m46 33h-.5c-1.9 0-3.5-1.6-3.5-3.5v-11.5c0-9.1-7.6-16.4-16.8-16-8.6.4-15.2 7.8-15.2 16.5v11.1c0 1.9-1.6 3.4-3.5 3.4h-.5c-2.2 0-4 1.9-4 4.1v1.5c0 .7.7 1.4 1.5 1.4h45c.8 0 1.5-.7 1.5-1.5v-1.5c0-2.2-1.8-4-4-4z"/>
@@ -96,7 +100,7 @@
                 <span class="notification-count">{{ unread_count }}</span>
             {% endif %}
         </a>
-        <div class="absolute z-50 w-60 bg-white shadow-lg rounded-lg mt-4" id="resultados-notification" style="top: 100%; left: -15%; transform: translateX(-100%);">
+        <div class="absolute z-50 w-60 bg-white shadow-lg rounded-lg mt-4 hidden" id="resultados-notification" style="top: 100%; left: -15%; transform: translateX(-100%);">
             <!-- Notifications content will be loaded here -->
         </div>
     </div>

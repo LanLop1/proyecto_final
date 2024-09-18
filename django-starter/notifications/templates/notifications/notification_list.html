@@ -9,38 +9,19 @@
         box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15); /* Sombra sutil */
         background: #ffffff; /* Fondo blanco para contraste */
         border: 1px solid #e0e0e0; /* Borde del contenedor */
+        display: flex;
+        flex-direction: column;
     }
 
     /* Estilos para el encabezado */
     #notifications-header {
-        font-weight: 600;
-        padding: 1rem;
+        font-weight: 500;
+        padding: 8px;
         background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%); /* Gradiente sutil */
         border-bottom: 1px solid #e0e0e0;
-        font-size: 1.125rem; /* Tamaño de letra para el encabezado */
+        font-size: 0.85rem; /* Tamaño de letra para el encabezado */
         color: #343a40; /* Color del texto */
         text-align: center; /* Centramos el texto */
-    }
-
-    /* Estilos para el botón de marcar todas como leídas */
-    .mark-all-button {
-        display: block;
-        width: 100%;
-        padding: 0.75rem;
-        background-color: #007bff; /* Color de fondo del botón */
-        border: none;
-        color: #ffffff; /* Color del texto del botón */
-        text-align: center;
-        cursor: pointer;
-        border-top: 1px solid #e0e0e0;
-        transition: background-color 0.3s, transform 0.2s;
-        font-size: 0.875rem; /* Tamaño de letra más pequeño */
-        border-radius: 0 0 12px 12px; /* Bordes redondeados en la parte inferior */
-    }
-
-    .mark-all-button:hover {
-        background-color: #0056b3; /* Color de fondo al hacer hover */
-        transform: scale(1.02); /* Efecto de escala al hacer hover */
     }
 
     /* Estilos para la lista de notificaciones */
@@ -48,7 +29,7 @@
         list-style: none;
         margin: 0;
         padding: 0;
-        max-height: 250px; /* Altura máxima específica para el contenido de notificaciones */
+        max-height: 300px; /* Altura máxima específica para el contenido de notificaciones */
         overflow-y: auto; /* Mostrar scrollbar si el contenido excede la altura */
     }
 
@@ -82,6 +63,7 @@
     /* Contenido de notificación */
     .notification-content {
         flex-grow: 1;
+        font-size: 0.8rem;
     }
 
     /* Enlace de notificación */
@@ -105,30 +87,71 @@
     .notification-read {
         color: #868e96; /* Color del texto para notificaciones leídas */
     }
+
+    /* Estilos para el botón de marcar todas como leídas */
+    .mark-all-button {
+        display: flex; /* Usar flexbox para alinear elementos en fila */
+        align-items: center; /* Centrar verticalmente el contenido */
+        justify-content: center; /* Centrar horizontalmente el contenido */
+        width: 100%;
+        padding: 0.75rem;
+        background-color: #fff; /* Color de fondo del botón */
+        color: #007bff; /* Color del texto del botón */
+        text-align: center;
+        cursor: pointer;
+        border-top: 1px solid #e0e0e0;
+        transition: background-color 0.3s;
+        font-size: 0.875rem; /* Tamaño de letra más pequeño */
+        border-radius: 0 0 12px 12px; /* Bordes redondeados en la parte inferior */
+        font-weight: 500;
+    }
+
+    .mark-all-button:hover {
+        background-color: #dbeafe; /* Color de fondo al hacer hover */
+    }
+
+    .mark-all-button svg {
+        margin-left: 0.5rem; /* Espacio entre el texto y el icono */
+        color: #007bff; /* Color del icono */
+    }
+
+    .mark-all-button svg:hover {
+        color: #0056b3; /* Color del icono al hacer hover */
+    }
 </style>
 
 <div id="notifications-container">
     <header id="notifications-header">Notificaciones</header>
-    <button class="mark-all-button" onclick="markAllAsRead();" aria-label="Marcar todas las notificaciones como leídas">Marcar todas como leídas</button>
+    
     <ul id="notifications-list">
         {% if notifications %}
         {% for notification in notifications %}
             <li class="notification-item {% if notification.readstatus_text == 'unread' %}notification-unread{% else %}notification-read{% endif %}" onclick="markAsRead({{ notification.id }});">
-                <i class="fas fa-bell notification-icon"></i>
-                <div class="notification-content">
-                    <a href="{% url 'chat_room' notification.sender_username %}" class="notification-link">
+                <a href="{% url 'chat_room' notification.sender_username %}" class="notification-link flex items-center w-full h-full">
+                    <i class="fas fa-bell notification-icon"></i>
+                    <div class="notification-content">
                         <span>{{ notification.message }}</span>
-                    </a>
-                </div>
+                    </div>
+                </a>
             </li>
         {% endfor %}
         {% else %}
-        <div class="flex items-center justify-center h-full text-center">
+        <div class="flex items-center justify-center h-full text-center mt-5">
             <p class="text-gray-600">No tienes notificaciones.</p>
         </div>
-        {% endif%}
+        {% endif %}
     </ul>
+    
+    <button class="mark-all-button" onclick="markAllAsRead();" aria-label="Marcar todas las notificaciones como leídas">
+        Marcar todas como leídas 
+        <svg class="h-6 w-6" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+            <path stroke="none" d="M0 0h24v24H0z"/>
+            <path d="M7 12l5 5l10 -10"/>
+            <path d="M2 12l5 5m5 -5l5 -5"/>
+        </svg>
+    </button>
 </div>
+
 
     <script>
         function markAsRead(notificationId) {
