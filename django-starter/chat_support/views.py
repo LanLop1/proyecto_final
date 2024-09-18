@@ -34,7 +34,7 @@ def chat_room(request, username):
         if user_status == 'offline':
             Notification.objects.create(
                 usuario=other_user,
-                message=f"Nuevo mensaje de {request.user.username}: {message_content}",
+                message=f"{request.user.username}: {message_content}",
                 readstatus=b'\x00'  # No leído
             )
 
