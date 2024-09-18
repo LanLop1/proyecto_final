@@ -1,9 +1,4 @@
-{% extends 'base.html' %}
-{% block head_title %}Notificaciones{% endblock %}
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
-{% block extra_styles %}
     <style>
         /* Estilos para la página de notificaciones */
         #notifications-container {
@@ -204,9 +199,7 @@
             }
         }
     </style>
-{% endblock %}
 
-{% block layout %}
     <div id="notifications-container">
         <header id="notifications-header">Notificaciones</header>
         <button class="mark-all-button" onclick="markAllAsRead();" aria-label="Marcar todas las notificaciones como leídas">Marcar todas como leídas</button>
@@ -226,9 +219,7 @@
             &copy; {{ current_year }} Click&Go - Todos los derechos reservados
         </footer>
     </div>
-{% endblock %}
 
-{% block extra_scripts %}
     <script>
         function markAsRead(notificationId) {
             fetch(`/mark_notification_as_read/${notificationId}/`, {
@@ -265,4 +256,4 @@
             .catch(error => console.error('Error:', error));
         }
     </script>
-{% endblock %}
+
