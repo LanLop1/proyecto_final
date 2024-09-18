@@ -73,51 +73,95 @@
               </svg>
             </div>
             <input id="search" hx-get="{% url 'search' %}" hx-trigger="keyup delay:300ms" hx-swap="innerHTML" hx-target="#resultados" class="block w-full rounded-md border border-gray-300 py-2 pl-10 pr-3 leading-5 text-gray-900 placeholder-gray-500 focus:border-purple-500 focus:placeholder-gray-500 focus:outline-none focus:ring-1 focus:ring-purple-500 sm:text-sm" placeholder="Search" type="search" name="search">
-            <div id="resultados" class="absolute w-full bg-white border border-gray-300 border-t-0 max-h-80 overflow-y-auto shadow-lg hidden z-50"></div>
+            <div id="resultados" class="absolute w-full bg-white border-t-0 max-h-80 overflow-y-auto shadow-lg hidden z-50"></div>
           </div>
         </div>
       </div>
       <!-- Notification Icon -->
-      <a href="{% url 'notification_list' %}" class="relative flex items-center notification-icon">
-        <svg id="bell-icon" enable-background="new 0 0 52 52" height="30" viewBox="0 0 52 52" width="20" xmlns="http://www.w3.org/2000/svg">
-          <g fill="#001a49">
-            <path d="m46 33h-.5c-1.9 0-3.5-1.6-3.5-3.5v-11.5c0-9.1-7.6-16.4-16.8-16-8.6.4-15.2 7.8-15.2 16.5v11.1c0 1.9-1.6 3.4-3.5 3.4h-.5c-2.2 0-4 1.9-4 4.1v1.5c0 .7.7 1.4 1.5 1.4h45c.8 0 1.5-.7 1.5-1.5v-1.5c0-2.2-1.8-4-4-4z"/>
-            <path d="m30.9 44h-9.8c-.6 0-1.1.6-1 1.2.5 2.8 3 4.8 5.9 4.8s5.4-2.1 5.9-4.8c.1-.6-.4-1.2-1-1.2z"/>
-          </g>
-        </svg>
-        
-        {% if unread_count > 0 %}
-        <span class="notification-count">{{ unread_count }}</span>
-        {% endif %}
-      </a>
+      <div class="relative">
+        <a id="icon-notification" 
+           hx-get="{% url 'notification_list' %}" 
+           hx-trigger="click" 
+           hx-swap="innerHTML" 
+           hx-target="#resultados-notification" 
+           class="relative flex items-center notification-icon">
+            <svg id="bell-icon" enable-background="new 0 0 52 52" height="30" viewBox="0 0 52 52" width="20" xmlns="http://www.w3.org/2000/svg">
+                <g fill="#001a49">
+                    <path d="m46 33h-.5c-1.9 0-3.5-1.6-3.5-3.5v-11.5c0-9.1-7.6-16.4-16.8-16-8.6.4-15.2 7.8-15.2 16.5v11.1c0 1.9-1.6 3.4-3.5 3.4h-.5c-2.2 0-4 1.9-4 4.1v1.5c0 .7.7 1.4 1.5 1.4h45c.8 0 1.5-.7 1.5-1.5v-1.5c0-2.2-1.8-4-4-4z"/>
+                    <path d="m30.9 44h-9.8c-.6 0-1.1.6-1 1.2.5 2.8 3 4.8 5.9 4.8s5.4-2.1 5.9-4.8c.1-.6-.4-1.2-1-1.2z"/>
+                </g>
+            </svg>
+            {% if unread_count > 0 %}
+                <span class="notification-count">{{ unread_count }}</span>
+            {% endif %}
+        </a>
+        <div class="absolute z-50 w-60 bg-white shadow-lg rounded-lg mt-4" id="resultados-notification" style="top: 100%; left: -15%; transform: translateX(-100%);">
+            <!-- Notifications content will be loaded here -->
+        </div>
+    </div>
       <!-- Dropdown Menu placed next to search bar -->
       <div class="relative">
         {% if request.user.is_authenticated %}
-          <ul>
-          <li id="icono" x-data="{ dropdownOpen: false }" class="relative">
-            <a @click="dropdownOpen = !dropdownOpen" @click.away="dropdownOpen = false" class="cursor-pointer select-none">
-              <img x-bind:class="dropdownOpen" class="h-8 w-8 rounded-full object-cover" src="{{ user.profile.avatar }}"/>
-            </a>
-            <div x-show="dropdownOpen" x-cloak class="absolute right-0 bg-gray-900 text-white shadow rounded-lg w-40 p-2 z-20"
-              x-transition:enter="duration-300 ease-out"
-              x-transition:enter-start="opacity-0 -translate-y-5 scale-90"
-              x-transition:enter-end="opacity-100 translate-y-0 scale-100">
-              <ul class="hoverlist [&>li>a]:justify-end">
-                <li><a href="{% url 'profile' %}">{{ user.profile.name }}</a></li>
-                <li><a href="{% url 'profile-edit' %}">Editar Prerfil</a></li>
-                <li><a href="{% url 'profile-settings' %}">Ajustes</a></li>
-                <li><a href="{% url 'stores:create_or_edit_store' %}">Tienda</a></li>
-                <li><a href="{% url 'create_product' %}">Productos</a></li>
-                <li><a href="{% url 'account_logout' %}">Log Out</a></li>
-              </ul>
-            </div>
-          </li>
-          </ul>
+            <ul>
+                <li id="icono" x-data="{ dropdownOpen: false }" class="relative">
+                    <a @click="dropdownOpen = !dropdownOpen" @click.away="dropdownOpen = false" class="cursor-pointer select-none">
+                        <img x-bind:class="dropdownOpen" class="h-10 w-10 rounded-full object-cover border-2 border-gray-300" src="{{ user.profile.avatar }}" alt="User Avatar"/>
+                    </a>
+                    <div x-show="dropdownOpen" x-cloak 
+                         class="absolute right-0 bg-white text-gray-800 shadow-lg rounded-xl w-56 p-1 z-30 border border-gray-300 transition-transform transform scale-95"
+                         x-transition:enter="transition ease-out duration-300"
+                         x-transition:enter-start="opacity-0 scale-95"
+                         x-transition:enter-end="opacity-100 scale-100"
+                         x-transition:leave="transition ease-in duration-200"
+                         x-transition:leave-start="opacity-100 scale-100"
+                         x-transition:leave-end="opacity-0 scale-95">
+                        <ul class="divide-y divide-gray-200">
+                            <li>
+                                <a href="{% url 'profile' %}" 
+                                   class="block px-4 py-2 bg-gray-100 text-gray-800 rounded-t-xl hover:bg-gray-200 transition-colors duration-200">
+                                    <span class="font-semibold">{{ user.profile.name }}</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{% url 'profile-edit' %}" 
+                                   class="block px-4 py-2 bg-gray-100 text-gray-800 hover:bg-gray-200 transition-colors duration-200">
+                                    Editar Perfil
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{% url 'profile-settings' %}" 
+                                   class="block px-4 py-2 bg-gray-100 text-gray-800 hover:bg-gray-200 transition-colors duration-200">
+                                    Ajustes
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{% url 'stores:create_or_edit_store' %}" 
+                                   class="block px-4 py-2 bg-gray-100 text-gray-800 hover:bg-gray-200 transition-colors duration-200">
+                                    Tienda
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{% url 'create_product' %}" 
+                                   class="block px-4 py-2 bg-gray-100 text-gray-800 hover:bg-gray-200 transition-colors duration-200">
+                                    Productos
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{% url 'account_logout' %}" 
+                                   class="block px-4 py-2 bg-gray-100 text-gray-800 rounded-b-xl hover:bg-gray-200 transition-colors duration-200">
+                                    Log Out
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+            </ul>
         {% else %}
-        <li><a href="{% url 'account_login' %}">Login</a></li>
-        <li><a href="{% url 'account_signup' %}?next={% url 'profile-onboarding' %}">Signup</a></li>
+            <li><a href="{% url 'account_login' %}" class="text-gray-600 hover:text-gray-900">Login</a></li>
+            <li><a href="{% url 'account_signup' %}?next={% url 'profile-onboarding' %}" class="text-gray-600 hover:text-gray-900">Signup</a></li>
         {% endif %}
-      </div>
+    </div>
+    
     </div>
   </nav>
 

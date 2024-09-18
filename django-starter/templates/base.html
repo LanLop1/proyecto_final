@@ -128,9 +128,9 @@
       .justify-between {
         background-color: #FFF;
       }
-      .font-medium {
+      {% comment %} .font-medium {
         background-color: #FFF;
-      }
+      } {% endcomment %}
       .border-gray-200 {
         background-color: #FFF;
       }
@@ -139,28 +139,47 @@
     {% block extra_styles %}
     <!-- Aquí se insertarán los styles adicionales -->
     {% endblock %}
-  </head>
-  <body hx-trigger="click" hx-get="/empty" hx-swap="innerHTML" hx-target="#resultados" class="{% block class %}{% endblock %}">
-    {% include 'includes/messages.html' %} {% include 'includes/header.html' %}
-    {% block layout %} {% include 'includes/footer.html' %} {%
-    block javascript %}{% endblock %}
+<body hx-trigger="click" hx-get="/empty" hx-swap="innerHTML" hx-target="#resultados, #resultados-notification" class="{% block class %}{% endblock %}">
+    {% include 'includes/messages.html' %}
+    {% include 'includes/header.html' %}
+    {% block layout %}
+    {% endblock %}
+    {% include 'includes/footer.html' %}
+    {% block javascript %}{% endblock %}
     <script>
         document.addEventListener("click", function(event) {
             var resultados = document.getElementById("resultados");
+            var resultados_notification = document.getElementById("resultados-notification");
             var searchInput = document.getElementById("search");
+            var iconNotification = document.getElementById("icon-notification");
 
-            if (!searchInput.contains(event.target) && !resultados.contains(event.target)) {
+            // Cerrar resultados de búsqueda si se hace clic fuera
+            if (resultados && searchInput && !searchInput.contains(event.target) && !resultados.contains(event.target)) {
                 resultados.classList.add("hidden");
+            }
+
+            // Cerrar notificaciones si se hace clic fuera
+            if (resultados_notification && iconNotification && !iconNotification.contains(event.target) && !resultados_notification.contains(event.target)) {
+                resultados_notification.classList.add("hidden");
+            }
+        });
+
+        // Alternar la visibilidad del div de notificaciones al hacer clic en el icono
+        document.getElementById("icon-notification").addEventListener("click", function(event) {
+            event.stopPropagation();
+            var resultados_notification = document.getElementById("resultados-notification");
+            if (resultados_notification) {
+                resultados_notification.classList.toggle("hidden");
             }
         });
     </script>
     <script>
-    document.body.addEventListener('htmx:configRequest', (event) => {
-        event.detail.headers['X-CSRFToken'] = '{{ csrf_token }}';
-    });
-</script>
-{% block extra_scripts %}
+        document.body.addEventListener('htmx:configRequest', (event) => {
+            event.detail.headers['X-CSRFToken'] = '{{ csrf_token }}';
+        });
+    </script>
+    {% block extra_scripts %}
     <!-- Aquí se insertarán los scripts adicionales -->
     {% endblock %}
-  </body>
+</body>
 </html>
