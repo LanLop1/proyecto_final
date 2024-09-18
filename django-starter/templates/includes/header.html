@@ -73,7 +73,7 @@
               </svg>
             </div>
             <input id="search" hx-get="{% url 'search' %}" hx-trigger="keyup delay:300ms" hx-swap="innerHTML" hx-target="#resultados" class="block w-full rounded-md border border-gray-300 py-2 pl-10 pr-3 leading-5 text-gray-900 placeholder-gray-500 focus:border-purple-500 focus:placeholder-gray-500 focus:outline-none focus:ring-1 focus:ring-purple-500 sm:text-sm" placeholder="Search" type="search" name="search">
-            <div id="resultados" class="absolute w-full bg-white border border-gray-300 border-t-0 max-h-80 overflow-y-auto shadow-lg hidden z-50"></div>
+            <div id="resultados" class="absolute w-full bg-white max-h-80 overflow-y-auto shadow-lg hidden z-50"></div>
           </div>
         </div>
       </div>
