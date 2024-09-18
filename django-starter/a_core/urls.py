@@ -44,7 +44,7 @@ urlpatterns = [
     path('product/<int:id>/', product_shop_view, name='product_shop_view'),
     path('product/<int:id>/detail/', product_detail_with_related, name='product_detail_with_related'),
     path('product-list/', product_list, name='product_list'),
-    
+    path('', include('paypal.urls')),
 ]
 
 
