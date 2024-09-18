@@ -59,6 +59,7 @@ INSTALLED_APPS = [
     'products',
     'reviews',
     'stores',
+    'paypal.apps.PaypalConfig'
     
 ]
 TAILWIND_APP_NAME = 'theme'
