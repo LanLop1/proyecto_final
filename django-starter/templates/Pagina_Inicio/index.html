@@ -182,17 +182,6 @@
                     <li class="nav__items">
                         <a href="#contacto" class="nav__links">Contacto</a>
                     </li>
-                    <li class="nav__items">
-                        <a href="{% url 'notification_list' %}" class="relative flex items-center notification-icon">
-                            <svg id="bell-icon" enable-background="new 0 0 52 52" height="30" viewBox="0 0 52 52" width="20" xmlns="http://www.w3.org/2000/svg"><g fill="#fff">
-                                <path d="m46 33h-.5c-1.9 0-3.5-1.6-3.5-3.5v-11.5c0-9.1-7.6-16.4-16.8-16-8.6.4-15.2 7.8-15.2 16.5v11.1c0 1.9-1.6 3.4-3.5 3.4h-.5c-2.2 0-4 1.9-4 4.1v1.5c0 .7.7 1.4 1.5 1.4h45c.8 0 1.5-.7 1.5-1.5v-1.5c0-2.2-1.8-4-4-4z"/>
-                                <path d="m30.9 44h-9.8c-.6 0-1.1.6-1 1.2.5 2.8 3 4.8 5.9 4.8s5.4-2.1 5.9-4.8c.1-.6-.4-1.2-1-1.2z"/></g>
-                            </svg>
-                            {% if unread_count > 0 %}
-                            <span class="notification-count">{{ unread_count }}</span>
-                            {% endif %}
-                          </a>
-                    </li>
                     <div class="nav__close">
                         <img src="{% static './images/home/close.svg' %}" alt="nav__img">
                     </div>
@@ -659,14 +648,16 @@
 
         <section class="footer__copy container">
             <div class="footer__social">
-                <a href="#" class="footer__icons"><img src="{% static './images/home/facebook.svg' %}"
-                        class="footer__img"></a>
-                <a href="#" class="footer__icons"><img src="{% static './images/home/twitter.svg' %}"
-                        class="footer__img"></a>
-                <a href="#" class="footer__icons"><img src="{% static './images/home/youtube.svg' %}"
-                        class="footer__img"></a>
+                <a href="https://www.instagram.com/clickgocommunity/" target="_blank" class="footer__icons">
+                    <img src="{% static './images/home/instagram.svg' %}" class="footer__img" alt="Instagram">
+                </a>
+                <a href="https://x.com/Click_and_Go_" target="_blank" class="footer__icons">
+                    <img src="{% static './images/home/twitter.svg' %}" class="footer__img" alt="Twitter">
+                </a>
+                <a href="https://www.linkedin.com/in/click-and-go-community-99502932a/" target="_blank" class="footer__icons">
+                    <img src="{% static './images/home/linkedin.svg' %}" class="footer__img" alt="LinkedIn">
+                </a>
             </div>
-
             <h3 class="footer__copyright">Derechos reservados &copy; Click & Go</h3>
         </section>
     </footer>
