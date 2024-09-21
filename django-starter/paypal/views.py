@@ -3,4 +3,5 @@ from django.http import HttpResponse, JsonResponse
 
 # Create your views here.
 def hola(request):
-    return HttpResponse('Hola')
+    return render(request, template_name= 'paypal/index.html')
+    
