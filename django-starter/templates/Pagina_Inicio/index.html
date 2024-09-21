@@ -37,6 +37,8 @@
 
     <!-- Meta Tags Generated with https://metatags.io -->
 
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
 </head>
 
 <body>
@@ -120,16 +122,16 @@
             display: flex;
             align-items: center;
             margin-right: 10px;
-          }
+            }
 
           #bell-icon {
             transition: transform 0.6s ease;
-          }
+            }
 
           #bell-icon:hover {
             transform: scale(1.3);
-          }
-
+            }
+          
           @keyframes pulse {
             0% {
               transform: scale(1);
@@ -143,7 +145,7 @@
               transform: scale(1);
               opacity: 1;
             }
-          }
+            }
 
     </style>
     <!-- Botón de Soporte -->
@@ -182,17 +184,6 @@
                     <li class="nav__items">
                         <a href="#contacto" class="nav__links">Contacto</a>
                     </li>
-                    <li class="nav__items">
-                        <a href="{% url 'notification_list' %}" class="relative flex items-center notification-icon">
-                            <svg id="bell-icon" enable-background="new 0 0 52 52" height="30" viewBox="0 0 52 52" width="20" xmlns="http://www.w3.org/2000/svg"><g fill="#fff">
-                                <path d="m46 33h-.5c-1.9 0-3.5-1.6-3.5-3.5v-11.5c0-9.1-7.6-16.4-16.8-16-8.6.4-15.2 7.8-15.2 16.5v11.1c0 1.9-1.6 3.4-3.5 3.4h-.5c-2.2 0-4 1.9-4 4.1v1.5c0 .7.7 1.4 1.5 1.4h45c.8 0 1.5-.7 1.5-1.5v-1.5c0-2.2-1.8-4-4-4z"/>
-                                <path d="m30.9 44h-9.8c-.6 0-1.1.6-1 1.2.5 2.8 3 4.8 5.9 4.8s5.4-2.1 5.9-4.8c.1-.6-.4-1.2-1-1.2z"/></g>
-                            </svg>
-                            {% if unread_count > 0 %}
-                            <span class="notification-count">{{ unread_count }}</span>
-                            {% endif %}
-                          </a>
-                    </li>
                     <div class="nav__close">
                         <img src="{% static './images/home/close.svg' %}" alt="nav__img">
                     </div>
@@ -204,7 +195,7 @@
             </nav>
         </div>
         <section class="hero__container container">
-            <h1 class="hero__title">COMPRA LOCAL, CONECTA GLOBAL.</h1>
+            <h1 class="hero__title">COMPRA <span style="color: #f27101;">LOCAL</span>, CONECTA <span style="color: #f27101;">GLOBAL</span>.</h1>
             <p class="hero__paragraph">Unidos para que el pequeño negocio vuelva a ser grande.</p>
             <a href="{% url 'home' %}" class="cta">Descubre más y únete</a>
         </section>
@@ -212,19 +203,14 @@
 
     <main>
         <section class="container about">
-            <h2 class="subtitle">¿Por qué deberías pertenecer a esta comunidad?</h2>
-            <p class="about__paragraph">Imagina un país donde cada pequeño emprendedor tenga la oportunidad de triunfar.
-                En España, más del 50% de los autónomos no logran superar los tres años de actividad, y cada día cerca
-                de 200 se ven obligados a cerrar sus puertas. No es porque les falte talento o determinación, sino
-                porque el sistema está en su contra. Las grandes multinacionales, con sus recursos ilimitados, aplastan
-                a los pequeños negocios, dejando un vacío en la economía local y en la vida de las personas que dependen
-                de ellos.
+            <h2 class="subtitle">¿Cómo puede <span style="color: #f27101;">Click&Go</span> transformar tu negocio?</h2>
+            <p class="about__paragraph">Click&Go no es solo una plataforma más, es una comunidad que ya cuenta con una sólida base de clientes fieles y comprometidos con apoyar lo local. Al unirte, no solo obtienes herramientas de visibilidad y crecimiento digital, sino que accedes directamente a un público que está dispuesto a conectar y consumir lo que ofreces. Aprovechamos ayudas del estado como "Kit Digital" para ofrecerte soluciones avanzadas en marketing, gestión y presencia online, y las ampliamos conectándote con clientes que valoran la autenticidad. Aquí, no se trata solo de mejorar, sino de hacer crecer tu negocio desde el primer día.
             </p>
             <div class="about__main">
                 <article class="about__icons">
                     <img src="{% static './images/home/comunidad.svg' %}" class="about__icon">
-                    <h3 class="about__title">Comunidad</h3>
-                    <p class="about__paragrah">Creamos una comunidad que apoya a los autónomos.</p>
+                    <h3 class="about__title">Crecimiento</h3>
+                    <p class="about__paragrah">Impulsamos el crecimiento de los autónomos desde el primer día.</p>
                 </article>
 
                 <article class="about__icons">
@@ -237,7 +223,7 @@
                 <article class="about__icons">
                     <img src="{% static './images/home/valor.svg' %}" class="about__icon">
                     <h3 class="about__title">Valor</h3>
-                    <p class="about__paragrah">Conectamos a emprendedores con clientes que valoran lo local.</p>
+                    <p class="about__paragrah">Multiplicamos el valor de tu negocio conectándote con clientes fieles.</p>
                 </article>
             </div>
         </section>
@@ -246,20 +232,13 @@
             <div id="acerca_de">
                 <div class="knowledge__container container">
                     <div class="knowledege__texts">
-                        <h2 class="subtitle">Estamos aquí para hacer una diferencia ¡Para poder mirar al futuro con
-                            confianza y ambición!</h2>
-                        <p class="knowledge__paragraph">Nuestro proyecto nace para cambiar esta realidad. Hemos creado
-                            una comunidad que no solo proporciona las herramientas que los autónomos necesitan para
-                            competir, sino que también les da visibilidad y el apoyo que merecen. Ayudamos a estos
-                            emprendedores a expandirse y a conectar con clientes que valoran lo local y auténtico.
-                            Nuestra misión es asegurar que el pequeño autónomo en España no solo sobreviva, sino que
-                            prospere y se convierta en el verdadero protagonista de su propio éxito.
+                        <h2 class="subtitle">Herramientas del Kit Digital Ampliadas por <span style="color: #f27101;">Click&Go</span></h2>
+                        <p class="knowledge__paragraph">Click&Go aprovecha y amplía las herramientas del Kit Digital para ofrecer a los autónomos mucho más que una simple transformación digital. Además de mejorar su presencia online, gestionar redes sociales y garantizar la seguridad, proporcionamos acceso a una amplia cartera de clientes fieles, herramientas avanzadas de marketing y un entorno que impulsa su crecimiento. Con Click&Go, los negocios no solo ganan visibilidad, sino que se convierten en protagonistas dentro de una comunidad que valora y apoya lo local.
                         </p>
                         <a href="#" class="cta">Únete y transforma tu futuro</a>
-                    </div>
-
+                    </div>                    
                     <figure class="knowledge__picture">
-                        <img src="{% static './images/home/computers.jpg' %}" class="knowledge__img">
+                        <canvas id="kitDigitalChart" width="800" height="600"></canvas>
                     </figure>
                 </div>
             </div>
@@ -268,63 +247,233 @@
         <section class="price container">
             <div id="suscripciones">
                 <h2 class="subtitle">Obten el plan perfecto para tu nueva aventura</h2>
-                <!-- <div class="all_prices"> -->
                 <div class="price__table">
+                    <!-- Plan Básico -->
                     <div class="price__element">
                         <p class="price__name">Básico</p>
                         <h3 class="price__price">Gratuito</h3>
-
+        
                         <div class="price__items">
                             <p class="price__features">- Acceso a recursos y guías básicas para emprendedores.</p>
                             <p class="price__features">- Participación en foros y grupos de discusión comunitarios.</p>
                             <p class="price__features">- Perfil en el directorio de negocios con visibilidad limitada.</p>
                             <p class="price__features">- Recepción de un boletín mensual con consejos y novedades del sector.</p>
                         </div>
-                        <a href="#" class="price__cta">Empieza ahora</a>
+        
+                        <!-- Desplegable -->
+                        <div class="dropdown">
+                            <button class="price__cta">Empieza ahora!</button>
+                           
+                        </div>
                     </div>
-                    
+        
+                    <!-- Plan Avanzado -->
                     <div class="price__element price__element--best">
                         <p class="price__name">Avanzado</p>
                         <h3 class="price__price">30€/mes</h3>
-    
+        
                         <div class="price__items">
                             <p class="price__features">- Todo lo incluido en el plan Básico.</p>
-                            <p class="price__features">- Acceso a herramientas avanzadas para la gestión y crecimiento del
-                                negocio.</p>
+                            <p class="price__features">- Acceso a herramientas avanzadas para la gestión y crecimiento del negocio.</p>
                             <p class="price__features">- Mayor visibilidad en el directorio de negocios.</p>
-                            <p class="price__features">- Oportunidades de networking con otros autónomos y emprendedores.
-                            </p>
+                            <p class="price__features">- Oportunidades de networking con otros autónomos y emprendedores.</p>
                             <p class="price__features">- Descuentos en eventos y formaciones exclusivas.</p>
-                            <p class="price__features">- Asesoramiento personalizado básico para la optimización del
-                                negocio.</p>
+                            <p class="price__features">- Asesoramiento personalizado básico para la optimización del negocio.</p>
                         </div>
-    
-                        <a href="#" class="price__cta">Empieza ahora</a>
+        
+                        <!-- Desplegable -->
+                        <div class="dropdown">
+                            <button class="price__cta">Empieza ahora!</button>
+                            <div class="dropdown-content">
+                                <!-- Botón de PayPal -->
+                                <div id="paypal-button-container-advanced"></div>
+                            </div>
+                        </div>
                     </div>
-    
+        
+                    <!-- Plan Premium -->
                     <div class="price__element price__element--max">
                         <p class="price__name">Premium</p>
                         <h3 class="price__price">60€/mes</h3>
-    
+        
                         <div class="price__items">
                             <p class="price__features">- Todo lo incluido en el plan Avanzado.</p>
-                            <p class="price__features">- Máxima visibilidad y promoción en la comunidad y el directorio de
-                                negocios.</p>
-                            <p class="price__features">- Acceso prioritario a eventos, formaciones y oportunidades de
-                                colaboración.</p>
-                            <p class="price__features">- Asesoramiento personalizado avanzado y sesiones de mentoría
-                                individual.</p>
+                            <p class="price__features">- Máxima visibilidad y promoción en la comunidad y el directorio de negocios.</p>
+                            <p class="price__features">- Acceso prioritario a eventos, formaciones y oportunidades de colaboración.</p>
+                            <p class="price__features">- Asesoramiento personalizado avanzado y sesiones de mentoría individual.</p>
                             <p class="price__features">- Análisis detallado de mercado y estrategias de expansión.</p>
-                            <p class="price__features">- Publicidad destacada en campañas de la comunidad y redes sociales.
-                            </p>
+                            <p class="price__features">- Publicidad destacada en campañas de la comunidad y redes sociales.</p>
                         </div>
-    
-                        <a href="#" class="price__cta">Empieza ahora</a>
+        
+                        <!-- Desplegable -->
+                        <div class="dropdown">
+                            <button class="price__cta">Empieza ahora!</button>
+                            <div class="dropdown-content">
+                                <!-- Botón de PayPal -->
+                                <div id="paypal-button-container-premium"></div>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <!-- </div> -->
             </div>
         </section>
+        
+        <!-- Estilos plan suscripción/Botón -->
+        <style>
+            .dropdown {
+                position: relative;
+                display: inline-block;
+            }
+        
+            .dropdown-content {
+                display: none;
+                position: absolute;
+                background-color: #fff;
+                min-width: 220px;
+                box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+                z-index: 1;
+                padding: 10px;
+                border-radius: 5px;
+            }
+        
+            .dropdown:hover .dropdown-content {
+                display: block;
+            }
+        
+            .price__cta{
+                display: block;
+                padding: 20px;
+                border-radius: 10px;
+                text-decoration: none;
+                background-color: var(--bg-cta);
+                font-weight: 600;
+                color: var(--color-cta);
+                box-shadow: 0 0 1px rgba(0, 0, 0, .5);
+            }
+        
+            .price__cta:hover {
+                background-color: rgba(0, 0, 0, 0.3);
+            }
+        
+            .paypal-option {
+                background-color: #FFC439;
+                border: none;
+                text-align: center;
+                padding: 10px;
+                margin-bottom: 10px;
+                border-radius: 5px;
+                cursor: pointer;
+            }
+        
+            .card-option {
+                background-color: #333;
+                color: white;
+                border: none;
+                text-align: center;
+                padding: 10px;
+                margin-bottom: 10px;
+                border-radius: 5px;
+                cursor: pointer;
+                width: 100%;
+            }
+        
+            .developed-by {
+                text-align: center;
+                font-size: 12px;
+                color: #777;
+            }
+
+        </style>
+        
+        <!-- SDK de PayPal -->
+        <script src="https://www.paypal.com/sdk/js?client-id=AaNM7OC0Xoe24aYV6f2FqolK53PEdEbU8zazYxy-IpCrAt0vGYEhfZrpVz37kM9_4J-mA6nrclbGGPLi"></script>
+        
+        <!-- Integración de PayPal para cada plan -->
+        <script>
+            // Plan Básico
+            paypal.Buttons({
+              style: {
+                layout: 'vertical',
+                color: 'gold',
+                shape: 'rect',
+                label: 'paypal'
+              },
+              createOrder: function(data, actions) {
+                return actions.order.create({
+                  purchase_units: [{
+                    amount: {
+                      value: '0.01' // Precio del plan básico
+                    }
+                  }]
+                });
+              },
+              onApprove: function(data, actions) {
+                return actions.order.capture().then(function(details) {
+                  alert('Transaction completed by ' + details.payer.name.given_name);
+                });
+              },
+              onError: function(err) {
+                console.error('Error processing payment:', err);
+              }
+            }).render('#paypal-button-container-basic');
+        
+            // Plan Avanzado
+            paypal.Buttons({
+              style: {
+                layout: 'vertical',
+                color: 'gold',
+                shape: 'rect',
+                label: 'paypal'
+              },
+              createOrder: function(data, actions) {
+                return actions.order.create({
+                  purchase_units: [{
+                    amount: {
+                      value: '30.00' // Precio del plan avanzado
+                    }
+                  }]
+                });
+              },
+              onApprove: function(data, actions) {
+                return actions.order.capture().then(function(details) {
+                  alert('Transaction completed by ' + details.payer.name.given_name);
+                });
+              },
+              onError: function(err) {
+                console.error('Error processing payment:', err);
+                alert('Hubo un error al procesar el pago con PayPal. Por favor, inténtalo de nuevo.');
+              }
+            }).render('#paypal-button-container-advanced');
+        
+            // Plan Premium
+            paypal.Buttons({
+              style: {
+                layout: 'vertical',
+                color: 'gold',
+                shape: 'rect',
+                label: 'paypal'
+              },
+              createOrder: function(data, actions) {
+                return actions.order.create({
+                  purchase_units: [{
+                    amount: {
+                      value: '60.00' // Precio del plan premium
+                    }
+                  }]
+                });
+              },
+              onApprove: function(data, actions) {
+                return actions.order.capture().then(function(details) {
+                  alert('Transaction completed by ' + details.payer.name.given_name);
+                });
+              },
+              onError: function(err) {
+                console.error('Error processing payment:', err);
+                alert('Hubo un error al procesar el pago con PayPal. Por favor, inténtalo de nuevo.');
+              }
+            }).render('#paypal-button-container-premium');
+        </script>
+                
 
         <section class="testimony">
             <div class="testimony__container container">
@@ -446,10 +595,7 @@
 
             <section class="questions__offer">
                 <h2 class="subtitle">¿Estas listo para emprender tu viaje?</h2>
-                <p class="questions__copy">Con nuestra comunidad a tu lado, tendrás las herramientas, el apoyo y la
-                    visibilidad que necesitas para transformar tu idea en un negocio exitoso. Únete a nosotros y
-                    descubre cómo puedes escalar y prosperar desde el primer día. ¡El momento de dar el primer paso es
-                    ahora!</p>
+                <p class="questions__copy">Con <span style="color: #f27101; font-weight: bold;">Click&Go</span>, no solo estarás dando un paso hacia la digitalización, estarás accediendo a una comunidad con una base de clientes fieles que buscan apoyar lo local. Aprovecha nuestras herramientas avanzadas y el impulso que te ofrecemos para llevar tu negocio al siguiente nivel desde el primer día. El momento de crecer es ahora, y <span style="color: #f27101; font-weight: bold;">Click&Go</span> está aquí para asegurarse de que tu viaje esté lleno de éxitos.</p>
                 <a href="{% url 'home' %}" class="cta">Comienza tu viaje ahora</a>
             </section>
         </section>
@@ -489,14 +635,16 @@
 
         <section class="footer__copy container">
             <div class="footer__social">
-                <a href="#" class="footer__icons"><img src="{% static './images/home/facebook.svg' %}"
-                        class="footer__img"></a>
-                <a href="#" class="footer__icons"><img src="{% static './images/home/twitter.svg' %}"
-                        class="footer__img"></a>
-                <a href="#" class="footer__icons"><img src="{% static './images/home/youtube.svg' %}"
-                        class="footer__img"></a>
+                <a href="https://www.instagram.com/clickgocommunity/" target="_blank" class="footer__icons">
+                    <img src="{% static './images/home/instagram.svg' %}" class="footer__img" alt="Instagram">
+                </a>
+                <a href="https://x.com/Click_and_Go_" target="_blank" class="footer__icons">
+                    <img src="{% static './images/home/twitter.svg' %}" class="footer__img" alt="Twitter">
+                </a>
+                <a href="https://www.linkedin.com/in/click-and-go-community-99502932a/" target="_blank" class="footer__icons">
+                    <img src="{% static './images/home/linkedin.svg' %}" class="footer__img" alt="LinkedIn">
+                </a>
             </div>
-
             <h3 class="footer__copyright">Derechos reservados &copy; Click & Go</h3>
         </section>
     </footer>
@@ -504,6 +652,62 @@
     <script src="{% static './JS/slider.js' %}"></script>
     <script src="{% static './JS/questions.js' %}"></script>
     <script src="{% static './JS/menu.js' %}"></script>
+    <script>
+        var ctx = document.getElementById('kitDigitalChart').getContext('2d');
+        var chart = new Chart(ctx, {
+          type: 'bar', // Tipo de gráfico vertical
+          data: {
+            labels: [
+              'Mejorar página web', 
+              'Gestión de redes sociales', 
+              'Ciberseguridad', 
+              'Comunicaciones seguras', 
+              'Gestión de clientes', 
+              'Inteligencia empresarial', 
+              'Oficina virtual', 
+              'Factura electrónica', 
+              'Marketplace'
+            ],
+            datasets: [{
+              label: 'Nivel de ampliación por Click&Go',
+              data: [8, 7, 6, 5, 8, 9, 7, 6, 9], // Los datos de ampliación
+              backgroundColor: '#F27101', // Color de las barras
+              borderColor: 'black', // Color del borde de las barras
+              borderWidth: 1
+            }]
+          },
+          options: {
+            indexAxis: 'y', // Esto hace que el gráfico sea horizontal
+            scales: {
+              x: {
+                beginAtZero: true,
+                max: 10,
+                grid: {
+                  color: 'gray',
+                  borderDash: [5, 5]
+                }
+              },
+              y: {
+                ticks: {
+                  fontSize: 12 // Tamaño de las etiquetas
+                },
+                grid: {
+                  display: false // No mostrar líneas de la cuadrícula en el eje y
+                }
+              }
+            },
+            plugins: {
+              title: {
+                display: true,
+                text: 'Herramientas del Kit Digital Ampliadas por Click&Go',
+                fontSize: 16,
+                fontColor: 'black'
+              }
+            }
+          }
+        });
+    </script>    
+      
 </body>
 
 </html>
