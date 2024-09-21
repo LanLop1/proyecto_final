@@ -46,12 +46,18 @@ https://templatemo.com/tm-559-zay-shop
         object-fit: contain; /* Ajusta la imagen dentro del contenedor sin recortarla */
         object-position: center; /* Centra la imagen dentro del contenedor */
       }
+      .flex {
+        display: flex;
+        justify-content: center; /* Centra los elementos en el eje horizontal */
+        flex-wrap: wrap; /* Permite que los elementos se envuelvan en múltiples líneas si es necesario */
+    }
+    
     .center-content {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      text-align: center;
-  }
+        display: flex;
+        flex-direction: column;
+        align-items: center; /* Centra los elementos dentro de cada columna */
+        text-align: center;
+    }
   
   .img-round {
       width: 150px; /* Ajusta según lo necesites */
@@ -357,18 +363,20 @@ https://templatemo.com/tm-559-zay-shop
           </p>
         </div>
       </div>
-      <div class="row">
-        {% for code, name, image_url in categories %}
-            <div class="col-12 col-md-4 p-5 mt-3 center-content">
-                <a href="{% url 'stores:store_detail' store.id %}">
-                    <img src="{{ image_url }}" class="rounded-circle img-fluid border img-round" alt="{{ name }}" />
-                </a>
-                <h5 class="mt-3 mb-3">{{ name }}</h5>
-                <p>
-                    <a href="{% url 'stores:store_detail' store.id %}" class="btn btn-success">Go Shop</a>
-                </p>
-            </div>
-        {% endfor %}
+      <div class="row justify-center">
+        <div class="flex justify-center flex-wrap">
+            {% for code, name, image_url in categories %}
+                <div class="col-12 col-md-4 p-5 mt-3 center-content">
+                    <a href="{% url 'stores:store_detail' store.id %}">
+                        <img src="{{ image_url }}" class="rounded-circle img-fluid border img-round" alt="{{ name }}" />
+                    </a>
+                    <h5 class="mt-3 mb-3">{{ name }}</h5>
+                    <p>
+                        <a href="{% url 'stores:store_detail' store.id %}" class="btn btn-success">Go Shop</a>
+                    </p>
+                </div>
+            {% endfor %}
+        </div>
     </div>
     </section>
     <!-- End Categories of The Month -->
