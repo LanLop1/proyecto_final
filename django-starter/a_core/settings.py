@@ -29,7 +29,8 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['localhost', '127.0.0.1', '*']
 
-CSRF_TRUSTED_ORIGINS = [ 'https://*' ]
+CSRF_TRUSTED_ORIGINS = [ 'https://*'] , ['https://bcbb-109-107-111-81.ngrok-free.app'
+]
 
 
 # Application definition
@@ -121,6 +122,9 @@ DATABASES = {
 }
 INTERNAL_IPS = [
     "127.0.0.1",
+]
+CSRF_TRUSTED_ORIGINS = [
+    'https://bcbb-109-107-111-81.ngrok-free.app'
 ]
 
 SOCIALACCOUNT_ENABLED = True
