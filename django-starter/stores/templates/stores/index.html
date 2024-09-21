@@ -46,6 +46,19 @@ https://templatemo.com/tm-559-zay-shop
         object-fit: contain; /* Ajusta la imagen dentro del contenedor sin recortarla */
         object-position: center; /* Centra la imagen dentro del contenedor */
       }
+    .center-content {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+  }
+  
+  .img-round {
+      width: 150px; /* Ajusta según lo necesites */
+      height: 150px; /* Asegura que sea cuadrada */
+      object-fit: cover; /* Mantiene la proporción */
+      border-radius: 50%; /* Hace que la imagen sea redonda */
+  }
     </style>
     <!-- Start Top Nav -->
     <nav
@@ -346,15 +359,15 @@ https://templatemo.com/tm-559-zay-shop
       </div>
       <div class="row">
         {% for code, name, image_url in categories %}
-        <div class="col-12 col-md-4 p-5 mt-3">
-            <a href="{% url 'stores:store_detail' store.id %}">
-                <img src="{{ image_url }}" class="rounded-circle img-fluid border" alt="{{ name }}" />
-            </a>
-            <h5 class="text-center mt-3 mb-3">{{ name }}</h5>
-            <p class="text-center">
-                <a href="{% url 'stores:store_detail' store.id %}" class="btn btn-success">Go Shop</a>
-            </p>
-        </div>
+            <div class="col-12 col-md-4 p-5 mt-3 center-content">
+                <a href="{% url 'stores:store_detail' store.id %}">
+                    <img src="{{ image_url }}" class="rounded-circle img-fluid border img-round" alt="{{ name }}" />
+                </a>
+                <h5 class="mt-3 mb-3">{{ name }}</h5>
+                <p>
+                    <a href="{% url 'stores:store_detail' store.id %}" class="btn btn-success">Go Shop</a>
+                </p>
+            </div>
         {% endfor %}
     </div>
     </section>

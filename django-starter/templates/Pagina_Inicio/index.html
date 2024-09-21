@@ -37,6 +37,8 @@
 
     <!-- Meta Tags Generated with https://metatags.io -->
 
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
 </head>
 
 <body>
@@ -193,7 +195,7 @@
             </nav>
         </div>
         <section class="hero__container container">
-            <h1 class="hero__title">COMPRA LOCAL, CONECTA GLOBAL.</h1>
+            <h1 class="hero__title">COMPRA <span style="color: #f27101;">LOCAL</span>, CONECTA <span style="color: #f27101;">GLOBAL</span>.</h1>
             <p class="hero__paragraph">Unidos para que el pequeño negocio vuelva a ser grande.</p>
             <a href="{% url 'home' %}" class="cta">Descubre más y únete</a>
         </section>
@@ -201,19 +203,14 @@
 
     <main>
         <section class="container about">
-            <h2 class="subtitle">¿Por qué deberías pertenecer a esta comunidad?</h2>
-            <p class="about__paragraph">Imagina un país donde cada pequeño emprendedor tenga la oportunidad de triunfar.
-                En España, más del 50% de los autónomos no logran superar los tres años de actividad, y cada día cerca
-                de 200 se ven obligados a cerrar sus puertas. No es porque les falte talento o determinación, sino
-                porque el sistema está en su contra. Las grandes multinacionales, con sus recursos ilimitados, aplastan
-                a los pequeños negocios, dejando un vacío en la economía local y en la vida de las personas que dependen
-                de ellos.
+            <h2 class="subtitle">¿Cómo puede <span style="color: #f27101;">Click&Go</span> transformar tu negocio?</h2>
+            <p class="about__paragraph">Click&Go no es solo una plataforma más, es una comunidad que ya cuenta con una sólida base de clientes fieles y comprometidos con apoyar lo local. Al unirte, no solo obtienes herramientas de visibilidad y crecimiento digital, sino que accedes directamente a un público que está dispuesto a conectar y consumir lo que ofreces. Aprovechamos ayudas del estado como "Kit Digital" para ofrecerte soluciones avanzadas en marketing, gestión y presencia online, y las ampliamos conectándote con clientes que valoran la autenticidad. Aquí, no se trata solo de mejorar, sino de hacer crecer tu negocio desde el primer día.
             </p>
             <div class="about__main">
                 <article class="about__icons">
                     <img src="{% static './images/home/comunidad.svg' %}" class="about__icon">
-                    <h3 class="about__title">Comunidad</h3>
-                    <p class="about__paragrah">Creamos una comunidad que apoya a los autónomos.</p>
+                    <h3 class="about__title">Crecimiento</h3>
+                    <p class="about__paragrah">Impulsamos el crecimiento de los autónomos desde el primer día.</p>
                 </article>
 
                 <article class="about__icons">
@@ -226,7 +223,7 @@
                 <article class="about__icons">
                     <img src="{% static './images/home/valor.svg' %}" class="about__icon">
                     <h3 class="about__title">Valor</h3>
-                    <p class="about__paragrah">Conectamos a emprendedores con clientes que valoran lo local.</p>
+                    <p class="about__paragrah">Multiplicamos el valor de tu negocio conectándote con clientes fieles.</p>
                 </article>
             </div>
         </section>
@@ -235,20 +232,13 @@
             <div id="acerca_de">
                 <div class="knowledge__container container">
                     <div class="knowledege__texts">
-                        <h2 class="subtitle">Estamos aquí para hacer una diferencia ¡Para poder mirar al futuro con
-                            confianza y ambición!</h2>
-                        <p class="knowledge__paragraph">Nuestro proyecto nace para cambiar esta realidad. Hemos creado
-                            una comunidad que no solo proporciona las herramientas que los autónomos necesitan para
-                            competir, sino que también les da visibilidad y el apoyo que merecen. Ayudamos a estos
-                            emprendedores a expandirse y a conectar con clientes que valoran lo local y auténtico.
-                            Nuestra misión es asegurar que el pequeño autónomo en España no solo sobreviva, sino que
-                            prospere y se convierta en el verdadero protagonista de su propio éxito.
+                        <h2 class="subtitle">Herramientas del Kit Digital Ampliadas por <span style="color: #f27101;">Click&Go</span></h2>
+                        <p class="knowledge__paragraph">Click&Go aprovecha y amplía las herramientas del Kit Digital para ofrecer a los autónomos mucho más que una simple transformación digital. Además de mejorar su presencia online, gestionar redes sociales y garantizar la seguridad, proporcionamos acceso a una amplia cartera de clientes fieles, herramientas avanzadas de marketing y un entorno que impulsa su crecimiento. Con Click&Go, los negocios no solo ganan visibilidad, sino que se convierten en protagonistas dentro de una comunidad que valora y apoya lo local.
                         </p>
                         <a href="#" class="cta">Únete y transforma tu futuro</a>
-                    </div>
-
+                    </div>                    
                     <figure class="knowledge__picture">
-                        <img src="{% static './images/home/computers.jpg' %}" class="knowledge__img">
+                        <canvas id="kitDigitalChart" width="800" height="600"></canvas>
                     </figure>
                 </div>
             </div>
@@ -605,10 +595,7 @@
 
             <section class="questions__offer">
                 <h2 class="subtitle">¿Estas listo para emprender tu viaje?</h2>
-                <p class="questions__copy">Con nuestra comunidad a tu lado, tendrás las herramientas, el apoyo y la
-                    visibilidad que necesitas para transformar tu idea en un negocio exitoso. Únete a nosotros y
-                    descubre cómo puedes escalar y prosperar desde el primer día. ¡El momento de dar el primer paso es
-                    ahora!</p>
+                <p class="questions__copy">Con <span style="color: #f27101; font-weight: bold;">Click&Go</span>, no solo estarás dando un paso hacia la digitalización, estarás accediendo a una comunidad con una base de clientes fieles que buscan apoyar lo local. Aprovecha nuestras herramientas avanzadas y el impulso que te ofrecemos para llevar tu negocio al siguiente nivel desde el primer día. El momento de crecer es ahora, y <span style="color: #f27101; font-weight: bold;">Click&Go</span> está aquí para asegurarse de que tu viaje esté lleno de éxitos.</p>
                 <a href="{% url 'home' %}" class="cta">Comienza tu viaje ahora</a>
             </section>
         </section>
@@ -665,6 +652,62 @@
     <script src="{% static './JS/slider.js' %}"></script>
     <script src="{% static './JS/questions.js' %}"></script>
     <script src="{% static './JS/menu.js' %}"></script>
+    <script>
+        var ctx = document.getElementById('kitDigitalChart').getContext('2d');
+        var chart = new Chart(ctx, {
+          type: 'bar', // Tipo de gráfico vertical
+          data: {
+            labels: [
+              'Mejorar página web', 
+              'Gestión de redes sociales', 
+              'Ciberseguridad', 
+              'Comunicaciones seguras', 
+              'Gestión de clientes', 
+              'Inteligencia empresarial', 
+              'Oficina virtual', 
+              'Factura electrónica', 
+              'Marketplace'
+            ],
+            datasets: [{
+              label: 'Nivel de ampliación por Click&Go',
+              data: [8, 7, 6, 5, 8, 9, 7, 6, 9], // Los datos de ampliación
+              backgroundColor: '#F27101', // Color de las barras
+              borderColor: 'black', // Color del borde de las barras
+              borderWidth: 1
+            }]
+          },
+          options: {
+            indexAxis: 'y', // Esto hace que el gráfico sea horizontal
+            scales: {
+              x: {
+                beginAtZero: true,
+                max: 10,
+                grid: {
+                  color: 'gray',
+                  borderDash: [5, 5]
+                }
+              },
+              y: {
+                ticks: {
+                  fontSize: 12 // Tamaño de las etiquetas
+                },
+                grid: {
+                  display: false // No mostrar líneas de la cuadrícula en el eje y
+                }
+              }
+            },
+            plugins: {
+              title: {
+                display: true,
+                text: 'Herramientas del Kit Digital Ampliadas por Click&Go',
+                fontSize: 16,
+                fontColor: 'black'
+              }
+            }
+          }
+        });
+    </script>    
+      
 </body>
 
 </html>
