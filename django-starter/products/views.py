@@ -53,7 +53,7 @@ def create_product(request):
     })
 def product_detail_with_related(request, id):
     product = get_object_or_404(Product, id=id)
-    related_products = Product.objects.filter(category=product.category).exclude(id=product.id)[:4]
+    related_products = Product.objects.filter(category=product.category).exclude(id=product.id)[:8]
 
     context = {
         'product': product,
